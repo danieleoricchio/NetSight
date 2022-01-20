@@ -6,11 +6,5 @@
         xmlns:local="clr-namespace:NetSight"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <TextBox x:Name="txtnome" HorizontalAlignment="Left" Height="29" Margin="93,67,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="149"/>
-        <TextBox x:Name="txtnome_Copy" HorizontalAlignment="Left" Height="29" Margin="93,101,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="149"/>
-        <TextBox x:Name="txtnome_Copy1" HorizontalAlignment="Left" Height="29" Margin="93,135,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="149"/>
-        <Button Content="Button" HorizontalAlignment="Left" Height="97" Margin="277,67,0,0" VerticalAlignment="Top" Width="114" Click="Button_Click"/>
-
-    </Grid>
+    <Grid/>
 </Window>
