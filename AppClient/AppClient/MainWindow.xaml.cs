@@ -56,7 +56,7 @@ namespace AppClient
         {
             if (Hostname == "") return;
             byte[] data = Encoding.ASCII.GetBytes(messaggio);
-            client.Send(data, data.Length, "79.17.167.114", DefaultPort);
+            client.Send(data, data.Length, "", DefaultPort);
             MessageBox.Show("Mandato");
         }
 
