@@ -26,7 +26,7 @@ namespace NetSight
         public MainWindow()
         {
             InitializeComponent();
-            Classes.SendPacket.Send("a", "housetesting.ddns.net");
+            Classes.SendPacket.Send("a", "");
             tr = new Classes.ThreadReceive();
             tr.StartThreadRicezione();
         }
