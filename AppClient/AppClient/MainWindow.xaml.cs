@@ -25,20 +25,29 @@ namespace AppClient
     public partial class MainWindow : Window
     {   
         //const int DefaultPort = 24690;
-        const int DefaultPort = 12345;
-        const string pathHostname = "hostname.txt";
-        string Hostname = new string(File.ReadAllText(pathHostname));
-        UdpClient client = new UdpClient(DefaultPort);
-        public MainWindow()
+        int DefaultPort;
+        const string PATH_HOSTNAME = "hostname.txt";
+        string Hostname;
+        UdpClient server;
+        public MainWindow(int port)
         {
             InitializeComponent();
-            Hide();
+            //Hide();
+            DefaultPort = port;
+            server = new UdpClient(DefaultPort);
+            #region parte hostname
+            if (!File.Exists(PATH_HOSTNAME))
+            {
+                File.Create(PATH_HOSTNAME);
+            }
+            Hostname = new string(File.ReadAllText(PATH_HOSTNAME).Trim());
+            #endregion
+            #region inizio thread
             Thread threadRicevi = new Thread(new ThreadStart(Ricevi));
             threadRicevi.Start();
-
-            new Thread(new ThreadStart(() => { while (true) { Invia("alive"); Thread.Sleep(10000); } })).Start();
-
-            
+            new Thread(new ThreadStart(() => { while (true) { Invia("alive");Thread.Sleep(10000);  } })).Start();
+            #endregion
+            MessageBox.Show($"Hostname: {Hostname}:{DefaultPort}");
         }
 
 
@@ -47,30 +56,34 @@ namespace AppClient
             while (true)
             {
                 IPEndPoint riceveEP = new IPEndPoint(IPAddress.Any, 0);
-                byte[] dataReceived = client.Receive(ref riceveEP);
+                byte[] dataReceived = server.Receive(ref riceveEP);
                 string messaggio = Encoding.ASCII.GetString(dataReceived);
-                GestioneMessaggio(messaggio, riceveEP);
+                new Thread(GestioneMessaggio).Start(new object[] { messaggio, riceveEP });
             }
         }
         void Invia(string messaggio)
         {
+            UdpClient client = new UdpClient();
             if (Hostname == "") return;
             byte[] data = Encoding.ASCII.GetBytes(messaggio);
-            client.Send(data, data.Length, "", DefaultPort);
-            MessageBox.Show("Mandato");
+            client.Send(data, data.Length, Hostname, DefaultPort);
+            client.Close();
         }
 
-        void GestioneMessaggio(string messaggio, IPEndPoint pacchetto)
+        void GestioneMessaggio(object args)
         {
-            char richiesta = messaggio[0];
-            switch (richiesta)
+            object[] array = (object[])args;
+            string messaggio = (string)array.GetValue(0);
+            IPEndPoint pacchetto = (IPEndPoint)array.GetValue(1);
+            //char richiesta = messaggio[0];
+            MessageBox.Show(messaggio);
+            switch (messaggio)
             {
-                case 'a':
-                    if (Hostname == "")
+                case "apertura":
+                    if (Hostname.Trim() == "")
                     {
                         Hostname = pacchetto.Address.ToString();
-                        MessageBox.Show(Hostname);
-                        File.WriteAllText(pathHostname, Hostname);
+                        File.WriteAllText(PATH_HOSTNAME, Hostname);
                     }
                     return;
                 default:

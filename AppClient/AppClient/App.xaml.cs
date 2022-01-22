@@ -13,5 +13,16 @@ namespace AppClient
     /// </summary>
     public partial class App : Application
     {
+        void App_Startup(object sender, StartupEventArgs e)
+        {
+            int port=24690;
+            foreach (string item in e.Args)
+            {   
+                if (!int.TryParse(item, out port)){
+                    port = 24690;
+                }
+            }
+            MainWindow window = new MainWindow(port);
+        }
     }
 }
