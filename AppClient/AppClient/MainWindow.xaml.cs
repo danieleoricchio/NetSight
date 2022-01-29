@@ -32,22 +32,35 @@ namespace AppClient
         public MainWindow(int port)
         {
             InitializeComponent();
-            //Hide();
+            #region setup udp server
             DefaultPort = port;
-            server = new UdpClient(DefaultPort);
+            bool done = false;
+            do
+            {
+                try
+                {
+                    server = new UdpClient(DefaultPort);
+                    done = true;
+                }
+                catch (Exception)
+                {
+                    DefaultPort++;
+                }
+            } while (!done);
+            #endregion
             #region parte hostname
             if (!File.Exists(PATH_HOSTNAME))
             {
                 File.Create(PATH_HOSTNAME);
             }
-            Hostname = new string(File.ReadAllText(PATH_HOSTNAME).Trim());
+            Hostname = File.ReadAllText(PATH_HOSTNAME).Trim();
             #endregion
             #region inizio thread
             Thread threadRicevi = new Thread(new ThreadStart(Ricevi));
             threadRicevi.Start();
             new Thread(new ThreadStart(() => { while (true) { Invia("alive");Thread.Sleep(10000);  } })).Start();
             #endregion
-            MessageBox.Show($"Hostname: {Hostname}:{DefaultPort}");
+            //MessageBox.Show($"Hostname: {Hostname}:{DefaultPort}");
         }
 
 
@@ -86,9 +99,13 @@ namespace AppClient
                         File.WriteAllText(PATH_HOSTNAME, Hostname);
                     }
                     return;
+                case "condivisione-schermo":
+                    return;
                 default:
                     break;
             }
         }
+
+
     }
 }
