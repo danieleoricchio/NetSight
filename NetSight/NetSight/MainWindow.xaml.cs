@@ -26,7 +26,7 @@ namespace NetSight
         public MainWindow()
         {
             InitializeComponent();
-            Classes.SendPacket.Send("a", "");
+            Classes.SendPacket.Send("apertura", "172.16.102.83");
             tr = new Classes.ThreadReceive();
             tr.StartThreadRicezione();
         }
