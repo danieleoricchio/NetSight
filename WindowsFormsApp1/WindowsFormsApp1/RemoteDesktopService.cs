@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ScreenSharing
+namespace WindowsFormsApp1
 {
-    public class RemoteDesktopService
+    public class RemoteDesktopService 
     {
         // An instance of the screen capture class.
         //
@@ -30,7 +30,7 @@ namespace ScreenSharing
                 // Something changed.
                 //
                 byte[] result = PackScreenCaptureData(img, bounds);
-
+                
                 return result;
             }
             else
@@ -79,4 +79,6 @@ namespace ScreenSharing
         }
 
     }
+
+    
 }

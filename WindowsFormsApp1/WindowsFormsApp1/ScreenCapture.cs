@@ -7,17 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ScreenSharing
+namespace WindowsFormsApp1
 {
     public class ScreenCapture
     {
         private Bitmap _newBitmap, _prevBitmap;
 
-        public Bitmap GetScreen(ref Rectangle bounds, int screenNumber, int width, int height)
+        public Bitmap GetScreen(ref Rectangle bounds)
         {
             // Capture a new screenshot.
             //
-            _newBitmap = CaptureDesktop(screenNumber, width, height);
+            _newBitmap = CaptureDesktop();
 
             // If we have a previous screenshot, only send back
             //    a subset that is the minimum rectangular area
@@ -67,10 +67,10 @@ namespace ScreenSharing
             }
         }
 
-        private Bitmap CaptureDesktop(int screenNumber, int width, int height)
+        private Bitmap CaptureDesktop()
         {
-            Bitmap captureBitmap = new Bitmap(width, height);
-            Rectangle captureRectangle = Screen.AllScreens[screenNumber].Bounds;
+            Bitmap captureBitmap = new Bitmap(1920, 1080);
+            Rectangle captureRectangle = Screen.AllScreens[0].Bounds;
             Graphics captureGraphics = Graphics.FromImage(captureBitmap);
             captureGraphics.CopyFromScreen(captureRectangle.Left, captureRectangle.Top, 0, 0, captureRectangle.Size);
             return captureBitmap;
