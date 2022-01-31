@@ -20,6 +20,11 @@ namespace WindowsFormsApp1
         TcpListener listener;
         public Form1()
         {
+            if (System.Diagnostics.Process.GetProcessesByName(System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetEntryAssembly().Location)).Count() > 1)
+            {
+                MessageBox.Show("C'è già aperta un'instanza di questa applicazione","Errore");
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
             InitializeComponent();
             //sc = new RemoteDesktopService();
             listener = new TcpListener(5900);
@@ -31,12 +36,12 @@ namespace WindowsFormsApp1
             TcpClient client = listener.AcceptTcpClient();
             ns = client.GetStream();
             new Thread(Inizia).Start();
-            Console.WriteLine("Connesso");
+            //Console.WriteLine("Connesso");
+            this.Show();
         }
         private void Inizia()
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
-            pictureBox1.Size = Size;
             while (true)
             {
                 try
@@ -57,9 +62,14 @@ namespace WindowsFormsApp1
                     Image _prevImage = pictureBox1.Image;
                     if (_prevImage != null)
                     {
-                        Graphics graphics = Graphics.FromImage(_prevImage);
+                        object objectToLock = new object();
+                        Graphics graphics;
+                        lock (objectToLock)
+                        {
+                            graphics = Graphics.FromImage(_prevImage);
+                        }
                         graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
-                        graphics.DrawImage(_newImage, new Point(rectangle.X,rectangle.Y));
+                        graphics.DrawImage(_newImage, new Point(rectangle.X, rectangle.Y));
                         pictureBox1.Image = _prevImage;
                         graphics.Dispose();
                     }
@@ -77,6 +87,27 @@ namespace WindowsFormsApp1
                 }
             }
             SetConnessione();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Vuoi chiudere l'applicazione (Si) o chiudere la connessione con il client (No)?", "Chiusura", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            switch (result)
+            {
+                case DialogResult.Cancel:
+                    e.Cancel = true;
+                    break;
+                case DialogResult.Yes:
+                    Environment.Exit(0);
+                    break;
+                case DialogResult.No:
+                    this.FormClosing -= Form1_FormClosing;
+                    Application.Restart();
+                    Environment.Exit(0);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

@@ -17,8 +17,12 @@ namespace ScreenSharing
         {
             // Capture a new screenshot.
             //
-            _newBitmap = CaptureDesktop(screenNumber, width, height);
-
+            int screenWidth = Screen.AllScreens[screenNumber].Bounds.Width, screenHeight = Screen.AllScreens[screenNumber].Bounds.Height;
+            _newBitmap = CaptureDesktop(screenNumber, screenWidth, screenHeight);
+            if (screenWidth != width || screenHeight != height)
+            {
+                _newBitmap = new Bitmap(_newBitmap, new Size(width, height));
+            }
             // If we have a previous screenshot, only send back
             //    a subset that is the minimum rectangular area
             //    that encompasses all the changed pixels.

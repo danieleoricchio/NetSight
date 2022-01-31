@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace ScreenSharing
 {
@@ -20,28 +22,11 @@ namespace ScreenSharing
         static NetworkStream stream;
         static BinaryFormatter binaryFormatter;
         static ScreenCapture screenCapture;
-        const int SCREEN_NUMBER = 0, WIDTH = 1920, HEIGHT = 1080;
-        static public string hostname;
-        static public int port;
+        static public string hostname="localhost";
+        static public int port=5900, width=1280, height=720, screen_number = 0;
         static void Main(string[] args)
         {
-            foreach (var item in args)
-            {
-                object nomevar = item.Split('=')[0], value = item.Split('=')[1];
-                Type type =typeof(Program).GetField(nomevar.ToString()).FieldType;
-                if (type== typeof(int))
-                {
-                    typeof(Program).GetField(nomevar.ToString()).SetValue(null, Convert.ToInt32(value));
-                } else
-                {
-                    typeof(Program).GetField(nomevar.ToString()).SetValue(null, value);
-                }
-                //typeof(Program).GetProperty(nomevar).GetValue(null);
-                
-            }
-            //MessageBox.Show(s);
-            
-
+            GestioneArgs(args);
             try
             {
                 client = new TcpClient(hostname, port);
@@ -64,6 +49,37 @@ namespace ScreenSharing
             //new Task(() => { Start(rds); }).Start();
         }
 
+        private static void GestioneArgs(string[] args)
+        {
+            #region Gestione processi
+            Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location));
+            for (int i = 0; i < processes.Length - 1; i++)
+            {
+                processes[i].Kill();
+            }
+            #endregion
+            foreach (var item in args)
+            {
+                if (item.Contains("?"))
+                {
+                    MessageBox.Show("Lista di variabili modificabili:\n - hostname (String)\n - port (int)\n - width (int)\n - height (int)\n - screen_number (int)");
+                    Environment.Exit(0);
+                }
+                object nomevar = item.Split('=')[0], value = item.Split('=')[1];
+                Type type = typeof(Program).GetField(nomevar.ToString()).FieldType;
+                if (type == typeof(int))
+                {
+                    typeof(Program).GetField(nomevar.ToString()).SetValue(null, Convert.ToInt32(value));
+                }
+                else
+                {
+                    typeof(Program).GetField(nomevar.ToString()).SetValue(null, value);
+                }
+                //typeof(Program).GetProperty(nomevar).GetValue(null);
+
+            }
+        }
+
         private static Image GetImage(ref Rectangle rectangle)
         {
             //Rectangle bound = Screen.AllScreens[0].Bounds;
@@ -71,7 +87,7 @@ namespace ScreenSharing
             //Graphics g = Graphics.FromImage(bitmap);
             //g.CopyFromScreen(bound.X, bound.Y, 0, 0, bound.Size, CopyPixelOperation.SourceCopy);
             //return bitmap;
-            return screenCapture.GetScreen(ref rectangle, SCREEN_NUMBER, WIDTH, HEIGHT);
+            return screenCapture.GetScreen(ref rectangle, screen_number, width, height);
         }
         
         
