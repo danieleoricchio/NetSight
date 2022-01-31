@@ -20,19 +20,15 @@ namespace NetSight
     public partial class VisualizzaLaboratorio : Window
     {
         static Laboratorio lab;
+        string accesso;
         public VisualizzaLaboratorio()
         {
             InitializeComponent();
             lab = new Laboratorio();
-            myCanvas.Focus();
         }
-
-        private static void addBtn()
+        public VisualizzaLaboratorio(string response)
         {
-            for (int i = 0; i < lab.listaPc.Count; i++)
-            {
-            }
+            accesso = response;
         }
-
     }
 }

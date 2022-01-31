@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,10 +26,18 @@ namespace NetSight
         {
             InitializeComponent();
         }
-
         private void btnAccesso_Click(object sender, RoutedEventArgs e)
         {
             u = new Utente(txtNomeUtente.Text, psw.Password.ToString());
+            string response = u.httpRequest();
+            if (response != "A" || response != "U")
+            {
+                VisualizzaLaboratorio visualizzaLaboratorio = new VisualizzaLaboratorio(response);
+                visualizzaLaboratorio.Show();
+                this.Close();
+            }
+            else
+                MessageBox.Show("Nome utente/password non trovato/i.", "Errore");
         }
     }
 }

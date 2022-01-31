@@ -8,7 +8,11 @@
         Title="VisualizzaLaboratorio" Height="450" Width="800">
     <Grid>
         <Label x:Name="lblNomeLab" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="123"/>
-        <Canvas x:Name="myCanvas" HorizontalAlignment="Left" Height="368" Margin="10,41,0,0" VerticalAlignment="Top" Width="772"/>
+        <Label Content="Bentornato!" HorizontalAlignment="Left" Margin="333,77,0,0" VerticalAlignment="Top" Width="117" FontSize="20" Height="35"/>
+        <Button x:Name="btnAggiungiPc" Content="Aggiungi Pc" HorizontalAlignment="Left" Margin="354,189,0,0" VerticalAlignment="Top" Width="76"/>
+        <Button x:Name="BtnAggiungiLab" Content="Aggiungi laboratorio" HorizontalAlignment="Left" Margin="354,214,0,0" VerticalAlignment="Top" Width="118"/>
+        <ComboBox x:Name="cmbLab" HorizontalAlignment="Left" Margin="70,207,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Lista laboratori" HorizontalAlignment="Left" Margin="70,171,0,0" VerticalAlignment="Top" Width="94"/>
 
     </Grid>
 </Window>

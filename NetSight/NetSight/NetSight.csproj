@@ -59,10 +59,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="SelezioneLaboratorio.xaml.cs">
-      <DependentUpon>SelezioneLaboratorio.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Laboratorio.cs" />
+    <Compile Include="Pc.cs" />
     <Compile Include="Utente.cs" />
+    <Compile Include="VisualizzaLaboratorio.xaml.cs">
+      <DependentUpon>VisualizzaLaboratorio.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,9 +77,9 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SelezioneLaboratorio.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="VisualizzaLaboratorio.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
