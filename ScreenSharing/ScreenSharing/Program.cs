@@ -9,28 +9,42 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace ScreenSharing
 {
-    internal class Program
+    public class Program
     {
         static TcpClient client;
         static NetworkStream stream;
         static BinaryFormatter binaryFormatter;
         static ScreenCapture screenCapture;
         const int SCREEN_NUMBER = 0, WIDTH = 1920, HEIGHT = 1080;
+        static public string hostname;
+        static public int port;
         static void Main(string[] args)
         {
-            //string s = "";
-            //foreach (var item in args)
-            //{
-            //    s+=item+"\n";
-            //}
+            foreach (var item in args)
+            {
+                object nomevar = item.Split('=')[0], value = item.Split('=')[1];
+                Type type =typeof(Program).GetField(nomevar.ToString()).FieldType;
+                if (type== typeof(int))
+                {
+                    typeof(Program).GetField(nomevar.ToString()).SetValue(null, Convert.ToInt32(value));
+                } else
+                {
+                    typeof(Program).GetField(nomevar.ToString()).SetValue(null, value);
+                }
+                //typeof(Program).GetProperty(nomevar).GetValue(null);
+                
+            }
             //MessageBox.Show(s);
+            
+
             try
             {
-                client = new TcpClient(args[0], 5900);
+                client = new TcpClient(hostname, port);
             }
             catch (IndexOutOfRangeException ex)
             {
@@ -39,6 +53,7 @@ namespace ScreenSharing
             } catch (Exception ex)
             {
                 MessageBox.Show($"Errore: {ex.Message}");
+                Environment.Exit(1);
             }
             stream = client.GetStream();
             binaryFormatter = new BinaryFormatter();
