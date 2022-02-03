@@ -61,10 +61,13 @@
     </ApplicationDefinition>
     <Compile Include="Laboratorio.cs" />
     <Compile Include="Pc.cs" />
+    <Compile Include="StreamWrap.cs" />
     <Compile Include="Utente.cs" />
     <Compile Include="VisualizzaLaboratorio.xaml.cs">
       <DependentUpon>VisualizzaLaboratorio.xaml</DependentUpon>
     </Compile>
+    <Compile Include="XmlReaderTcp.cs" />
+    <Compile Include="XmlSerializerTcp.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
