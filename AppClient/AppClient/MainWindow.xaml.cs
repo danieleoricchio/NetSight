@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -100,6 +101,7 @@ namespace AppClient
                     }
                     return;
                 case "condivisione-schermo":
+                    Process.Start("ScreenSharing.exe", $"hostname={pacchetto.Address.ToString()} port=5900 width=1280 height=720");
                     return;
                 default:
                     break;

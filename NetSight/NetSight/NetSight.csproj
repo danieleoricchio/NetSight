@@ -8,12 +8,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>NetSight</RootNamespace>
     <AssemblyName>NetSight</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,7 +52,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="XMLSerializerTcp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>R:\Download\XMLSerializerTcp.dll</HintPath>
+      <HintPath>..\..\..\..\Tecnologie\Lab\XMLSerializerTcp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -61,13 +62,10 @@
     </ApplicationDefinition>
     <Compile Include="Laboratorio.cs" />
     <Compile Include="Pc.cs" />
-    <Compile Include="StreamWrap.cs" />
     <Compile Include="Utente.cs" />
     <Compile Include="VisualizzaLaboratorio.xaml.cs">
       <DependentUpon>VisualizzaLaboratorio.xaml</DependentUpon>
     </Compile>
-    <Compile Include="XmlReaderTcp.cs" />
-    <Compile Include="XmlSerializerTcp.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

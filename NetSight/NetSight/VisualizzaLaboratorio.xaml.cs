@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using XMLSerializerTcp;
 
 namespace NetSight
 {
@@ -44,6 +47,32 @@ namespace NetSight
             riceviDati();
         }
 
+        private void riceviPacchetti()
+        {
+            UdpClient udpServer = new UdpClient(/*devi mettere la porta (diversa da 24690)*/);
+            while (true)
+            {
+                IPEndPoint riceiveEP = new IPEndPoint(IPAddress.Any, 0);
+                byte[] dataReceived = udpServer.Receive(ref riceiveEP);
+                string messaggio = Encoding.ASCII.GetString(dataReceived);
+                new Task(() =>
+                {
+                    switch (messaggio)
+                    {
+                        case "alive":
+                            riceiveEP.Address.ToString();
+                            //sistemo con l'invoke che il pc nella window è acceso
+                            //in poche parole metti che il rettangolo del pc è verde
+                            //se è online altrimenti rosso
+                            //fai pc.Aggiorna(true) per dire che il pc è vivo
+                            return;
+                        default:
+                            break;
+                    }
+                }).Start();
+            }
+        }
+
         private void btnSceltaLab_Click(object sender, RoutedEventArgs e)
         {
             btnAggiungiPc.IsEnabled = true;
@@ -51,7 +80,10 @@ namespace NetSight
 
         private void btnAggiungiPc_Click(object sender, RoutedEventArgs e)
         {
-            
+            /*
+             * qua devi mandare pacchetto UDP "apertura" al pc che 
+             * bisogna aggiungere (la port d'arrivo è 24690)
+             */
         }
 
         private void BtnAggiungiLab_Click(object sender, RoutedEventArgs e)
