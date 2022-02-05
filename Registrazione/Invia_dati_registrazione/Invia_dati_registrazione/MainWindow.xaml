@@ -8,7 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="bianco.jpg"/>
+            <ImageBrush ImageSource="background.png"/>
         </Grid.Background>
         <Label x:Name="titolo" Content="Netsight registrazione" HorizontalAlignment="Left" Height="80" Margin="232,33,0,0" VerticalAlignment="Top" Width="340" FontFamily="Impact" FontSize="36"/>
         <Label Content="Nome:" HorizontalAlignment="Left" Height="31" Margin="32,139,0,0" VerticalAlignment="Top" Width="110"/>
@@ -19,7 +19,7 @@
         <Label Content="Email:" HorizontalAlignment="Left" Height="31" Margin="433,258,0,0" VerticalAlignment="Top" Width="110"/>
         <TextBox x:Name="txt_mail" HorizontalAlignment="Left" Height="31" Margin="626,258,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123" Background="{x:Null}" BorderBrush="Black" BorderThickness="2"/>
         <DatePicker x:Name="date" HorizontalAlignment="Left" Margin="615,139,0,0" VerticalAlignment="Top" Height="31" BorderThickness="0"/>
-        <Button x:Name="btn_registra" Content="Button" HorizontalAlignment="Left" Height="48" Margin="293,322,0,0" VerticalAlignment="Top" Width="206" Click="btn_registra_Click"/>
+        <Button x:Name="btn_registra" Content="REGISTRATI" HorizontalAlignment="Left" Height="48" Margin="293,322,0,0" VerticalAlignment="Top" Width="206" Click="btn_registra_Click" Background="{x:Null}" BorderBrush="Black"/>
 
     </Grid>
 </Window>

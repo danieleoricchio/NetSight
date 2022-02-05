@@ -25,6 +25,7 @@ namespace Invia_dati_registrazione
         public MainWindow()
         {
             InitializeComponent();
+            this.WindowState = WindowState.Maximized;
         }
 
         private async void btn_registra_Click(object sender, RoutedEventArgs e)
