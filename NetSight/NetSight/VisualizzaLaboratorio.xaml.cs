@@ -49,7 +49,7 @@ namespace NetSight
 
         private void riceviPacchetti()
         {
-            UdpClient udpServer = new UdpClient(/*devi mettere la porta (diversa da 24690)*/);
+            UdpClient udpServer = new UdpClient(25000);
             while (true)
             {
                 IPEndPoint riceiveEP = new IPEndPoint(IPAddress.Any, 0);
@@ -61,6 +61,7 @@ namespace NetSight
                     {
                         case "alive":
                             riceiveEP.Address.ToString();
+
                             //sistemo con l'invoke che il pc nella window è acceso
                             //in poche parole metti che il rettangolo del pc è verde
                             //se è online altrimenti rosso
@@ -80,10 +81,9 @@ namespace NetSight
 
         private void btnAggiungiPc_Click(object sender, RoutedEventArgs e)
         {
-            /*
-             * qua devi mandare pacchetto UDP "apertura" al pc che 
-             * bisogna aggiungere (la port d'arrivo è 24690)
-             */
+            btnConfPc.IsEnabled = true;
+            txtIpPc.IsEnabled = true;
+            lblPc.IsEnabled = true;
         }
 
         private void BtnAggiungiLab_Click(object sender, RoutedEventArgs e)
@@ -98,6 +98,17 @@ namespace NetSight
         private void btnConfLab_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btnConfPc_Click(object sender, RoutedEventArgs e)
+        {
+            UdpClient udpClient = new UdpClient();
+            byte[] datagram = Encoding.ASCII.GetBytes("apertura");
+            udpClient.Send(datagram, datagram.Length,txtIpPc.Text.ToString(), 24690);
+            /*
+             * qua devi mandare pacchetto UDP "apertura" al pc che 
+             * bisogna aggiungere (la port d'arrivo è 24690)
+             */
         }
 
         private void riceviDati()

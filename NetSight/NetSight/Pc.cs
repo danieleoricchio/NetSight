@@ -13,7 +13,6 @@ namespace NetSight
     public class Pc
     {
         public bool Stato { get; set; }
-        //mettere proprietà pubblica dell'ip (decidere se string o IPAddress)
         public string IP {get;set;}
 
         public Pc(bool stato)
@@ -24,7 +23,8 @@ namespace NetSight
         public void Controllo()
         {
             new Task(() => { /*qua devo controllare che arrivino i pacchetti "alive", se dopo 30 sec (o quanto vuoi)
-                              * i pacchetti non arrivano tu metti Stato = false*/ }).Start();
+                              * i pacchetti non arrivano tu metti Stato = false*/
+            }).Start();
         }
 
         public void Aggiorna(bool stato)

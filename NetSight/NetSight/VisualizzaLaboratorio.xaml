@@ -18,6 +18,9 @@
         <TextBox x:Name="txtNumPc" HorizontalAlignment="Left" Height="23" Margin="349,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="117"/>
         <Label x:Name="lblTitle2" Content="Numero di pc da inserire:" HorizontalAlignment="Left" Margin="338,310,0,0" VerticalAlignment="Top"/>
         <Button x:Name="btnConfLab" Content="Conferma aggiunta laboratorio" HorizontalAlignment="Left" Margin="323,370,0,0" VerticalAlignment="Top" Width="178" Click="btnConfLab_Click"/>
+        <Button x:Name="btnConfPc" Content="Conferma aggiunta pc" HorizontalAlignment="Left" Margin="543,332,0,0" VerticalAlignment="Top" Width="179" Click="btnConfPc_Click"/>
+        <TextBox x:Name="txtIpPc" HorizontalAlignment="Left" Height="23" Margin="572,300,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="117"/>
+        <Label x:Name="lblPc" Content="Indirizzo ip di del pc da inserire:" HorizontalAlignment="Left" Margin="542,267,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
