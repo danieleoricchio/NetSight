@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Laboratori.cs" />
     <Compile Include="Laboratorio.cs" />
     <Compile Include="Pc.cs" />
     <Compile Include="Utente.cs" />

@@ -24,6 +24,7 @@ namespace NetSight
     public partial class VisualizzaLaboratorio : Window
     {
         static Laboratorio lab,labLetti;
+        static Laboratori laboratori,laboratoriLetti;
         XmlSerializerTcp serializerTcp;
         TcpClient client;
         public VisualizzaLaboratorio(string response)
@@ -44,7 +45,19 @@ namespace NetSight
                 btnAggiungiPc.Visibility = Visibility.Hidden;
                 BtnAggiungiLab.Visibility = Visibility.Hidden;
             }
-            riceviDati();
+            riceviDatiListaPc();
+            riceviDatiListaLab();
+        }
+
+        private void riceviDatiListaLab()
+        {
+            object obj = serializerTcp.Deserialize(client.GetStream());
+            Laboratori laboratori = (Laboratori)obj;
+            laboratori = laboratoriLetti;
+            for (int i = 0; i < laboratori.listaLab.Count; i++)
+            {
+                cmbLab.Items.Add(laboratoriLetti.listaLab[i]);
+            }
         }
 
         private void riceviPacchetti()
@@ -105,21 +118,31 @@ namespace NetSight
             UdpClient udpClient = new UdpClient();
             byte[] datagram = Encoding.ASCII.GetBytes("apertura");
             udpClient.Send(datagram, datagram.Length,txtIpPc.Text.ToString(), 24690);
+
+            IPEndPoint riceiveEP = new IPEndPoint(IPAddress.Any, 0);
+            byte[] dataReceived = udpClient.Receive(ref riceiveEP);
+            string messaggio = Encoding.ASCII.GetString(dataReceived);
+            if (messaggio == "connected")
+            {
+                Pc pc = new Pc(true);
+                pc.IP = txtIpPc.Text.ToString();
+                lab.addPc(pc);
+            }
             /*
              * qua devi mandare pacchetto UDP "apertura" al pc che 
              * bisogna aggiungere (la port d'arrivo è 24690)
              */
         }
 
-        private void riceviDati()
+        private void riceviDatiListaPc()
         {
             object obj = serializerTcp.Deserialize(client.GetStream());
             Laboratorio labLetti = (Laboratorio)obj;
             lab = labLetti;
-            for (int i = 0; i < lab.listaPc.Count; i++)
-            {
-                cmbLab.Items.Add(labLetti.listaPc[i]);
-            }
+            //for (int i = 0; i < lab.listaPc.Count; i++)
+            //{
+            //    cmbLab.Items.Add(labLetti.listaPc[i]);
+            //}
         }
     }
 }
