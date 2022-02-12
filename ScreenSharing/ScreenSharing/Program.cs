@@ -24,6 +24,8 @@ namespace ScreenSharing
         static ScreenCapture screenCapture;
         static public string hostname="localhost";
         static public int port=5900, width=1280, height=720, screen_number = 0;
+
+        
         static void Main(string[] args)
         {
             GestioneArgs(args);
@@ -67,16 +69,8 @@ namespace ScreenSharing
                 }
                 object nomevar = item.Split('=')[0], value = item.Split('=')[1];
                 Type type = typeof(Program).GetField(nomevar.ToString()).FieldType;
-                if (type == typeof(int))
-                {
-                    typeof(Program).GetField(nomevar.ToString()).SetValue(null, Convert.ToInt32(value));
-                }
-                else
-                {
-                    typeof(Program).GetField(nomevar.ToString()).SetValue(null, value);
-                }
+                typeof(Program).GetField(nomevar.ToString()).SetValue(null, type == typeof(int) ? Convert.ToInt32(value) : value);
                 //typeof(Program).GetProperty(nomevar).GetValue(null);
-
             }
         }
 
@@ -100,12 +94,7 @@ namespace ScreenSharing
                     Rectangle rectangle = new Rectangle();
                     Image image = GetImage(ref rectangle);
                     binaryFormatter.Serialize(stream, rectangle);
-                    if (image != null)
-                        binaryFormatter.Serialize(stream, image);
-                    else
-                    {
-                        binaryFormatter.Serialize(stream, new object());
-                    }
+                    binaryFormatter.Serialize(stream, image != null ? image : new object());
                     Console.WriteLine($"X:{rectangle.X}, Y:{rectangle.Y}, Width:{rectangle.Width}, Height:{rectangle.Height}");
                 }
                 catch (Exception ex)
