@@ -7,20 +7,26 @@
         mc:Ignorable="d"
         Title="VisualizzaLaboratorio" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="47*"/>
+            <ColumnDefinition Width="33*"/>
+        </Grid.ColumnDefinitions>
         <Label Content="Bentornato!" HorizontalAlignment="Left" Margin="333,77,0,0" VerticalAlignment="Top" Width="117" FontSize="20" Height="35"/>
         <Button x:Name="btnAggiungiPc" Content="Aggiungi Pc" HorizontalAlignment="Left" Margin="345,189,0,0" VerticalAlignment="Top" Width="76" Click="btnAggiungiPc_Click"/>
         <Button x:Name="BtnAggiungiLab" Content="Aggiungi laboratorio" HorizontalAlignment="Left" Margin="345,214,0,0" VerticalAlignment="Top" Width="118" Click="BtnAggiungiLab_Click"/>
-        <ComboBox x:Name="cmbLab" HorizontalAlignment="Left" Margin="70,207,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="cmbLab" HorizontalAlignment="Left" Margin="70,0,0,0" VerticalAlignment="Center" Width="120"/>
         <Label Content="Lista laboratori" HorizontalAlignment="Left" Margin="70,171,0,0" VerticalAlignment="Top" Width="94"/>
         <Button x:Name="btnSceltaLab" Content="Conferma scelta laboratorio" HorizontalAlignment="Left" Margin="70,236,0,0" VerticalAlignment="Top" Width="157" Click="btnSceltaLab_Click"/>
         <TextBox x:Name="txtLabN" HorizontalAlignment="Left" Height="23" Margin="349,282,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="117"/>
-        <Label x:Name="lblTitle1" Content="Nome del nuovo laboratorio:" HorizontalAlignment="Left" Margin="332,254,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblTitle1" Content="Nome del nuovo laboratorio:" HorizontalAlignment="Left" Margin="332,254,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <TextBox x:Name="txtNumPc" HorizontalAlignment="Left" Height="23" Margin="349,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="117"/>
-        <Label x:Name="lblTitle2" Content="Numero di pc da inserire:" HorizontalAlignment="Left" Margin="338,310,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="btnConfLab" Content="Conferma aggiunta laboratorio" HorizontalAlignment="Left" Margin="323,370,0,0" VerticalAlignment="Top" Width="178" Click="btnConfLab_Click"/>
-        <Button x:Name="btnConfPc" Content="Conferma aggiunta pc" HorizontalAlignment="Left" Margin="543,332,0,0" VerticalAlignment="Top" Width="179" Click="btnConfPc_Click"/>
-        <TextBox x:Name="txtIpPc" HorizontalAlignment="Left" Height="23" Margin="572,300,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="117"/>
-        <Label x:Name="lblPc" Content="Indirizzo ip di del pc da inserire:" HorizontalAlignment="Left" Margin="542,267,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblTitle2" Content="Numero di pc da inserire:" HorizontalAlignment="Left" Margin="338,310,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnConfLab" Content="Conferma aggiunta laboratorio" HorizontalAlignment="Left" Margin="323,370,0,0" VerticalAlignment="Top" Width="178" Click="btnConfLab_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnConfPc" Content="Conferma aggiunta pc" HorizontalAlignment="Left" Margin="73,332,0,0" VerticalAlignment="Top" Width="179" Click="btnConfPc_Click" Grid.Column="1"/>
+        <TextBox x:Name="txtIpPc" HorizontalAlignment="Left" Height="23" Margin="102,300,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="117" Grid.Column="1"/>
+        <Label x:Name="lblPc" Content="Indirizzo ip di del pc da inserire:" HorizontalAlignment="Left" Margin="72,267,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="txtNomePc" HorizontalAlignment="Left" Height="23" Margin="103,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="117" Grid.Column="1"/>
+        <Label x:Name="lblTitle1_Copy" Content="Nome del nuovo pc:" HorizontalAlignment="Left" Margin="104,208,0,0" VerticalAlignment="Top" Grid.Column="1"/>
 
     </Grid>
 </Window>

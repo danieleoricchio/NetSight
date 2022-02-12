@@ -8,7 +8,7 @@ namespace NetSight
 {
     public class Laboratorio
     {
-        public List<Pc> listaPc;
+        private List<Pc> listaPc;
 
         public Laboratorio()
         {
@@ -18,6 +18,11 @@ namespace NetSight
         public void addPc(Pc p)
         {
             listaPc.Add(p);
+        }
+
+        public Pc GetPc(string nomeOrIP)
+        {
+            return listaPc.Find(pc => pc.Nome==nomeOrIP || pc.IP == nomeOrIP);
         }
     }
 }
