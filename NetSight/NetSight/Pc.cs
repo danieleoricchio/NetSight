@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 
 namespace NetSight
@@ -14,22 +15,45 @@ namespace NetSight
     {
         public bool Stato { get; set; }
         public string IP {get;set;}
-
+        public string Nome {get;set; }
+        private readonly object Locked = new object();
+        private Timer timer;
+        private volatile bool flagAlive;
         public Pc(bool stato)
         {
             this.Stato = stato;
+            timer = new Timer(30000);
+            timer.Elapsed += (object sender, ElapsedEventArgs e) =>
+            {
+                Stato = false;
+            };
+            if(stato)
+                timer.Start();
+            Controllo();
         }
+
 
         public void Controllo()
         {
-            new Task(() => { /*qua devo controllare che arrivino i pacchetti "alive", se dopo 30 sec (o quanto vuoi)
-                              * i pacchetti non arrivano tu metti Stato = false*/
+            new Task(() => {
+                while (true)
+                {
+                    if (flagAlive)
+                    {
+                        flagAlive = false;
+                        timer.Start();
+                    }
+                }
             }).Start();
         }
 
-        public void Aggiorna(bool stato)
+        public void AggiornaStato()
         {
-            this.Stato = stato;
+            lock (Locked)
+            {
+                flagAlive = true;
+                this.Stato = true;
+            }
         }
 
         public bool IniziaCondivisioneSchermo()
@@ -43,7 +67,6 @@ namespace NetSight
                 MessageBox.Show(ex.Message);
                 return false;
             }
-            //invia al pc pacchetto udp "condivisione-schermo"
             string mess = "condivisione-schermo";
             try
             {
