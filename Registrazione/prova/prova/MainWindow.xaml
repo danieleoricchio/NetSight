@@ -6,19 +6,4 @@
         xmlns:local="clr-namespace:prova"
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized">
-    <Grid>
-        <Label x:Name="titolo" Content="Netsight registrazione" HorizontalAlignment="Center" Height="100" Margin="0,20,0,0" VerticalAlignment="Top" Width="470" FontFamily="Impact" FontSize="50"/>
-        <Grid HorizontalAlignment="Left" Width="400" VerticalAlignment="Center">
-            <Label Content="Nome:" HorizontalAlignment="Center" Height="31" Margin="100,0,0,0" VerticalAlignment="Top" Width="110"/>
-            <TextBox x:Name="txt_nome" HorizontalAlignment="Center" Height="31" Margin="233,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123" Background="{x:Null}" BorderBrush="Black" BorderThickness="2"/>
-        </Grid>
-
-    </Grid>
-    <!--<Label Content="Cognome:" HorizontalAlignment="Left" Height="31" Margin="32,254,0,0" VerticalAlignment="Top" Width="110"/>
-        <TextBox x:Name="txt_cognome" HorizontalAlignment="Left" Height="31" Margin="225,254,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123" Background="{x:Null}" BorderBrush="Black" BorderThickness="2"/>
-        <Label Content="Data di nascita:" HorizontalAlignment="Left" Height="31" Margin="433,139,0,0" VerticalAlignment="Top" Width="110"/>
-        <Label Content="Email:" HorizontalAlignment="Left" Height="31" Margin="433,258,0,0" VerticalAlignment="Top" Width="110"/>
-        <TextBox x:Name="txt_mail" HorizontalAlignment="Left" Height="31" Margin="626,258,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123" Background="{x:Null}" BorderBrush="Black" BorderThickness="2"/>
-        <DatePicker x:Name="date" HorizontalAlignment="Left" Margin="615,139,0,0" VerticalAlignment="Top" Height="31" BorderThickness="0"/>
-        <Button x:Name="btn_registra" Content="REGISTRATI" HorizontalAlignment="Left" Height="48" Margin="293,322,0,0" VerticalAlignment="Top" Width="206" Click="btn_registra_Click" Background="{x:Null}" BorderBrush="Black"/> -->
 </Window>
