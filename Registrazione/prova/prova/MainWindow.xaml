@@ -6,4 +6,26 @@
         xmlns:local="clr-namespace:prova"
         mc:Ignorable="d"
         Title="MainWindow" WindowState="Maximized">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Grid.ColumnSpan="4" Grid.Row="0" HorizontalAlignment="Center" Margin="20" FontSize="40" FontWeight="Bold">Registrazione Netsight</Label>
+        <Label Grid.Column="0" Grid.Row="2" Width="1in" HorizontalAlignment="Right" Background="Transparent"  HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="19">Nome:</Label>
+        <Label Grid.Column="0" Grid.Row="3" Width="1in" HorizontalAlignment="Right" Background="Transparent" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="19">Cognome:</Label>
+        <Label Grid.Column="2" Grid.Row="2" Width="1in" HorizontalAlignment="Right" Background="Transparent"  HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="19">Data:</Label>
+        <Label Grid.Column="2" Grid.Row="3" Width="1in" HorizontalAlignment="Right" Background="Transparent" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="19">E-Mail:</Label>
+        <TextBox  x:Name="txt_nome" Grid.Column="1" Grid.Row="2" Width="2in" Height="0.4in" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="Black" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19"></TextBox>
+        <TextBox  x:Name="txt_cognome" Grid.Column="1" Grid.Row="3" Width="2in" Height="0.4in" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="Black" BorderThickness="2" HorizontalContentAlignment="Center"></TextBox>
+    </Grid>
 </Window>

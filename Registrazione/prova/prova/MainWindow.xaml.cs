@@ -24,17 +24,7 @@ namespace prova
         {
             InitializeComponent();
 
-            Grid myGrid = new Grid();
-            myGrid.Width = this.Width;
-            myGrid.Height = this.Height;
-            myGrid.HorizontalAlignment = HorizontalAlignment.Left;
-            myGrid.VerticalAlignment = VerticalAlignment.Top;
-
-            Label titolo = new Label();
-            titolo.Content = "Registrazione Netsight";
-                
-
-            this.Content = myGrid;
+            
         }
     }
 }
