@@ -46,7 +46,7 @@ namespace Invia_dati_registrazione
 
                 var content = new FormUrlEncodedContent(values);
 
-                var response = await client.PostAsync("http://172.16.102.83/Raia/index.php", content);
+                var response = await client.PostAsync("http://172.16.102.77/Cazzola/ConfirmRegistration.php", content);
 
                 var responseString = await response.Content.ReadAsStringAsync();
 
@@ -55,3 +55,4 @@ namespace Invia_dati_registrazione
         }
     }
 }
+//sistemo le textbox come quewlla del nome

@@ -26,5 +26,10 @@ namespace prova
 
             
         }
+
+        private void btn_registra_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
