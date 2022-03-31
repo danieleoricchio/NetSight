@@ -34,25 +34,38 @@ namespace Invia_dati_registrazione
             string cognome = txt_cognome.Text;
             string mail = txt_mail.Text;
             string data = date.Text; //splitto e scrivo in forma yyyy/mm/dd
-            if (nome != "" && cognome != "" && mail != "" && data != "")
+            string password = txt_password.Text;
+            string conferma = txt_conferma.Text;
+            if (nome != "" && cognome != "" && mail != "" && data != "" && password != "" && conferma != "")
             {
-                var values = new Dictionary<string, string>
+                if (password == conferma)
                 {
+                    var values = new Dictionary<string, string>
+                    {
                     { "nome", nome },
                     { "cognome", cognome },
                     { "mail", mail },
-                    { "data", data }
-                };
+                    { "data", data },
+                    { "password", password }
+                    };
 
-                var content = new FormUrlEncodedContent(values);
+                    var content = new FormUrlEncodedContent(values);
 
-                var response = await client.PostAsync("http://172.16.102.77/Cazzola/ConfirmRegistration.php", content);
+                    var response = await client.PostAsync("http://172.16.102.77/Cazzola/ConfirmRegistration.php", content);
 
-                var responseString = await response.Content.ReadAsStringAsync();
+                    var responseString = await response.Content.ReadAsStringAsync();
 
-                Console.WriteLine(responseString);
+                    Console.WriteLine(responseString);
+                }
+                else
+                {
+                    MessageBox.Show("Inserire due password uguali");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Inserire tutti i dati");
             }
         }
     }
 }
-//sistemo le textbox come quewlla del nome
