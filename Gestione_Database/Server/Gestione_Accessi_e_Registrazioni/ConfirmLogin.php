@@ -14,8 +14,9 @@ $password = $_POST['password'];
 //$userIP = $_POST['ip'];
 //$socket=socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
 
-if(!empty($email) && !empty($email)){
-    $sql= 'SELECT * FROM users where email="'.$email.'" AND password="'.md5($password).'"';
+
+if(!empty($email) && !empty($password)){
+    $sql= 'SELECT * FROM utenti where email="'.$email.'" AND password="'.md5($password).'"';
     if($result = mysqli_query($link, $sql));
     else{
         echo "Errore!!!";
@@ -38,7 +39,7 @@ if(!empty($email) && !empty($email)){
 
 
 function GiveName($link, $email){
-    $sqlNome= 'SELECT nome FROM users where email="'.$email.'"';
+    $sqlNome= 'SELECT nome FROM utenti where email="'.$email.'"';
     $resultNome = mysqli_query($link, $sqlNome);
     if($resultNome = mysqli_query($link, $sqlNome));
     if(mysqli_num_rows($resultNome)==1){
