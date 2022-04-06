@@ -8,7 +8,7 @@ namespace NetSight
 {
     class Laboratori
     {
-        public List<string> listaLab;
+        private List<string> listaLab;
 
         public Laboratori()
         {
@@ -18,6 +18,10 @@ namespace NetSight
         public void addPc(string lab)
         {
             listaLab.Add(lab);
+        }
+        public List<string> GetListaLab()
+        {
+            return listaLab;
         }
     }
 }

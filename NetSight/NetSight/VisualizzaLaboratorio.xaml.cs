@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -16,8 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Serialization;
-using XMLSerializerTcp;
-
+using Newtonsoft.Json;
 namespace NetSight
 {
     /// <summary>
@@ -31,17 +31,16 @@ namespace NetSight
          * e aggiorna i rettangoli
          */
 
-        static Laboratorio lab,labLetti;
-        static Laboratori laboratori,laboratoriLetti;
-        XmlSerializer serializer;
+        Laboratorio lab;
+        Laboratori labs;
+        //XmlSerializer serializer;
+        readonly HttpClient client = new HttpClient();
         private bool flagPcConnesso;
 
         public VisualizzaLaboratorio(string response)
         {
             InitializeComponent();
-            serializer = new XmlSerializer(typeof(Laboratorio));
             lab = new Laboratorio(); 
-            labLetti = new Laboratorio();
             btnAggiungiPc.IsEnabled = false;
             txtLabN.Visibility = Visibility.Hidden;
             lblTitle1.Visibility = Visibility.Hidden;
@@ -57,16 +56,14 @@ namespace NetSight
             riceviDatiListaLab();
         }
 
-        private void riceviDatiListaLab()
+        private async void riceviDatiListaLab()
         {
-            StreamReader streamReader = new StreamReader("listaLab.xml");
-            object obj = serializer.Deserialize(streamReader);
-            Laboratori laboratori = (Laboratori)obj;
-            laboratori = laboratoriLetti;
-            for (int i = 0; i < laboratori.listaLab.Count; i++)
-            {
-                cmbLab.Items.Add(laboratoriLetti.listaLab[i]);
-            }
+            var response = await client.GetStringAsync(""); //utilizzare link get che ritorna file json. es: netsight.it/getLabs
+            labs = JsonConvert.DeserializeObject<Laboratori>(response);
+            //for (int i = 0; i < labs.listaLab.Count; i++)
+            //{
+            //    cmbLab.Items.Add(laboratoriLetti.listaLab[i]);
+            //}
         }
 
         private void riceviPacchetti()
@@ -83,7 +80,7 @@ namespace NetSight
                     {
                         case "alive":
                             string ip = riceiveEP.Address.ToString();
-                            lab.GetPc(ip).AggiornaStato();                            //fai pc.Aggiorna(true) per dire che il pc è vivo
+                            lab.GetPc(ip).AggiornaStato(); //fai pc.Aggiorna(true) per dire che il pc è vivo
                             break;
                         case "connected":
                             Pc pc = new Pc(true);
@@ -131,16 +128,10 @@ namespace NetSight
             udpClient.Send(datagram, datagram.Length,txtIpPc.Text.ToString(), 24690);
         }
 
-        private void riceviDatiListaPc()
+        private async void riceviDatiListaPc()
         {
-            StreamReader streamReader = new StreamReader("listaPc.xml");
-            object obj = serializer.Deserialize(streamReader);
-            Laboratorio labLetti = (Laboratorio)obj;
-            lab = labLetti;
-            for (int i = 0; i < lab.listaPc.Count; i++)
-            {
-                cmbLab.Items.Add(labLetti.listaPc[i]);
-            }
+            var response = await client.GetStringAsync(""); //utilizzare link get che ritorna file json. es: netsight.it/getPCs
+            lab = JsonConvert.DeserializeObject<Laboratorio>(response);
         }
     }
 }

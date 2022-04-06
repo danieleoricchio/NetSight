@@ -19,6 +19,10 @@ namespace NetSight
         {
             listaPc.Add(p);
         }
+        public List<Pc> GetPcs()
+        {
+            return listaPc;
+        }
 
         public Pc GetPc(string nomeOrIP)
         {

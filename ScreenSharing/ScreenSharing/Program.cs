@@ -73,16 +73,6 @@ namespace ScreenSharing
                 //typeof(Program).GetProperty(nomevar).GetValue(null);
             }
         }
-
-        private static Image GetImage(ref Rectangle rectangle)
-        {
-            //Rectangle bound = Screen.AllScreens[0].Bounds;
-            //Bitmap bitmap = new Bitmap(bound.Width, bound.Height,System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            //Graphics g = Graphics.FromImage(bitmap);
-            //g.CopyFromScreen(bound.X, bound.Y, 0, 0, bound.Size, CopyPixelOperation.SourceCopy);
-            //return bitmap;
-            return screenCapture.GetScreen(ref rectangle, screen_number, width, height);
-        }
         
         
         private static void Start(object thiss)
@@ -92,7 +82,7 @@ namespace ScreenSharing
                 try
                 {
                     Rectangle rectangle = new Rectangle();
-                    Image image = GetImage(ref rectangle);
+                    Image image = screenCapture.GetScreen(ref rectangle, screen_number, width, height);
                     binaryFormatter.Serialize(stream, rectangle);
                     binaryFormatter.Serialize(stream, image != null ? image : new object());
                     Console.WriteLine($"X:{rectangle.X}, Y:{rectangle.Y}, Width:{rectangle.Width}, Height:{rectangle.Height}");

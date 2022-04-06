@@ -20,6 +20,7 @@ namespace NetSight
 
         public string httpRequest()
         {
+            //CAMBIARE TUTTA STA FUNZIONE CON LA MODALITA DI LOGIN
             string html = string.Empty;
             string url = @"http://172.16.102.70/dippolito/index.php?nomeUtente=" + nomeUtente + "&password=" + password;
 
