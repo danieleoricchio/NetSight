@@ -9,6 +9,8 @@ namespace NetSight
     public class Laboratorio
     {
         private List<Pc> listaPc;
+        public int cod, codEdificio;
+        public string nome;
 
         public Laboratorio()
         {

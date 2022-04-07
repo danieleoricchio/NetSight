@@ -8,18 +8,18 @@ namespace NetSight
 {
     class Laboratori
     {
-        private List<string> listaLab;
+        private List<Laboratorio> listaLab;
 
         public Laboratori()
         {
-            listaLab = new List<string>();
+            listaLab = new List<Laboratorio>();
         }
 
-        public void addPc(string lab)
+        public void addPc(Laboratorio lab)
         {
             listaLab.Add(lab);
         }
-        public List<string> GetListaLab()
+        public List<Laboratorio> GetListaLab()
         {
             return listaLab;
         }
