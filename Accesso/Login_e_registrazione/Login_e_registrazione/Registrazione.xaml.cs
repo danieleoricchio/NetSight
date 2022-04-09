@@ -53,7 +53,7 @@ namespace Login_e_registrazione
 
                     var content = new FormUrlEncodedContent(values);
 
-                    var response = await client.PostAsync("http://172.16.102.77/Cazzola/ConfirmRegistration.php", content);
+                    var response = await client.PostAsync("http://localhost/dippolito/prova.php", content);
 
                     var responseString = await response.Content.ReadAsStringAsync();
 
