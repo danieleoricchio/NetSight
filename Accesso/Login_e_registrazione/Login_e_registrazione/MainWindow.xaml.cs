@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +21,7 @@ namespace Login_e_registrazione
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static readonly HttpClient client = new HttpClient();
         public MainWindow()
         {
             InitializeComponent();
@@ -53,6 +55,34 @@ namespace Login_e_registrazione
         {
             btn_login.Background = null;
             btn_login.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 255, 255, 255));
+        }
+
+        private async void btn_login_Click(object sender, RoutedEventArgs e)
+        {
+            string mail = txt_mail.Text;
+            string password = txt_password.Text;
+            if (mail != "" && password != "")
+            {
+                
+                    var values = new Dictionary<string, string>
+                    { 
+                    { "email", mail },
+                    { "password", password }
+                    }; 
+
+                    var content = new FormUrlEncodedContent(values);
+
+                    var response = await client.PostAsync("http://localhost/dippolito/ConfirmLogin.php", content);
+
+                    var responseString = await response.Content.ReadAsStringAsync();
+
+                    Console.WriteLine(responseString);
+                
+            }
+            else
+            {
+                MessageBox.Show("Inserire tutti i dati");
+            }
         }
     }
 }
