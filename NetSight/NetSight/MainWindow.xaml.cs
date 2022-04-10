@@ -20,23 +20,22 @@ namespace NetSight
     /// </summary>
     public partial class MainWindow : Window
     {
-        Utente u;
+        Utente utente;
         public MainWindow()
         {
             InitializeComponent();
         }
         private void btnAccesso_Click(object sender, RoutedEventArgs e)
         {
-            u = new Utente(txtNomeUtente.Text, psw.Password.ToString());
-            string response = u.httpRequest();
-            if (response != "A" || response != "U")
+            utente = new Utente(txtEmail.Text, psw.Password.ToString());
+            if (utente.valid)
             {
-                VisualizzaLaboratorio visualizzaLaboratorio = new VisualizzaLaboratorio(response);
+                VisualizzaLaboratorio visualizzaLaboratorio = new VisualizzaLaboratorio();
                 visualizzaLaboratorio.Show();
                 this.Close();
             }
             else
-                MessageBox.Show("Nome utente/password non trovato/i.", "Errore");
+                MessageBox.Show("Email e/o password sbagliati.", "Errore");
         }
     }
 }

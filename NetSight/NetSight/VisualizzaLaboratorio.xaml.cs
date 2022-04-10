@@ -37,7 +37,7 @@ namespace NetSight
         readonly HttpClient client = new HttpClient();
         private bool flagPcConnesso;
 
-        public VisualizzaLaboratorio(string response)
+        public VisualizzaLaboratorio()
         {
             InitializeComponent();
             lab = new Laboratorio(); 
@@ -47,11 +47,11 @@ namespace NetSight
             lblTitle2.Visibility = Visibility.Hidden;
             txtNumPc.Visibility = Visibility.Hidden;
             btnConfLab.Visibility = Visibility.Hidden;
-            if (response == "U")
-            {
-                btnAggiungiPc.Visibility = Visibility.Hidden;
-                BtnAggiungiLab.Visibility = Visibility.Hidden;
-            }
+            //if (response == "U")
+            //{
+            //    btnAggiungiPc.Visibility = Visibility.Hidden;
+            //    BtnAggiungiLab.Visibility = Visibility.Hidden;
+            //}
             riceviDatiListaPc();
             riceviDatiListaLab();
         }

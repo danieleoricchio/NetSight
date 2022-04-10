@@ -1,3 +1,2 @@
-1. togliere xmlserializer e utilizzare json piuttosto di xml. utilizzare richieste get per ricevere dati di laboratorio e di pc
-2. installare pacchetto nuget newtonsoft.json
-3. pulire codice screensharing e viewscreen
+1. aggiornare la confirm registration
+2. modificare classe utente (e nel caso eliminarla)

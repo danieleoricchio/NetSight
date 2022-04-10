@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 26, 2022 alle 11:52
--- Versione del server: 10.4.6-MariaDB
--- Versione PHP: 7.3.8
+-- Creato il: Apr 07, 2022 alle 17:40
+-- Versione del server: 10.4.22-MariaDB
+-- Versione PHP: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -169,7 +168,8 @@ ALTER TABLE `pc`
 --
 ALTER TABLE `utenti`
   ADD PRIMARY KEY (`Cod`),
-  ADD UNIQUE KEY `Email` (`Email`) USING BTREE;
+  ADD UNIQUE KEY `Email` (`Email`) USING BTREE,
+  ADD UNIQUE KEY `Email_2` (`Email`);
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
@@ -226,4 +226,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
