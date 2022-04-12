@@ -13,9 +13,9 @@ namespace NetSight
 {
     public class Pc
     {
-        public bool Stato { get; set; }
-        public string IP {get;set;}
-        public string Nome {get;set; }
+        public bool stato { get; set; }
+        public string ip {get;set;}
+        public string nome {get;set; }
         private readonly object Locked = new object();
         private Timer timer;
         private volatile bool flagAlive;

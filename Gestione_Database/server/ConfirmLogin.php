@@ -3,6 +3,12 @@ require_once 'config.php';
 require 'classes/json_message.php';
 header("Content-type: application/json; charset=utf-8");
 
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+    $message = new JsonMessage(405, "Method Not Allowed. Utilizzare metodo POST", false);
+    echo json_encode($message);
+    die();
+}
+
 $email = $_POST['email'];
 $password = $_POST['password'];
 if (!isset($email) || empty($email)){

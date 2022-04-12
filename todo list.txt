@@ -1,2 +1,0 @@
-1. aggiornare la confirm registration
-2. modificare classe utente (e nel caso eliminarla)
