@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <UseWPF>False</UseWPF>
+    <StartupObject>ScreenSharing.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ScreenCapture">
+      <HintPath>..\..\Client\Client\ScreenCapture.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
