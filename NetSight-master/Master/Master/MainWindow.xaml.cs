@@ -25,9 +25,9 @@ namespace Master
         {
             InitializeComponent();
         }
-        private void btnAccesso_Click(object sender, RoutedEventArgs e)
+        private async void btnAccesso_Click(object sender, RoutedEventArgs e)
         {
-            utente = new Utente(txtEmail.Text, psw.Password.ToString());
+            utente = await Utente.GetUserObject(txtEmail.Text, psw.Password.ToString());
             if (utente.valid)
             {
                 VisualizzaLaboratorio visualizzaLaboratorio = new VisualizzaLaboratorio();

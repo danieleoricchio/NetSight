@@ -8,7 +8,7 @@ namespace Master
 {
     class Laboratori
     {
-        private List<Laboratorio> listaLab;
+        public List<Laboratorio> listaLab;
 
         public Laboratori()
         {

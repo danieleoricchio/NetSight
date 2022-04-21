@@ -12,30 +12,34 @@ namespace Master
 {
     public class Utente
     {
-        private readonly HttpClient client = new HttpClient();
+        private static readonly HttpClient client = new HttpClient();
         public string email;
         public string password;
         public bool valid { get; private set; }
-        public Utente(string email, string password)
+        private Utente(bool result)
         {
-            GetUserObject(email, password);
-            if (!valid)
+            valid = result;
+            if (!result)
             {
                 this.email = null;
                 this.password = null;
                 return;
             }
-            this.email = email;
-            this.password = password;
+        }
+        public Utente(string email, string password)
+        {
+            valid = false;
+            this.email = null;
+            this.password = null;
         }
 
-        private async void GetUserObject(string email, string password)
+        public static async Task<Utente> GetUserObject(string email, string password)
         {
             var values = new Dictionary<string, string>{{ "email", email },{ "password", password }};
-            var response = await client.PostAsync("http://localhost/server/gestioneprogetto/ConfirmLogin.php", new FormUrlEncodedContent(values));
+            var response = await client.PostAsync("http://localhost/server/gestioneprogetto/server/confirmLogin.php", new FormUrlEncodedContent(values));
             var responseString = await response.Content.ReadAsStringAsync();
             JsonMessage message = JsonConvert.DeserializeObject<JsonMessage>(responseString);
-            this.valid = message.result;
+            return new Utente(message.result) { email =  email, password = password};
         }
     }
 }

@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <PasswordBox x:Name="psw" HorizontalAlignment="Left" Margin="383,220,0,0" VerticalAlignment="Top" Width="65" Height="26"/>
-        <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="23" Margin="383,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65"/>
+        <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="23" Margin="383,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="65" Text="admin@gmail.com"/>
+        <PasswordBox x:Name="psw" HorizontalAlignment="Left" Margin="383,220,0,0" VerticalAlignment="Top" Width="65" Height="26" Password="pass"/>
         <Label Content="Email:" HorizontalAlignment="Left" Margin="288,176,0,0" VerticalAlignment="Top" Width="90"/>
         <Label Content="Password:" HorizontalAlignment="Left" Margin="288,220,0,0" VerticalAlignment="Top" Width="69"/>
         <Label Content="LOGIN" HorizontalAlignment="Left" Height="49" Margin="327,56,0,0" VerticalAlignment="Top" Width="101" FontSize="30"/>

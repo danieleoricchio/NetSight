@@ -29,8 +29,8 @@ namespace Master
          * e aggiorna i rettangoli
          */
 
+        List<Laboratorio> labs;
         Laboratorio lab;
-        Laboratori labs;
         //XmlSerializer serializer;
         readonly HttpClient client = new HttpClient();
         private bool flagPcConnesso;
@@ -38,30 +38,30 @@ namespace Master
         public VisualizzaLaboratorio()
         {
             InitializeComponent();
-            lab = new Laboratorio();
+            labs = new List<Laboratorio>();
             btnAggiungiPc.IsEnabled = false;
             txtLabN.Visibility = Visibility.Hidden;
             lblTitle1.Visibility = Visibility.Hidden;
             lblTitle2.Visibility = Visibility.Hidden;
             txtNumPc.Visibility = Visibility.Hidden;
             btnConfLab.Visibility = Visibility.Hidden;
-            //if (response == "U")
-            //{
-            //    btnAggiungiPc.Visibility = Visibility.Hidden;
-            //    BtnAggiungiLab.Visibility = Visibility.Hidden;
-            //}
-            riceviDatiListaPc();
-            riceviDatiListaLab();
+            labs = riceviDatiListaLab();
+            impostaCombobox();
         }
 
-        private async void riceviDatiListaLab()
+        private void impostaCombobox()
         {
-            var response = await client.GetStringAsync(""); //utilizzare link get che ritorna file json. es: netsight.it/getLabs
-            labs = JsonConvert.DeserializeObject<Laboratori>(response);
-            //for (int i = 0; i < labs.listaLab.Count; i++)
-            //{
-            //    cmbLab.Items.Add(laboratoriLetti.listaLab[i]);
-            //}
+            cmbLab.Items.Clear();
+            foreach (Laboratorio item in labs)
+            {
+                cmbLab.Items.Add(item.nome);
+            }
+        }
+
+        private List<Laboratorio> riceviDatiListaLab()
+        {
+            var response = client.GetStringAsync("http://localhost/server/gestioneprogetto/server/getLabs.php").Result; //utilizzare link get che ritorna file json. es: netsight.it/getLabs
+            return JsonConvert.DeserializeObject<List<Laboratorio>>(response);
         }
 
         private void riceviPacchetti()
@@ -78,13 +78,14 @@ namespace Master
                     {
                         case "alive":
                             string ip = riceiveEP.Address.ToString();
-                            lab.GetPc(ip).AggiornaStato(); //fai pc.Aggiorna(true) per dire che il pc è vivo
+                            //labs.GetPc(ip).AggiornaStato(); //fai pc.Aggiorna(true) per dire che il pc è vivo
+                            //labs.Find(lab => lab.)
                             break;
                         case "connected":
                             Pc pc = new Pc(true);
                             pc.ip = txtIpPc.Text.ToString();
                             pc.nome = txtNomePc.Text.ToString();
-                            lab.addPc(pc);
+                            //labs.Add(pc);
                             break;
                         default:
                             break;
@@ -124,12 +125,6 @@ namespace Master
             UdpClient udpClient = new UdpClient();
             byte[] datagram = Encoding.ASCII.GetBytes("apertura");
             udpClient.Send(datagram, datagram.Length, txtIpPc.Text.ToString(), 24690);
-        }
-
-        private async void riceviDatiListaPc()
-        {
-            var response = await client.GetStringAsync(""); //utilizzare link get che ritorna file json. es: netsight.it/getPCs
-            lab = JsonConvert.DeserializeObject<Laboratorio>(response);
         }
     }
 }
