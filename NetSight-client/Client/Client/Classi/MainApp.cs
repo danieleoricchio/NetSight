@@ -77,7 +77,7 @@ namespace Client
                     }
                     return;
                 case "condivisione-schermo":
-                    Process.Start("ScreenSharing.exe", $"hostname={pacchetto.Address.ToString()} port=5900 width=1280 height=720");
+                    Process.Start("ScreenSharing.exe", $"hostname=172.16.102.125 port=5900 width=1280 height=720");
                     return;
                 default:
                     break;

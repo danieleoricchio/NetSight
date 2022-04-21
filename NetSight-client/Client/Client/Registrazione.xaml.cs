@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -21,10 +22,12 @@ namespace Client
     public partial class Registrazione : Window
     {
         private static readonly HttpClient client = new HttpClient();
+        private JsonMessage? responseRegister;
         public Registrazione()
         {
             InitializeComponent();
             this.WindowState = WindowState.Maximized;
+            responseRegister = new JsonMessage();
         }
 
         private async void btn_registra_Click(object sender, RoutedEventArgs e)
@@ -32,7 +35,7 @@ namespace Client
             string nome = txt_nome.Text;
             string cognome = txt_cognome.Text;
             string mail = txt_mail.Text;
-            string data = date.Text; //splitto e scrivo in forma yyyy/mm/dd
+            string data = date.Text;
             string password = txt_password.Text;
             string conferma = txt_conferma.Text;
             if (nome != "" && cognome != "" && mail != "" && data != "" && password != "" && conferma != "")
@@ -47,14 +50,21 @@ namespace Client
                     { "data", data },
                     { "password", password }
                     };
-
                     var content = new FormUrlEncodedContent(values);
-
-                    var response = await client.PostAsync("http://localhost/dippolito/prova.php", content);
-
+                    var response = await client.PostAsync("http://172.16.102.125/Raia/server/confirmRegistration.php", content);
                     var responseString = await response.Content.ReadAsStringAsync();
-
                     Console.WriteLine(responseString);
+                    responseRegister = JsonConvert.DeserializeObject<JsonMessage>(responseString);
+                    if (responseRegister.result)
+                    {
+                        MessageBox.Show("Registrazione effettuata");
+                        MainApp app = new MainApp(24690);
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Registrazione non effettuata");
+                    }
                 }
                 else
                 {

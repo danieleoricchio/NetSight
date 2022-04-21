@@ -1,18 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Client
 {
@@ -22,10 +13,12 @@ namespace Client
     public partial class Login : Window
     {
         private static readonly HttpClient client = new HttpClient();
+        private JsonMessage? responseLogin;
         public Login()
         {
             InitializeComponent();
             this.WindowState = WindowState.Maximized;
+            responseLogin = new JsonMessage();
         }
 
         private void lbl_link_MouseEnter(object sender, MouseEventArgs e)
@@ -63,21 +56,20 @@ namespace Client
             string password = txt_password.Text;
             if (mail != "" && password != "")
             {
-                
-                    var values = new Dictionary<string, string>
-                    { 
-                    { "email", mail },
-                    { "password", password }
-                    }; 
-
-                    var content = new FormUrlEncodedContent(values);
-
-                    var response = await client.PostAsync("http://localhost/dippolito/ConfirmLogin.php", content);
-
-                    var responseString = await response.Content.ReadAsStringAsync();
-
-                    Console.WriteLine(responseString);
-                
+                var values = new Dictionary<string, string> { { "email", mail }, { "password", password } };
+                var content = new FormUrlEncodedContent(values);
+                var response = await client.PostAsync("http://172.16.102.125/Raia/server/confirmLogin.php", content);
+                var responseString = await response.Content.ReadAsStringAsync();
+                responseLogin = JsonConvert.DeserializeObject<JsonMessage>(responseString);
+                if (responseLogin.result)
+                {
+                    MessageBox.Show("Login effettuato");
+                    MainApp app = new MainApp(24690);
+                    this.Close();
+                } else
+                {
+                    MessageBox.Show("Login non effettuato");
+                }
             }
             else
             {
