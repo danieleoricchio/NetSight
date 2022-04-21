@@ -60,7 +60,7 @@ namespace Master
 
         private List<Laboratorio> riceviDatiListaLab()
         {
-            var response = client.GetStringAsync("http://localhost/server/gestioneprogetto/server/getLabs.php").Result; //utilizzare link get che ritorna file json. es: netsight.it/getLabs
+            var response = client.GetStringAsync("http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getLabs.php").Result; //utilizzare link get che ritorna file json. es: netsight.it/getLabs
             return JsonConvert.DeserializeObject<List<Laboratorio>>(response);
         }
 

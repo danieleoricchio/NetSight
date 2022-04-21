@@ -33,11 +33,11 @@ namespace Master
             this.password = null;
         }
 
-        public static async Task<Utente> GetUserObject(string email, string password)
+        public static Utente GetUserObject(string email, string password)
         {
             var values = new Dictionary<string, string>{{ "email", email },{ "password", password }};
-            var response = await client.PostAsync("http://localhost/server/gestioneprogetto/server/confirmLogin.php", new FormUrlEncodedContent(values));
-            var responseString = await response.Content.ReadAsStringAsync();
+            var response = client.PostAsync("http://housetesting.ddns.net:9050/server/gestioneprogetto/server/confirmLogin.php", new FormUrlEncodedContent(values)).Result;
+            var responseString = response.Content.ReadAsStringAsync().Result;
             JsonMessage message = JsonConvert.DeserializeObject<JsonMessage>(responseString);
             return new Utente(message.result) { email =  email, password = password};
         }
