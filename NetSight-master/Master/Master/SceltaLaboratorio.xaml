@@ -1,0 +1,16 @@
+﻿<Window x:Class="Master.SceltaLaboratorio"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Master"
+        mc:Ignorable="d"
+        Title="NetSight" Height="288" Width="235">
+    <Grid>
+        <Label x:Name="lblbentornato" Content="" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="215" FontSize="20" Height="35"/>
+        <ComboBox x:Name="cmbLab" HorizontalAlignment="Center" Margin="0,120,0,0" VerticalAlignment="Top" Width="131"/>
+        <Label Content="Laboratori disponibili" HorizontalAlignment="Center" Margin="0,78,0,0" VerticalAlignment="Top" Width="131"/>
+        <Button x:Name="btnSceltaLab" Content="Conferma scelta laboratorio" HorizontalAlignment="Center" Margin="0,215,0,0" VerticalAlignment="Top" Width="161" Click="btnSceltaLab_Click"/>
+
+    </Grid>
+</Window>

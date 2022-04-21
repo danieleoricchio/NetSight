@@ -30,7 +30,7 @@ namespace Master
             utente = Utente.GetUserObject(txtEmail.Text, psw.Password.ToString());
             if (utente.valid)
             {
-                VisualizzaLaboratorio visualizzaLaboratorio = new VisualizzaLaboratorio();
+                SceltaLaboratorio visualizzaLaboratorio = new SceltaLaboratorio(utente);
                 visualizzaLaboratorio.Show();
                 this.Close();
             }

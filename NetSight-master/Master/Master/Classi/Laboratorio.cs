@@ -8,7 +8,7 @@ namespace Master
 {
     public class Laboratorio
     {
-        private List<Pc> listaPc;
+        public List<Pc> listaPc;
         public int cod, codEdificio;
         public string nome;
 

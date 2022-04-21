@@ -21,7 +21,7 @@ namespace Master
     /// <summary>
     /// Logica di interazione per VisualizzaLaboratorio.xaml
     /// </summary>
-    public partial class VisualizzaLaboratorio : Window
+    public partial class SceltaLaboratorio : Window
     {
         /**
          * appena crei tutti i rettangoli dei pc con il codice
@@ -29,33 +29,30 @@ namespace Master
          * e aggiorna i rettangoli
          */
 
-        List<Laboratorio> labs;
+        Laboratori labs;
         Laboratorio lab;
         //XmlSerializer serializer;
         readonly HttpClient client = new HttpClient();
         private bool flagPcConnesso;
+        private Utente user;
 
-        public VisualizzaLaboratorio()
+        public SceltaLaboratorio(Utente user)
         {
             InitializeComponent();
-            labs = new List<Laboratorio>();
-            btnAggiungiPc.IsEnabled = false;
-            txtLabN.Visibility = Visibility.Hidden;
-            lblTitle1.Visibility = Visibility.Hidden;
-            lblTitle2.Visibility = Visibility.Hidden;
-            txtNumPc.Visibility = Visibility.Hidden;
-            btnConfLab.Visibility = Visibility.Hidden;
-            labs = riceviDatiListaLab();
-            impostaCombobox();
+            this.user = user;
+            Setup();
         }
 
-        private void impostaCombobox()
+        private void Setup()
         {
+            labs = new Laboratori();
+            labs.listaLab = riceviDatiListaLab();
             cmbLab.Items.Clear();
-            foreach (Laboratorio item in labs)
+            foreach (Laboratorio item in labs.listaLab)
             {
                 cmbLab.Items.Add(item.nome);
             }
+            lblbentornato.Content = "Bentornato " + user.email.Split("@")[0];
         }
 
         private List<Laboratorio> riceviDatiListaLab()
@@ -83,8 +80,8 @@ namespace Master
                             break;
                         case "connected":
                             Pc pc = new Pc(true);
-                            pc.ip = txtIpPc.Text.ToString();
-                            pc.nome = txtNomePc.Text.ToString();
+                            //pc.ip = txtIpPc.Text.ToString();
+                            //pc.nome = txtNomePc.Text.ToString();
                             //labs.Add(pc);
                             break;
                         default:
@@ -96,35 +93,16 @@ namespace Master
 
         private void btnSceltaLab_Click(object sender, RoutedEventArgs e)
         {
-            btnAggiungiPc.IsEnabled = true;
-        }
-
-        private void btnAggiungiPc_Click(object sender, RoutedEventArgs e)
-        {
-            btnConfPc.IsEnabled = true;
-            txtIpPc.IsEnabled = true;
-            lblPc.IsEnabled = true;
-        }
-
-        private void BtnAggiungiLab_Click(object sender, RoutedEventArgs e)
-        {
-            txtLabN.Visibility = Visibility.Visible;
-            lblTitle1.Visibility = Visibility.Visible;
-            lblTitle2.Visibility = Visibility.Visible;
-            txtNumPc.Visibility = Visibility.Visible;
-            btnConfLab.Visibility = Visibility.Visible;
-        }
-
-        private void btnConfLab_Click(object sender, RoutedEventArgs e)
-        {
-
+            WindowLaboratorio wlab = new WindowLaboratorio(labs.listaLab[cmbLab.SelectedIndex]);
+            wlab.Show();
+            this.Close();
         }
 
         private void btnConfPc_Click(object sender, RoutedEventArgs e)
         {
             UdpClient udpClient = new UdpClient();
             byte[] datagram = Encoding.ASCII.GetBytes("apertura");
-            udpClient.Send(datagram, datagram.Length, txtIpPc.Text.ToString(), 24690);
+            //udpClient.Send(datagram, datagram.Length, txtIpPc.Text.ToString(), 24690);
         }
     }
 }
