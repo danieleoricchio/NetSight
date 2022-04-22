@@ -1,17 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace Master
@@ -45,33 +35,26 @@ namespace Master
                 {
                     Width = 100,
                     Height = 100,
-                    Left = 0,
-                    Top = 0,
-                    Color = Brushes.Red
+                    Color = Brushes.Gray
                 });
             }
-
-            foreach (myRectangle rect in rects)
+            for (int i = 0; i < rects.Count; i++)
             {
-                MessageBox.Show("Rettangoli count: " + rects.Count.ToString());
                 Rectangle r = new Rectangle();
-                r.Width = rect.Width;
-                r.Height = rect.Height;
-                r.Fill = rect.Color;
-
-                Canvas.SetLeft(r, rect.Left);
-                Canvas.SetTop(r, rect.Top);
-
-                myCanvas.Children.Add(r);
+                r.Width = rects[i].Width;
+                r.Height = rects[i].Height;
+                r.Fill = rects[i].Color;
+                r.VerticalAlignment = VerticalAlignment.Top;
+                r.HorizontalAlignment = HorizontalAlignment.Left;
+                double marginRight = 20 + r.Width * i + (i == 0 ? 0 : 20 * i);
+                r.Margin = new Thickness(marginRight, 40, 0, 0);
+                myGrid.Children.Add(r);
             }
-
         }
         struct myRectangle
         {
             public int Width { get; set; }
             public int Height { get; set; }
-            public int Left { get; set; }
-            public int Top { get; set; }
             public SolidColorBrush Color { get; set; }
         }
     }

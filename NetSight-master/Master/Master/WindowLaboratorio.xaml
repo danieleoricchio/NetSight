@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:Master"
         mc:Ignorable="d"
         Title="WindowLaboratorio" Height="450" Width="800">
-    <Grid>
-        <Canvas x:Name="myCanvas" Margin="67,85,67,10"/>
+    <Grid x:Name="myGrid" >
         <Label x:Name="lblLab" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="220"/>
     </Grid>
 </Window>
