@@ -30,5 +30,10 @@ namespace Master
         {
             return listaPc.Find(pc => pc.nome==nomeOrIP || pc.ip == nomeOrIP);
         }
+
+        public int getPos(Pc pc)
+        {
+            return listaPc.IndexOf(pc);
+        }
     }
 }

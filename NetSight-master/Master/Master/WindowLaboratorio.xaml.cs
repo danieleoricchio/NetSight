@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -37,7 +38,7 @@ namespace Master
             {
                 foreach (Pc item in lab.listaPc)
                 {
-                    Application.Current.Dispatcher.Invoke(new Action(() => { ((Rectangle)myGrid.Children[item.cod - 1]).Fill = item.stato ? verde : rosso; }));
+                    Application.Current.Dispatcher.Invoke(new Action(() => { ((Rectangle)myGrid.Children[lab.getPos(item)]).Fill = item.stato ? verde : rosso; }));
                 }
                 Thread.Sleep(500);
             }
@@ -123,7 +124,6 @@ namespace Master
             item1.Click += new RoutedEventHandler(menuItem_condSchermo);
             item2.Click += new RoutedEventHandler(menuItem_accendiComputer);
             item3.Click += new RoutedEventHandler(menuItem_spegniComputer);
-            contextMenu.Items.Add(sender.ToString());
             contextMenu.Items.Add(item1);
             contextMenu.Items.Add(item2);
             contextMenu.Items.Add(item3);
@@ -133,21 +133,21 @@ namespace Master
 
         private void menuItem_condSchermo(object sender, RoutedEventArgs e)
         {
-            // aprire viewscreen.exe
-            // mandare pacchetto per la richeista di condivisione schermo
-            MessageBox.Show("Test1");
+            //lo manda solo a lorenzo
+            byte[] data = Encoding.ASCII.GetBytes("condivisione-schermo");
+            MessageBox.Show(lab.listaPc[0].ip);
+            Process.Start("ViewScreen.exe");
+            new UdpClient().Send(data, data.Length, lab.listaPc[0].ip, 24690);
         }
 
         private void menuItem_accendiComputer(object sender, RoutedEventArgs e)
         {
-            // mandare pacchetto per accendere computer
-            MessageBox.Show("Test2");
+            new UdpClient().Send(Encoding.ASCII.GetBytes("apertura"));
         }
 
         private void menuItem_spegniComputer(object sender, RoutedEventArgs e)
         {
-            // mandare pacchetto per spegnere computer
-            MessageBox.Show("Test3");
+            new UdpClient().Send(Encoding.ASCII.GetBytes("off"));
         }
 
 
