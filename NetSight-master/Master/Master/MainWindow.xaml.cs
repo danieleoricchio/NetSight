@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace Master
         public MainWindow()
         {
             InitializeComponent();
+            this.Background = new ImageBrush(new BitmapImage(new Uri(@"Master/download.jpg", UriKind.Relative)));
         }
         private void btnAccesso_Click(object sender, RoutedEventArgs e)
         {
