@@ -5,16 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Master"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="600">
     <Window.Background>
         <ImageBrush ImageSource="/download.jpg"/>
     </Window.Background>
     <Grid>
-        <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="23" Margin="383,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" Text="admin@gmail.com"/>
-        <PasswordBox x:Name="psw" HorizontalAlignment="Left" Margin="383,220,0,0" VerticalAlignment="Top" Width="148" Height="26" Password="pass"/>
-        <Label Content="Email:" HorizontalAlignment="Left" Margin="288,176,0,0" VerticalAlignment="Top" Width="90"/>
-        <Label Content="Password:" HorizontalAlignment="Left" Margin="288,220,0,0" VerticalAlignment="Top" Width="69"/>
-        <Label Content="LOGIN" HorizontalAlignment="Left" Height="49" Margin="327,56,0,0" VerticalAlignment="Top" Width="101" FontSize="30"/>
-        <Button x:Name="btnAccesso" Content="Accedi" HorizontalAlignment="Left" Margin="353,275,0,0" VerticalAlignment="Top" Width="75" Height="32" Click="btnAccesso_Click"/>
+        <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="24" Margin="271,174,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" Text="admin@gmail.com"/>
+        <PasswordBox x:Name="psw" HorizontalAlignment="Left" Margin="271,217,0,0" VerticalAlignment="Top" Width="148" Height="26" Password="pass"/>
+        <Label Content="Email:" HorizontalAlignment="Left" Margin="175,173,0,0" VerticalAlignment="Top" Width="90" Foreground="White"/>
+        <Label Content="Password:" HorizontalAlignment="Left" Margin="175,217,0,0" VerticalAlignment="Top" Width="70" Foreground="White"/>
+        <Label Content="LOGIN" HorizontalAlignment="Left" Height="48" Margin="239,94,0,0" VerticalAlignment="Top" Width="134" FontSize="30" Foreground="White" FontFamily="Arial"/>
+        <Button x:Name="btnAccesso" Content="Accedi" HorizontalAlignment="Center" Margin="0,268,0,0" VerticalAlignment="Top" Width="74" Height="32" Click="btnAccesso_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
     </Grid>
 </Window>

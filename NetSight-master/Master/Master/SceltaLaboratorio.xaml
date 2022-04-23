@@ -1,19 +1,34 @@
-﻿<Window x:Class="Master.SceltaLaboratorio"
+﻿<Window x:Name="window" x:Class="Master.SceltaLaboratorio"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Master"
         mc:Ignorable="d"
-        Title="NetSight" Height="288" Width="235">
+        Title="NetSight" Height="350" Width="450">
     <Window.Background>
         <ImageBrush ImageSource="/download.jpg"/>
     </Window.Background>
     <Grid>
-        <Label x:Name="lblbentornato" Content="" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="215" FontSize="20" Height="35" HorizontalContentAlignment="Center" Foreground="White"/>
-        <ComboBox x:Name="cmbLab" HorizontalAlignment="Center" Margin="0,120,0,0" VerticalAlignment="Top" Width="131"/>
-        <Label Content="Laboratori disponibili" HorizontalAlignment="Center" Margin="0,78,0,0" VerticalAlignment="Top" Width="131" Foreground="White" HorizontalContentAlignment="Center"/>
-        <Button x:Name="btnSceltaLab" Content="Conferma scelta laboratorio" HorizontalAlignment="Center" Margin="0,215,0,0" VerticalAlignment="Top" Width="161" Click="btnSceltaLab_Click"/>
+        <Label x:Name="lblbentornato" Content="" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="215" FontSize="20" Height="35" HorizontalContentAlignment="Center" Foreground="White" FontFamily="Arial"/>
+        <ComboBox x:Name="cmbLab" HorizontalAlignment="Center" Margin="0,135,0,0" VerticalAlignment="Top" Width="131"/>
+        <Label x:Name="lblLabDisp" Content="Laboratori disponibili" HorizontalAlignment="Center" Margin="0,93,0,0" VerticalAlignment="Top" Width="131" Foreground="White" HorizontalContentAlignment="Center"/>
+        <Button x:Name="btnSceltaLab" Content="Conferma laboratorio" HorizontalAlignment="Center" Margin="0,230,0,0" VerticalAlignment="Top" Width="161" Click="btnSceltaLab_Click" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" FontFamily="Arial">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <ComboBox x:Name="cmbEdifici" HorizontalAlignment="Center" Margin="0,135,0,0" VerticalAlignment="Top" Width="130"/>
+        <Label x:Name="lblEdDisp" Content="Edifici disponibili" HorizontalAlignment="Center" Margin="0,93,0,0" VerticalAlignment="Top" Width="130" Foreground="White" HorizontalContentAlignment="Center"/>
+        <Button x:Name="btnSceltaEdificio" Content="Conferma edificio" HorizontalAlignment="Center" Margin="0,230,0,0" VerticalAlignment="Top" Width="162" Click="btnSceltaEdificio_click" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" FontFamily="Arial">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
 
     </Grid>
 </Window>

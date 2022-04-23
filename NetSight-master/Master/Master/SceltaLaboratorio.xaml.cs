@@ -23,16 +23,10 @@ namespace Master
     /// </summary>
     public partial class SceltaLaboratorio : Window
     {
-        /**
-         * appena crei tutti i rettangoli dei pc con il codice
-         * devi avviare un thread che controlla tutti gli stati dei pc
-         * e aggiorna i rettangoli
-         */
-
-        //XmlSerializer serializer;
-        readonly HttpClient client = new HttpClient();
+        private readonly HttpClient client = new HttpClient();
         private Utente user;
-
+        private const string url_getLabsNames = "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getLabsNames.php?codedificio=";
+        private const string url_getLab = "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getLab.php?name=";
         public SceltaLaboratorio(Utente user)
         {
             InitializeComponent();
@@ -48,34 +42,51 @@ namespace Master
                 cmbLab.Items.Add(item);
             }
             lblbentornato.Content = "Bentornato " + user.email.Split("@")[0];
+            lblLabDisp.Visibility = Visibility.Collapsed;
+            cmbLab.Visibility = Visibility.Collapsed;
+            btnSceltaLab.Visibility = Visibility.Collapsed;
         }
 
         private List<string> riceviDatiListaLab()
         {
-            var response = client.GetStringAsync("http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getLabsNames.php").Result; //utilizzare link get che ritorna file json. es: netsight.it/getLabs
-            return JsonConvert.DeserializeObject<List<string>>(response);
+            // al posto di "1" mettere l'edificio della combobox selezionato
+            return JsonConvert.DeserializeObject<List<string>>(client.GetStringAsync(url_getLabsNames + "1").Result);
         }
-
-        
 
         private void btnSceltaLab_Click(object sender, RoutedEventArgs e)
         {
-            WindowLaboratorio wlab = new WindowLaboratorio(GetLaboratorio(cmbLab.SelectedItem.ToString()));
-            wlab.Show();
-            this.Close();
+            if(cmbLab.SelectedItem != null)
+            {
+                WindowLaboratorio wlab = new WindowLaboratorio(GetLaboratorio(cmbLab.SelectedItem.ToString()));
+                wlab.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Selezionare il laboratorio", "Errore di selezione");
+            }
         }
 
         private Laboratorio GetLaboratorio(string nome)
         {
-            var response = client.GetStringAsync("http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getLab.php?name="+nome).Result; //utilizzare link get che ritorna file json. es: netsight.it/getLabs
-            return JsonConvert.DeserializeObject<Laboratorio>(response);
+            return JsonConvert.DeserializeObject<Laboratorio>(client.GetStringAsync(url_getLab + nome).Result);
         }
 
-        private void btnConfPc_Click(object sender, RoutedEventArgs e)
+        private void btnSceltaEdificio_click(object sender, RoutedEventArgs e)
         {
-            UdpClient udpClient = new UdpClient();
-            byte[] datagram = Encoding.ASCII.GetBytes("apertura");
-            //udpClient.Send(datagram, datagram.Length, txtIpPc.Text.ToString(), 24690);
+            if(cmbEdifici.SelectedItem == null)
+            {
+                lblLabDisp.Visibility = Visibility.Visible;
+                cmbLab.Visibility = Visibility.Visible;
+                btnSceltaLab.Visibility = Visibility.Visible;
+                lblEdDisp.Visibility = Visibility.Collapsed;
+                cmbEdifici.Visibility = Visibility.Collapsed;
+                btnSceltaEdificio.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                MessageBox.Show("Selezionare l'edificio", "Errore di selezione");
+            }
         }
     }
 }

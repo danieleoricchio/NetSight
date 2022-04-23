@@ -20,25 +20,25 @@ namespace Master
     {
         private Laboratorio lab;
         private List<myRectangle> rects;
-        private Thread threadRicevi;
+        private Thread threadReceive;
         public WindowLaboratorio(Laboratorio lab)
         {
             InitializeComponent();
             Closing += (object? sender, System.ComponentModel.CancelEventArgs e) => { Environment.Exit(0); };
             this.lab = lab;
             Setup();
-            threadRicevi = new Thread(riceviPacchetti);
-            threadRicevi.Start();
-            new Thread(controlloColoriPc).Start();
+            threadReceive = new Thread(receivePackets);
+            threadReceive.Start();
+            new Thread(checkPcColor).Start();
         }
 
-        private void controlloColoriPc()
+        private void checkPcColor()
         {
             while (true)
             {
                 foreach (Pc item in lab.listaPc)
                 {
-                    Application.Current.Dispatcher.Invoke(new Action(() => { ((Rectangle)myGrid.Children[lab.getPos(item)]).Fill = item.stato ? verde : rosso; }));
+                    Application.Current.Dispatcher.Invoke(new Action(() => { ((Rectangle)myGrid.Children[lab.getPos(item)]).Fill = item.stato ? green : red; }));
                 }
                 Thread.Sleep(500);
             }
@@ -53,21 +53,21 @@ namespace Master
 
         private void setPcs()
         {
-            int riga = 1;
+            int row = 1;
             double marginRight = 0;
-            int quantiRettangoliInUnaRiga = 6;
+            int rectsInRow = 6;
             foreach (Pc item in lab.listaPc)
             {
                 myRectangle rectangle = standardRectangle;
-                rectangle.Color = !item.stato ? rosso : verde ;
+                rectangle.Color = !item.stato ? green : red;
                 rects.Add(rectangle);
                 item.Controllo();
             }
             for (int i = 0; i < rects.Count; i++)
             {
-                if (i % quantiRettangoliInUnaRiga == 0 && i != 0)
+                if (i % rectsInRow == 0 && i != 0)
                 {
-                    riga++;
+                    row++;
                     marginRight = 0;
                 }
                 Rectangle r = new Rectangle();
@@ -76,14 +76,16 @@ namespace Master
                 r.Fill = rects[i].Color;
                 r.VerticalAlignment = VerticalAlignment.Top;
                 r.HorizontalAlignment = HorizontalAlignment.Left;
-                marginRight += (i % quantiRettangoliInUnaRiga == 0 ? 20 : r.Width + 20);
-                double marginTop = 40 + (riga == 1 ? 0 : (40+r.Height) * (riga-1));
+                marginRight += (i % rectsInRow == 0 ? 20 : r.Width + 20);
+                double marginTop = 40 + (row == 1 ? 0 : (40 + r.Height) * (row - 1));
                 r.Margin = new Thickness(marginRight, marginTop, 0, 0);
                 r.MouseRightButtonUp += rectangle_MouseRightButtonUp;
+                r.RadiusX = 20;
+                r.RadiusY = 20;
                 myGrid.Children.Add(r);
             }
         }
-        private void riceviPacchetti()
+        private void receivePackets()
         {
             UdpClient udpServer = new UdpClient(25000);
             while (true)
@@ -121,9 +123,9 @@ namespace Master
             item1.Header = "Condivisione Schermo";
             item2.Header = "Accendi computer";
             item3.Header = "Spegni computer";
-            item1.Click += new RoutedEventHandler(menuItem_condSchermo);
-            item2.Click += new RoutedEventHandler(menuItem_accendiComputer);
-            item3.Click += new RoutedEventHandler(menuItem_spegniComputer);
+            item1.Click += new RoutedEventHandler(menuItem_screenSharing);
+            item2.Click += new RoutedEventHandler(menuItem_powerOn);
+            item3.Click += new RoutedEventHandler(menuItem_powerOff);
             contextMenu.Items.Add(item1);
             contextMenu.Items.Add(item2);
             contextMenu.Items.Add(item3);
@@ -131,23 +133,26 @@ namespace Master
             ContextMenu.Closed += (object sender, RoutedEventArgs e) => { this.ContextMenu = null; };
         }
 
-        private void menuItem_condSchermo(object sender, RoutedEventArgs e)
+        private void menuItem_screenSharing(object sender, RoutedEventArgs e)
         {
-            //lo manda solo a lorenzo
-            byte[] data = Encoding.ASCII.GetBytes("condivisione-schermo");
-            MessageBox.Show(lab.listaPc[0].ip);
             Process.Start("ViewScreen.exe");
-            new UdpClient().Send(data, data.Length, lab.listaPc[0].ip, 24690);
+            sendData("condivisione-schermo", 24690);
         }
 
-        private void menuItem_accendiComputer(object sender, RoutedEventArgs e)
+        private void menuItem_powerOn(object sender, RoutedEventArgs e)
         {
-            new UdpClient().Send(Encoding.ASCII.GetBytes("apertura"));
+            sendData("apertura", 24690);
         }
 
-        private void menuItem_spegniComputer(object sender, RoutedEventArgs e)
+        private void menuItem_powerOff(object sender, RoutedEventArgs e)
         {
-            new UdpClient().Send(Encoding.ASCII.GetBytes("off"));
+            sendData("off", 24690);
+        }
+
+        private void sendData(string dataIn, int port)
+        {
+            byte[] data = Encoding.ASCII.GetBytes(dataIn);
+            new UdpClient().Send(data, data.Length, lab.listaPc[0].ip, port);
         }
 
 
@@ -157,7 +162,8 @@ namespace Master
             public int Height { get; set; }
             public SolidColorBrush Color { get; set; }
         }
+
         static public myRectangle standardRectangle = new myRectangle() { Width = 150, Height = 150, Color = Brushes.White };
-        static private SolidColorBrush verde = new SolidColorBrush(Color.FromRgb(125, 255, 125)), rosso = new SolidColorBrush(Color.FromRgb(255, 125, 125));
+        static private SolidColorBrush green = new SolidColorBrush(Color.FromRgb(125, 255, 125)), red = new SolidColorBrush(Color.FromRgb(255, 125, 125));
     }
 }

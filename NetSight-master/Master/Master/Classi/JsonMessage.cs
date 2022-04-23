@@ -11,6 +11,5 @@ namespace Master
         public string message;
         public int number_code;
         public bool result;
-
     }
 }

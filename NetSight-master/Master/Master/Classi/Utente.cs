@@ -13,6 +13,7 @@ namespace Master
     public class Utente
     {
         private static readonly HttpClient client = new HttpClient();
+        private const string url_confirmLogin = "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/confirmLogin.php";
         public string email;
         public string password;
         public bool valid { get; private set; }
@@ -36,9 +37,8 @@ namespace Master
         public static Utente GetUserObject(string email, string password)
         {
             var values = new Dictionary<string, string>{{ "email", email },{ "password", password }};
-            var response = client.PostAsync("http://housetesting.ddns.net:9050/server/gestioneprogetto/server/confirmLogin.php", new FormUrlEncodedContent(values)).Result;
-            var responseString = response.Content.ReadAsStringAsync().Result;
-            JsonMessage message = JsonConvert.DeserializeObject<JsonMessage>(responseString);
+            var response = client.PostAsync(url_confirmLogin, new FormUrlEncodedContent(values)).Result;
+            JsonMessage message = JsonConvert.DeserializeObject<JsonMessage>(response.Content.ReadAsStringAsync().Result);
             return new Utente(message.result) { email =  email, password = password};
         }
     }
