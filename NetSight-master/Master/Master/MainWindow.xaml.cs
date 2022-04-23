@@ -25,7 +25,6 @@ namespace Master
         public MainWindow()
         {
             InitializeComponent();
-            this.Background = new ImageBrush(new BitmapImage(new Uri(@"Master/download.jpg", UriKind.Relative)));
         }
         private void btnAccesso_Click(object sender, RoutedEventArgs e)
         {

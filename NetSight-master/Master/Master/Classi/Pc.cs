@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -13,46 +14,44 @@ namespace Master
 {
     public class Pc
     {
+        public int cod { get; set; }
         public bool stato { get; set; }
         public string ip {get;set;}
         public string nome {get;set; }
         private readonly object Locked = new object();
-        private Timer timer;
-        private volatile bool flagAlive;
+        private System.Timers.Timer timer;
         public Pc(bool stato)
         {
             this.stato = stato;
-            timer = new Timer(30000);
+            timer = new System.Timers.Timer(5000);
             timer.Elapsed += (object sender, ElapsedEventArgs e) =>
             {
-                stato = false;
+                timer.Stop();
+                AggiornaStato(false);
+                //MessageBox.Show($"{ip} è diventato false. Timer.Enabled è {timer.Enabled}");
             };
-            if(stato)
-                timer.Start();
-            Controllo();
         }
 
 
         public void Controllo()
         {
-            new Task(() => {
+            new Thread(() => {
                 while (true)
                 {
-                    if (flagAlive)
+                    if (stato && !timer.Enabled)
                     {
-                        flagAlive = false;
                         timer.Start();
                     }
+                    Thread.Sleep(100);
                 }
             }).Start();
         }
 
-        public void AggiornaStato()
+        public void AggiornaStato(bool stato)
         {
             lock (Locked)
             {
-                flagAlive = true;
-                this.stato = true;
+                this.stato = stato;
             }
         }
 

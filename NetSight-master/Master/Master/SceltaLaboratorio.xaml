@@ -6,10 +6,13 @@
         xmlns:local="clr-namespace:Master"
         mc:Ignorable="d"
         Title="NetSight" Height="288" Width="235">
+    <Window.Background>
+        <ImageBrush ImageSource="/download.jpg"/>
+    </Window.Background>
     <Grid>
-        <Label x:Name="lblbentornato" Content="" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="215" FontSize="20" Height="35"/>
+        <Label x:Name="lblbentornato" Content="" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="215" FontSize="20" Height="35" HorizontalContentAlignment="Center" Foreground="White"/>
         <ComboBox x:Name="cmbLab" HorizontalAlignment="Center" Margin="0,120,0,0" VerticalAlignment="Top" Width="131"/>
-        <Label Content="Laboratori disponibili" HorizontalAlignment="Center" Margin="0,78,0,0" VerticalAlignment="Top" Width="131"/>
+        <Label Content="Laboratori disponibili" HorizontalAlignment="Center" Margin="0,78,0,0" VerticalAlignment="Top" Width="131" Foreground="White" HorizontalContentAlignment="Center"/>
         <Button x:Name="btnSceltaLab" Content="Conferma scelta laboratorio" HorizontalAlignment="Center" Margin="0,215,0,0" VerticalAlignment="Top" Width="161" Click="btnSceltaLab_Click"/>
 
     </Grid>

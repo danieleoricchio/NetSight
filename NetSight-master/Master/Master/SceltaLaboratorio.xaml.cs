@@ -29,11 +29,8 @@ namespace Master
          * e aggiorna i rettangoli
          */
 
-        Laboratori labs;
-        Laboratorio lab;
         //XmlSerializer serializer;
         readonly HttpClient client = new HttpClient();
-        private bool flagPcConnesso;
         private Utente user;
 
         public SceltaLaboratorio(Utente user)
@@ -45,57 +42,33 @@ namespace Master
 
         private void Setup()
         {
-            labs = new Laboratori();
-            labs.listaLab = riceviDatiListaLab();
             cmbLab.Items.Clear();
-            foreach (Laboratorio item in labs.listaLab)
+            foreach (string item in riceviDatiListaLab())
             {
-                cmbLab.Items.Add(item.nome);
+                cmbLab.Items.Add(item);
             }
             lblbentornato.Content = "Bentornato " + user.email.Split("@")[0];
         }
 
-        private List<Laboratorio> riceviDatiListaLab()
+        private List<string> riceviDatiListaLab()
         {
-            var response = client.GetStringAsync("http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getLabs.php").Result; //utilizzare link get che ritorna file json. es: netsight.it/getLabs
-            return JsonConvert.DeserializeObject<List<Laboratorio>>(response);
+            var response = client.GetStringAsync("http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getLabsNames.php").Result; //utilizzare link get che ritorna file json. es: netsight.it/getLabs
+            return JsonConvert.DeserializeObject<List<string>>(response);
         }
 
-        private void riceviPacchetti()
-        {
-            UdpClient udpServer = new UdpClient(25000);
-            while (true)
-            {
-                IPEndPoint riceiveEP = new IPEndPoint(IPAddress.Any, 0);
-                byte[] dataReceived = udpServer.Receive(ref riceiveEP);
-                string messaggio = Encoding.ASCII.GetString(dataReceived);
-                new Task(() =>
-                {
-                    switch (messaggio)
-                    {
-                        case "alive":
-                            string ip = riceiveEP.Address.ToString();
-                            //labs.GetPc(ip).AggiornaStato(); //fai pc.Aggiorna(true) per dire che il pc è vivo
-                            //labs.Find(lab => lab.)
-                            break;
-                        case "connected":
-                            Pc pc = new Pc(true);
-                            //pc.ip = txtIpPc.Text.ToString();
-                            //pc.nome = txtNomePc.Text.ToString();
-                            //labs.Add(pc);
-                            break;
-                        default:
-                            break;
-                    }
-                }).Start();
-            }
-        }
+        
 
         private void btnSceltaLab_Click(object sender, RoutedEventArgs e)
         {
-            WindowLaboratorio wlab = new WindowLaboratorio(labs.listaLab[cmbLab.SelectedIndex]);
+            WindowLaboratorio wlab = new WindowLaboratorio(GetLaboratorio(cmbLab.SelectedItem.ToString()));
             wlab.Show();
             this.Close();
+        }
+
+        private Laboratorio GetLaboratorio(string nome)
+        {
+            var response = client.GetStringAsync("http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getLab.php?name="+nome).Result; //utilizzare link get che ritorna file json. es: netsight.it/getLabs
+            return JsonConvert.DeserializeObject<Laboratorio>(response);
         }
 
         private void btnConfPc_Click(object sender, RoutedEventArgs e)

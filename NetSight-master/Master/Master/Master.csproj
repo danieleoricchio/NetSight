@@ -9,11 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="download.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Classi\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="download.jpg" />
   </ItemGroup>
 
 </Project>
