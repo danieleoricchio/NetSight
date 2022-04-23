@@ -21,11 +21,13 @@ namespace Master
         private Laboratorio lab;
         private List<myRectangle> rects;
         private Thread threadReceive;
-        public WindowLaboratorio(Laboratorio lab)
+        Utente user;
+        public WindowLaboratorio(Laboratorio lab, Utente u)
         {
             InitializeComponent();
             Closing += (object? sender, System.ComponentModel.CancelEventArgs e) => { Environment.Exit(0); };
             this.lab = lab;
+            this.user = u;
             Setup();
             threadReceive = new Thread(receivePackets);
             threadReceive.Start();
@@ -165,5 +167,12 @@ namespace Master
 
         static public myRectangle standardRectangle = new myRectangle() { Width = 150, Height = 150, Color = Brushes.White };
         static private SolidColorBrush green = new SolidColorBrush(Color.FromRgb(125, 255, 125)), red = new SolidColorBrush(Color.FromRgb(255, 125, 125));
+
+        //private void btnIndietroPage2_Click(object sender, RoutedEventArgs e)
+        //{
+        //    SceltaLaboratorio sceltaLaboratorio = new SceltaLaboratorio(user);
+        //    sceltaLaboratorio.Show();
+        //    this.Close();
+        //}
     }
 }
