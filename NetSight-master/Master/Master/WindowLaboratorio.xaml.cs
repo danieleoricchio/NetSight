@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -13,10 +15,13 @@ namespace Master
     {
         private Laboratorio lab;
         private List<myRectangle> rects;
+        ContextMenu contextMenu;
+        bool CanAdd = true;
         public WindowLaboratorio(Laboratorio lab)
         {
             InitializeComponent();
             this.lab = lab;
+            contextMenu = new ContextMenu();
             Setup();
         }
 
@@ -49,6 +54,7 @@ namespace Master
                 double marginRight = 20 + r.Width * i + (i == 0 ? 0 : 20 * i);
                 r.Margin = new Thickness(marginRight, 40, 0, 0);
                 myGrid.Children.Add(r);
+                r.MouseRightButtonDown += rectangle_MouseRightButtonDown;
             }
         }
         struct myRectangle
@@ -57,5 +63,46 @@ namespace Master
             public int Height { get; set; }
             public SolidColorBrush Color { get; set; }
         }
+
+        private void rectangle_MouseRightButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            MenuItem item1 = new MenuItem();
+            MenuItem item2 = new MenuItem();
+            MenuItem item3 = new MenuItem();
+            item1.Header = "Condivisione Schermo";
+            item2.Header = "Accendi computer";
+            item3.Header = "Spegni computer";
+            item1.Click += new RoutedEventHandler(menuItem_condSchermo);
+            item2.Click += new RoutedEventHandler(menuItem_accendiComputer);
+            item3.Click += new RoutedEventHandler(menuItem_spegniComputer);
+            if (CanAdd)
+            {
+                contextMenu.Items.Add(item1);
+                contextMenu.Items.Add(item2);
+                contextMenu.Items.Add(item3);
+                CanAdd = false;
+            }
+            this.ContextMenu = contextMenu;
+        }
+
+        private void menuItem_condSchermo(object sender, RoutedEventArgs e)
+        {
+            // aprire viewscreen.exe
+            // mandare pacchetto per la richeista di condivisione schermo
+            MessageBox.Show("Test1");
+        }
+
+        private void menuItem_accendiComputer(object sender, RoutedEventArgs e)
+        {
+            // mandare pacchetto per accendere computer
+            MessageBox.Show("Test2");
+        }
+
+        private void menuItem_spegniComputer(object sender, RoutedEventArgs e)
+        {
+            // mandare pacchetto per spegnere computer
+            MessageBox.Show("Test3");
+        }
+
     }
 }
