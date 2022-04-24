@@ -16,7 +16,7 @@ namespace Client
     {
         private const int DefaultPort = 24690;
         private const string PATH_HOSTNAME = "hostname.txt";
-        private string Hostname;
+        private string Hostname = "79.41.117.203";
         private UdpClient server;
         public MainApp(int port)
         {
@@ -35,7 +35,7 @@ namespace Client
             {
                 File.Create(PATH_HOSTNAME);
             }
-            Hostname = File.ReadAllText(PATH_HOSTNAME).Trim();
+            //Hostname = File.ReadAllText(PATH_HOSTNAME).Trim();
             #endregion
             #region inizio thread
             new Thread(new ThreadStart(Ricevi)).Start();
@@ -66,8 +66,8 @@ namespace Client
             string messaggio = (string)array.GetValue(0);
             IPEndPoint pacchetto = (IPEndPoint)array.GetValue(1);
             //char richiesta = messaggio[0];
-            MessageBox.Show(messaggio);
-            switch (messaggio)
+            //MessageBox.Show(messaggio);
+            switch (messaggio) 
             {
                 case "apertura":
                     if (Hostname.Trim() == "")
@@ -77,7 +77,10 @@ namespace Client
                     }
                     return;
                 case "condivisione-schermo":
-                    Process.Start("ScreenSharing.exe", $"hostname=172.16.102.125 port=5900 width=1280 height=720");
+
+                    if (Process.Start("ScreenSharing.exe", $"hostname={Hostname} port=5900 width=1280 height=720") != null){
+                        MessageBox.Show("Partito");
+                    }
                     return;
                 default:
                     break;

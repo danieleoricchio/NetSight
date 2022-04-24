@@ -36,7 +36,7 @@ namespace Master
                 this.Close();
             }
             else
-                MessageBox.Show("Email e/o password sbagliati.", "Errore");
+                MessageBox.Show("Email e/o password sbagliati. Altrimenti possibile timeout nella richiesta", "Errore");
         }
     }
 }

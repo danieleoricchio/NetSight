@@ -58,7 +58,7 @@ namespace Client
             {
                 var values = new Dictionary<string, string> { { "email", mail }, { "password", password } };
                 var content = new FormUrlEncodedContent(values);
-                var response = await client.PostAsync("http://172.16.102.125/Raia/server/confirmLogin.php", content);
+                var response = await client.PostAsync("http://housetesting.ddns.net:9050/server/gestioneprogetto/server/confirmLogin.php", content);
                 var responseString = await response.Content.ReadAsStringAsync();
                 responseLogin = JsonConvert.DeserializeObject<JsonMessage>(responseString);
                 if (responseLogin.result)

@@ -40,7 +40,7 @@ namespace Master
             {
                 foreach (Pc item in lab.listaPc)
                 {
-                    Application.Current.Dispatcher.Invoke(new Action(() => { ((Rectangle)myGrid.Children[lab.getPos(item)]).Fill = item.stato ? green : red; }));
+                    Application.Current.Dispatcher.Invoke(new Action(() => { rects[lab.getPos(item)].Rectangle.Fill = item.stato ? green : red; }));
                 }
                 Thread.Sleep(500);
             }
@@ -60,7 +60,8 @@ namespace Master
             int rectsInRow = 6;
             foreach (Pc item in lab.listaPc)
             {
-                myRectangle rectangle = standardRectangle;
+                myRectangle rectangle = new myRectangle() { Width = 150, Height = 150};
+                rectangle.Pc = item;
                 rectangle.Color = !item.stato ? green : red;
                 rects.Add(rectangle);
                 item.Controllo();
@@ -72,19 +73,44 @@ namespace Master
                     row++;
                     marginRight = 0;
                 }
-                Rectangle r = new Rectangle();
-                r.Width = rects[i].Width;
-                r.Height = rects[i].Height;
-                r.Fill = rects[i].Color;
-                r.VerticalAlignment = VerticalAlignment.Top;
-                r.HorizontalAlignment = HorizontalAlignment.Left;
-                marginRight += (i % rectsInRow == 0 ? 20 : r.Width + 20);
-                double marginTop = 40 + (row == 1 ? 0 : (40 + r.Height) * (row - 1));
-                r.Margin = new Thickness(marginRight, marginTop, 0, 0);
+                marginRight += (i % rectsInRow == 0 ? 20 : rects[i].Width + 20);
+                double marginTop = 40 + (row == 1 ? 0 : (40 + rects[i].Height) * (row - 1));
+                Rectangle r = new Rectangle() {
+                    Width = rects[i].Width,
+                    Height = rects[i].Height,
+                    Fill = rects[i].Color,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    Margin = new Thickness(marginRight, marginTop, 0, 0),
+                    RadiusX = 20,
+                    RadiusY = 20,
+                };
                 r.MouseRightButtonUp += rectangle_MouseRightButtonUp;
-                r.RadiusX = 20;
-                r.RadiusY = 20;
+                Label labelip = new Label() {
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                    Width = rects[i].Width,
+                    Height = 30,
+                    Foreground = Brushes.Black,
+                    Content = rects[i].Pc.ip,
+                    Margin = new Thickness(marginRight, marginTop + rects[i].Height - 30, 0, 0) 
+                };
+                Label labelnome = new Label()
+                {
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                    Width = rects[i].Width,
+                    Height = 30,
+                    Foreground = Brushes.Black,
+                    Content = rects[i].Pc.nome,
+                    Margin = new Thickness(marginRight, marginTop - 25, 0, 0)
+                };
+                rects[i].Rectangle = r;
                 myGrid.Children.Add(r);
+                myGrid.Children.Add(labelip);
+                myGrid.Children.Add(labelnome);
             }
         }
         private void receivePackets()
@@ -158,11 +184,13 @@ namespace Master
         }
 
 
-        public struct myRectangle
+        public class myRectangle
         {
             public int Width { get; set; }
             public int Height { get; set; }
             public SolidColorBrush Color { get; set; }
+            public Pc Pc { get; set; }
+            public Rectangle Rectangle { get; set; }
         }
 
         static public myRectangle standardRectangle = new myRectangle() { Width = 150, Height = 150, Color = Brushes.White };

@@ -12,7 +12,7 @@
     <Grid  >
         <Label x:Name="lblLab" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="220" Foreground="White" FontFamily="Arial"/>
         <Grid HorizontalAlignment="Center" Height="276" VerticalAlignment="Center" Width="632" x:Name="myGrid"/>
-        <Button x:Name="btnIndietroPage2" Content="Indietro" HorizontalAlignment="Left" Margin="10,387,0,0" VerticalAlignment="Top" Width="86" Click="btnIndietroPage2_Click">
+        <Button x:Name="btnIndietroPage2" Content="Indietro" HorizontalAlignment="Left" Margin="10,387,0,0" VerticalAlignment="Top" Width="86" >
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="8"/>

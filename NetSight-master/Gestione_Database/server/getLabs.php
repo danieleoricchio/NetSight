@@ -21,7 +21,7 @@
         $all= mysqli_fetch_all($result);
         #var_dump($all);
         foreach ($all as $value) {
-            InserisciPCInLab($laboratori,TrovaPosizioneLaboratorio($laboratori, $value[3]),new pc($value[0],$value[1],boolval($value[2])));
+            InserisciPCInLab($laboratori,TrovaPosizioneLaboratorio($laboratori, $value[3]),new pc($value[0],$value[1],boolval($value[2]),$value[3]));
         }
         echo json_encode($laboratori);
     }

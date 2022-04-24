@@ -24,11 +24,8 @@ namespace Master
     /// </summary>
     public partial class SceltaLaboratorio : Window
     {
-        private readonly HttpClient client = new HttpClient();
+        //private readonly HttpClient client = new HttpClient();
         private Utente user;
-        private const string url_getLabsNames = "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getLabsNames.php?codedificio=";
-        private const string url_getLab = "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getLab.php?name=";
-        private const string url_getEdifici = "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getEdifici.php";
         private Edificio edificio;
         public SceltaLaboratorio(Utente user)
         {
@@ -40,7 +37,7 @@ namespace Master
         private void Setup()
         {
             cmbEdifici.Items.Clear();
-            foreach (Edificio item in riceviDatiListaEdifici())
+            foreach (Edificio item in PhpLinkManager.GetMethod<List<Edificio>>(PhpLinkManager.URL_getEdifici))
             {
                 cmbEdifici.Items.Add(item.nome);
             }
@@ -50,21 +47,17 @@ namespace Master
             btnSceltaLab.Visibility = Visibility.Collapsed;
         }
 
-        private List<string> riceviDatiListaLab()
-        {
-            return JsonConvert.DeserializeObject<List<string>>(client.GetStringAsync(url_getLabsNames + edificio.cod).Result);
-        }
-
-        private List<Edificio> riceviDatiListaEdifici()
-        {
-            return JsonConvert.DeserializeObject<List<Edificio>>(client.GetStringAsync(url_getEdifici).Result);
-        }
-
         private void btnSceltaLab_Click(object sender, RoutedEventArgs e)
         {
             if(cmbLab.SelectedItem != null)
             {
-                WindowLaboratorio wlab = new WindowLaboratorio(GetLaboratorio(cmbLab.SelectedItem.ToString()), user);
+                Laboratorio laboratorio = PhpLinkManager.GetMethod<Laboratorio>(PhpLinkManager.URL_getLab + cmbLab.SelectedItem.ToString());
+                if (laboratorio == null)
+                {
+                    MessageBox.Show("Errore");
+                    return;
+                }
+                WindowLaboratorio wlab = new WindowLaboratorio(laboratorio, user);
                 wlab.Show();
                 this.Close();
             }
@@ -74,16 +67,17 @@ namespace Master
             }
         }
 
-        private Laboratorio GetLaboratorio(string nome)
-        {
-            return JsonConvert.DeserializeObject<Laboratorio>(client.GetStringAsync(url_getLab + nome).Result);
-        }
-
         private void btnSceltaEdificio_click(object sender, RoutedEventArgs e)
         {
             if(cmbEdifici.SelectedItem != null)
             {
-                edificio = riceviDatiListaEdifici()[cmbEdifici.SelectedIndex];
+                List<Edificio> edificios = PhpLinkManager.GetMethod<List<Edificio>>(PhpLinkManager.URL_getEdifici);
+                if (edificios == null)
+                {
+                    MessageBox.Show("Errore");
+                    return;
+                }
+                edificio = edificios[cmbEdifici.SelectedIndex];
                 lblLabDisp.Visibility = Visibility.Visible;
                 cmbLab.Visibility = Visibility.Visible;
                 btnSceltaLab.Visibility = Visibility.Visible;
@@ -91,7 +85,7 @@ namespace Master
                 cmbEdifici.Visibility = Visibility.Collapsed;
                 btnSceltaEdificio.Visibility = Visibility.Collapsed;
                 cmbLab.Items.Clear();
-                foreach (string item in riceviDatiListaLab())
+                foreach (string item in PhpLinkManager.GetMethod<List<string>>(PhpLinkManager.URL_getLabsNames+edificio.cod))
                 {
                     cmbLab.Items.Add(item);
                 }
