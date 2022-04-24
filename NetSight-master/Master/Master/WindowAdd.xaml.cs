@@ -1,4 +1,5 @@
 ﻿using Master.Classi;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
@@ -74,14 +75,20 @@ namespace Master
             switch (type)
             {
                 case "edificio":
-                    edificio = Edificio.GetEdificio(txt1.Text, txt2.Text);
-                    if (edificio.valid)
+                    Dictionary<string, string> values = new Dictionary<string, string>()
                     {
-                        MessageBox.Show("Edificio aggiunto");
+                        { "nome",txt1.Text },
+                        {"indirizzo",txt2.Text },
+                        { "type","edificio" }
+                    };
+                    JsonMessage? message = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_addEdificio, values);
+                    if (message == null || !message.result )
+                    {
+                        MessageBox.Show("Edificio non aggiunto", "Errore nell'aggiunta");
                     }
                     else
                     {
-                        MessageBox.Show("Edificio non aggiunto", "Errore nell'aggiunta");
+                        MessageBox.Show("Edificio aggiunto");
                     }
                     break;
                 case "laboratorio":

@@ -14,7 +14,7 @@ namespace Master.Classi
         public static string URL_getLab { get { return "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getLab.php?name="; } }
         public static string URL_getEdifici { get { return "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getEdifici.php"; } } 
         public static string URL_confirmLogin { get { return "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/confirmLogin.php"; } } 
-        public static string URL_addEdificio { get { return "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/addEdificio.php"; } } 
+        public static string URL_addEdificio { get { return "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/add.php"; } } 
 
         private static HttpClient client = new HttpClient() { Timeout= TimeSpan.FromSeconds(5) };
         public static T? GetMethod<T>(string url)
