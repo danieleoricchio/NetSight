@@ -49,6 +49,33 @@ switch ($type) {
         }
         break;
     case 'laboratorio':
+        if (!isset($_POST['Nome']) || empty($_POST['Nome'])){
+            die(json_encode(new JsonMessage(400, "Campo Nome non inserito", false)));
+        }
+        if (!isset($_POST['CodEdificio']) || empty($_POST['CodEdificio'])){
+            die(json_encode(new JsonMessage(400, "Campo CodEdificio non inserito", false)));
+        }
+        
+        $Nome = $_POST['Nome'];
+        $CodEdificio = $_POST['CodEdificio'];
+        
+        $sql= "INSERT INTO `laboratori`(`Nome`, `CodEdificio`) VALUES ('$Nome', '$CodEdificio')";
+        
+        try {
+            if($result = mysqli_query($link, $sql)){
+                $message = new JsonMessage(200, "Laboratorio non aggiunto", true);
+                echo json_encode($message);
+                die();
+            } else {
+                $message = new JsonMessage(406, "Impossibile aggiungere il laboratorio", true);
+                echo json_encode($message);
+                die();
+            }
+        } catch (Throwable $th) {
+                $message = new JsonMessage(500, mysqli_error($link), false);
+                echo json_encode($message);
+                die();
+        }
         break;
     case 'pc':
         break;
@@ -56,4 +83,3 @@ switch ($type) {
     default:
         break;
 }
-?>

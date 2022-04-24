@@ -1,4 +1,5 @@
 ﻿using Master.Classi;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
@@ -13,11 +14,13 @@ namespace Master
         string type = string.Empty;
         Edificio edificio;
         Laboratorio lab;
+        Utente user;
         Pc pc;
-        public WindowAdd(string Type)
+        public WindowAdd(string Type, Utente utente)
         {
             InitializeComponent();
             this.type = Type;
+            this.user = utente;
             switch (type)
             {
                 case "edificio":
@@ -39,17 +42,12 @@ namespace Master
             lblAdd.Content = "Aggiungi edificio";
             lblAdd.FontFamily = new FontFamily("Arial");
             lblAdd.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            lbl2.Visibility = Visibility.Visible;
             lbl2.Content = "Inserisci indirizzo edificio";
             lbl2.FontFamily = new FontFamily("Arial");
             lbl2.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            lbl1.Visibility = Visibility.Visible;
             lbl1.Content = "Inserisci nome edificio";
             lbl1.FontFamily = new FontFamily("Arial");
             lbl1.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            txt1.Visibility = Visibility.Visible;
-            txt2.Visibility = Visibility.Visible;
-            btnAdd.Visibility = Visibility.Visible;
         }
 
         private void setXamlLaboratorio()
@@ -57,17 +55,12 @@ namespace Master
             lblAdd.Content = "Aggiungi laboratorio";
             lblAdd.FontFamily = new FontFamily("Arial");
             lblAdd.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            lbl2.Visibility = Visibility.Visible;
             lbl2.Content = "Inserisci codice edificio";
             lbl2.FontFamily = new FontFamily("Arial");
             lbl2.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            lbl1.Visibility = Visibility.Visible;
             lbl1.Content = "Inserisci nome laboratorio";
             lbl1.FontFamily = new FontFamily("Arial");
             lbl1.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            txt1.Visibility = Visibility.Visible;
-            txt2.Visibility = Visibility.Visible;
-            btnAdd.Visibility = Visibility.Visible;
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -75,14 +68,14 @@ namespace Master
             switch (type)
             {
                 case "edificio":
-                    Dictionary<string, string> values = new Dictionary<string, string>()
+                    Dictionary<string, string> valuesEd = new Dictionary<string, string>()
                     {
-                        { "nome",txt1.Text },
-                        {"indirizzo",txt2.Text },
-                        { "type","edificio" }
+                        { "nome", txt1.Text },
+                        { "indirizzo", txt2.Text },
+                        { "type", "edificio" }
                     };
-                    JsonMessage? message = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_addEdificio, values);
-                    if (message == null || !message.result )
+                    JsonMessage? messageEd = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_add, valuesEd);
+                    if (messageEd == null || !messageEd.result)
                     {
                         MessageBox.Show("Edificio non aggiunto", "Errore nell'aggiunta");
                     }
@@ -92,12 +85,33 @@ namespace Master
                     }
                     break;
                 case "laboratorio":
+                    Dictionary<string, string> valuesLab = new Dictionary<string, string>()
+                    {
+                        { "Nome", txt1.Text },
+                        { "CodEdificio", txt2.Text },
+                        { "type", "laboratorio" }
+                    };
+                    JsonMessage? messageLab = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_add, valuesLab);
+                    if (messageLab == null || !messageLab.result)
+                    {
+                        MessageBox.Show("Laboratorio non aggiunto", "Errore nell'aggiunta");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Laboratorio aggiunto");
+                    }
                     break;
                 case "pc":
                     break;
                 default:
                     break;
             }
+        }
+        private void btnIndietroPagAdd_Click(object sender, RoutedEventArgs e)
+        {
+            SceltaLaboratorio scelta = new SceltaLaboratorio(user);
+            scelta.Show();
+            this.Close();
         }
     }
 }

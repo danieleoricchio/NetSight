@@ -198,6 +198,13 @@ namespace Master
         static public myRectangle standardRectangle = new myRectangle() { Width = 150, Height = 150, Color = Brushes.White };
         static private SolidColorBrush green = new SolidColorBrush(Color.FromRgb(125, 255, 125)), red = new SolidColorBrush(Color.FromRgb(255, 125, 125));
 
+        private void addPc_Click(object sender, RoutedEventArgs e)
+        {
+            WindowAddPc windowAddPc = new WindowAddPc(lab, user);
+            windowAddPc.Show();
+            this.Hide();
+        }
+
         //private void btnIndietroPage2_Click(object sender, RoutedEventArgs e)
         //{
         //    SceltaLaboratorio sceltaLaboratorio = new SceltaLaboratorio(user);

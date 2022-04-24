@@ -19,5 +19,12 @@
                 </Style>
             </Button.Resources>
         </Button>
+        <Button x:Name="addPc" Content="Aggiungi pc" HorizontalAlignment="Left" Margin="144,387,0,0" VerticalAlignment="Top" Width="86" Click="addPc_Click" >
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
     </Grid>
 </Window>

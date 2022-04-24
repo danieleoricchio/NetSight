@@ -41,6 +41,7 @@ namespace Master
             {
                 cmbEdifici.Items.Add(item.nome);
             }
+            string nome = user.email.Split("@")[0];
             lblbentornato.Content = "Bentornato " + user.email.Split("@")[0];
             lblLabDisp.Visibility = Visibility.Collapsed;
             cmbLab.Visibility = Visibility.Collapsed;
@@ -108,14 +109,14 @@ namespace Master
 
         private void btnAggiungiEdificio_Click(object sender, RoutedEventArgs e)
         {
-            WindowAdd windowAdd = new WindowAdd("edificio");
+            WindowAdd windowAdd = new WindowAdd("edificio", user);
             windowAdd.Show();
             this.Close();
         }
 
         private void btnAggiungiLaboratorio_Click(object sender, RoutedEventArgs e)
         {
-            WindowAdd windowAdd = new WindowAdd("laboratorio");
+            WindowAdd windowAdd = new WindowAdd("laboratorio", user);
             windowAdd.Show();
             this.Close();
         }

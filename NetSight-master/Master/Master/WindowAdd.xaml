@@ -10,11 +10,24 @@
         <ImageBrush ImageSource="/download.jpg"/>
     </Window.Background>
     <Grid>
-        <Label x:Name="lblAdd" Content="" HorizontalAlignment="Left" Margin="49,35,0,0" VerticalAlignment="Top" Width="267"/>
+        <Label x:Name="lblAdd" Content="" HorizontalAlignment="Left" Margin="53,35,0,0" VerticalAlignment="Top" Width="267"/>
         <TextBox x:Name="txt1" HorizontalAlignment="Left" Margin="170,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="txt2" HorizontalAlignment="Left" Margin="170,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="lbl1" Content="" HorizontalAlignment="Left" Margin="25,84,0,0" VerticalAlignment="Top" Width="145"/>
+        <Label x:Name="lbl1" Content="" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Width="145"/>
         <Label x:Name="lbl2" Content="" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="155"/>
-        <Button x:Name="btnAdd" Content="INSERISCI" HorizontalAlignment="Left" Margin="143,173,0,0" VerticalAlignment="Top" Width="87" Click="btnAdd_Click"/>
+        <Button x:Name="btnAdd" Content="INSERISCI" HorizontalAlignment="Left" Margin="143,173,0,0" VerticalAlignment="Top" Width="87" Click="btnAdd_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btnIndietroPagAdd" Content="Indietro" HorizontalAlignment="Left" Margin="10,258,0,0" VerticalAlignment="Top" Width="87" Click="btnIndietroPagAdd_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
     </Grid>
 </Window>
