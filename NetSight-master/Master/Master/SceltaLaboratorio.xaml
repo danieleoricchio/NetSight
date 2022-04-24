@@ -37,5 +37,14 @@
             </Button.Resources>
         </Button>
 
+        <Border BorderBrush="Black" BorderThickness="1"/>
+        <Button x:Name="btnAggiungiEdificio" Content="Cliccare per aggiungere un edificio" HorizontalAlignment="Left" Margin="234,290,0,0" VerticalAlignment="Top" Width="194"  RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" FontFamily="Arial" Click="btnAggiungiEdificio_Click">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
     </Grid>
 </Window>

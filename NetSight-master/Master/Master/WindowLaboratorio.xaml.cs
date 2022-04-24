@@ -92,8 +92,9 @@ namespace Master
                     HorizontalContentAlignment = HorizontalAlignment.Center,
                     Width = rects[i].Width,
                     Height = 30,
-                    Foreground = Brushes.Black,
+                    Foreground = Brushes.White,
                     Content = rects[i].Pc.ip,
+                    FontFamily = new FontFamily("Arial"),
                     Margin = new Thickness(marginRight, marginTop + rects[i].Height - 30, 0, 0) 
                 };
                 Label labelnome = new Label()
@@ -103,8 +104,9 @@ namespace Master
                     HorizontalContentAlignment = HorizontalAlignment.Center,
                     Width = rects[i].Width,
                     Height = 30,
-                    Foreground = Brushes.Black,
-                    Content = rects[i].Pc.nome,
+                    Foreground = Brushes.White,
+                    Content = (rects[i].Pc.nome).ToUpper(),
+                    FontFamily = new FontFamily("Arial"),
                     Margin = new Thickness(marginRight, marginTop - 25, 0, 0)
                 };
                 rects[i].Rectangle = r;

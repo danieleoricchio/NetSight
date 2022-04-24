@@ -102,5 +102,12 @@ namespace Master
             mainWindow.Show();
             this.Close();
         }
+
+        private void btnAggiungiEdificio_Click(object sender, RoutedEventArgs e)
+        {
+            WindowAdd windowAdd = new WindowAdd("edificio");
+            windowAdd.Show();
+            this.Close();
+        }
     }
 }
