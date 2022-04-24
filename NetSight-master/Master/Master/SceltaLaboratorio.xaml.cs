@@ -70,7 +70,7 @@ namespace Master
 
         private void btnSceltaEdificio_click(object sender, RoutedEventArgs e)
         {
-            if(cmbEdifici.SelectedItem == null)
+            if(cmbEdifici.SelectedItem != null)
             {
                 List<Edificio> edificios = PhpLinkManager.GetMethod<List<Edificio>>(PhpLinkManager.URL_getEdifici);
                 if (edificios == null)
