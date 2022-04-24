@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Master.Classi
 {
@@ -31,8 +32,8 @@ namespace Master.Classi
 
         public static Edificio GetEdificio(string nome, string indirizzo)
         {
-            var values = new Dictionary<string, string> { { "type", "edificio"}, { "nome", nome }, { "indirizzo", indirizzo } };
-            JsonMessage message = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_addToDb, values);
+            var values = new Dictionary<string, string> {{ "nome", nome }, { "indirizzo", indirizzo } };
+            JsonMessage message = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_addEdificio, values);
             if (message != null)
             {
                 return new Edificio(message.result) { nome = nome, indirizzo = indirizzo };

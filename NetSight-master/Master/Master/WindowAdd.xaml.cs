@@ -1,17 +1,6 @@
 ﻿using Master.Classi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Master
 {
@@ -22,6 +11,8 @@ namespace Master
     {
         string type = string.Empty;
         Edificio edificio;
+        Laboratorio lab;
+        Pc pc;
         public WindowAdd(string Type)
         {
             InitializeComponent();
@@ -29,15 +20,10 @@ namespace Master
             switch (type)
             {
                 case "edificio":
-                    lblAdd.Content = "Aggiungi edificio";
-                    lblIndirizzo.Visibility = Visibility.Visible;
-                    lblNome.Visibility = Visibility.Visible;
-                    txtNome.Visibility = Visibility.Visible;
-                    txtIndirizzo.Visibility = Visibility.Visible;
-                    btnAdd.Visibility = Visibility.Visible;
+                    setXamlEdificio();
                     break;
                 case "laboratorio":
-                    lblAdd.Content = "Aggiungi laboratorio";
+                    setXamlLaboratorio();
                     break;
                 case "pc":
                     lblAdd.Content = "Aggiungi pc";
@@ -47,17 +33,63 @@ namespace Master
             }
         }
 
+        private void setXamlEdificio()
+        {
+            lblAdd.Content = "Aggiungi edificio";
+            lblAdd.FontFamily = new FontFamily("Arial");
+            lblAdd.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            lbl2.Visibility = Visibility.Visible;
+            lbl2.Content = "Inserisci indirizzo edificio";
+            lbl2.FontFamily = new FontFamily("Arial");
+            lbl2.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            lbl1.Visibility = Visibility.Visible;
+            lbl1.Content = "Inserisci nome edificio";
+            lbl1.FontFamily = new FontFamily("Arial");
+            lbl1.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            txt1.Visibility = Visibility.Visible;
+            txt2.Visibility = Visibility.Visible;
+            btnAdd.Visibility = Visibility.Visible;
+        }
+
+        private void setXamlLaboratorio()
+        {
+            lblAdd.Content = "Aggiungi laboratorio";
+            lblAdd.FontFamily = new FontFamily("Arial");
+            lblAdd.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            lbl2.Visibility = Visibility.Visible;
+            lbl2.Content = "Inserisci codice edificio";
+            lbl2.FontFamily = new FontFamily("Arial");
+            lbl2.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            lbl1.Visibility = Visibility.Visible;
+            lbl1.Content = "Inserisci nome laboratorio";
+            lbl1.FontFamily = new FontFamily("Arial");
+            lbl1.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            txt1.Visibility = Visibility.Visible;
+            txt2.Visibility = Visibility.Visible;
+            btnAdd.Visibility = Visibility.Visible;
+        }
+
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            edificio = Edificio.GetEdificio(txtNome.Text, txtIndirizzo.Text);
-            if (edificio.valid)
+            switch (type)
             {
-                MessageBox.Show("Edificio aggiunto", "Errore nell'aggiunta");
-
-            }
-            else
-            {
-                MessageBox.Show("Edificio non aggiunto", "Errore nell'aggiunta");
+                case "edificio":
+                    edificio = Edificio.GetEdificio(txt1.Text, txt2.Text);
+                    if (edificio.valid)
+                    {
+                        MessageBox.Show("Edificio aggiunto");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Edificio non aggiunto", "Errore nell'aggiunta");
+                    }
+                    break;
+                case "laboratorio":
+                    break;
+                case "pc":
+                    break;
+                default:
+                    break;
             }
         }
     }

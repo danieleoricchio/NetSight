@@ -11,10 +11,10 @@
     </Window.Background>
     <Grid>
         <Label x:Name="lblAdd" Content="" HorizontalAlignment="Left" Margin="49,35,0,0" VerticalAlignment="Top" Width="267"/>
-        <TextBox x:Name="txtNome" HorizontalAlignment="Left" Margin="170,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="txtIndirizzo" HorizontalAlignment="Left" Margin="170,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label x:Name="lblNome" Content="" HorizontalAlignment="Left" Margin="34,80,0,0" VerticalAlignment="Top" Width="131"/>
-        <Label x:Name="lblIndirizzo" Content="" HorizontalAlignment="Left" Margin="34,118,0,0" VerticalAlignment="Top" Width="131"/>
+        <TextBox x:Name="txt1" HorizontalAlignment="Left" Margin="170,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txt2" HorizontalAlignment="Left" Margin="170,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="lbl1" Content="" HorizontalAlignment="Left" Margin="25,84,0,0" VerticalAlignment="Top" Width="145"/>
+        <Label x:Name="lbl2" Content="" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="155"/>
         <Button x:Name="btnAdd" Content="INSERISCI" HorizontalAlignment="Left" Margin="143,173,0,0" VerticalAlignment="Top" Width="87" Click="btnAdd_Click"/>
     </Grid>
 </Window>

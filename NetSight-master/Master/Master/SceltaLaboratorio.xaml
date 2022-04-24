@@ -45,6 +45,13 @@
                 </Style>
             </Button.Resources>
         </Button>
+        <Button x:Name="btnAggiungiLaboratorio" Content="Cliccare per aggiungere un laboratorio" HorizontalAlignment="Left" Margin="211,290,0,0" VerticalAlignment="Top" Width="217"  RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" FontFamily="Arial" Click="btnAggiungiLaboratorio_Click" >
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
 
     </Grid>
 </Window>

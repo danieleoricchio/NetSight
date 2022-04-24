@@ -45,6 +45,7 @@ namespace Master
             lblLabDisp.Visibility = Visibility.Collapsed;
             cmbLab.Visibility = Visibility.Collapsed;
             btnSceltaLab.Visibility = Visibility.Collapsed;
+            btnAggiungiLaboratorio.Visibility = Visibility.Collapsed;
         }
 
         private void btnSceltaLab_Click(object sender, RoutedEventArgs e)
@@ -69,7 +70,7 @@ namespace Master
 
         private void btnSceltaEdificio_click(object sender, RoutedEventArgs e)
         {
-            if(cmbEdifici.SelectedItem != null)
+            if(cmbEdifici.SelectedItem == null)
             {
                 List<Edificio> edificios = PhpLinkManager.GetMethod<List<Edificio>>(PhpLinkManager.URL_getEdifici);
                 if (edificios == null)
@@ -81,9 +82,11 @@ namespace Master
                 lblLabDisp.Visibility = Visibility.Visible;
                 cmbLab.Visibility = Visibility.Visible;
                 btnSceltaLab.Visibility = Visibility.Visible;
+                btnAggiungiLaboratorio.Visibility = Visibility.Visible;
                 lblEdDisp.Visibility = Visibility.Collapsed;
                 cmbEdifici.Visibility = Visibility.Collapsed;
                 btnSceltaEdificio.Visibility = Visibility.Collapsed;
+                btnAggiungiEdificio.Visibility = Visibility.Collapsed;
                 cmbLab.Items.Clear();
                 foreach (string item in PhpLinkManager.GetMethod<List<string>>(PhpLinkManager.URL_getLabsNames+edificio.cod))
                 {
@@ -106,6 +109,13 @@ namespace Master
         private void btnAggiungiEdificio_Click(object sender, RoutedEventArgs e)
         {
             WindowAdd windowAdd = new WindowAdd("edificio");
+            windowAdd.Show();
+            this.Close();
+        }
+
+        private void btnAggiungiLaboratorio_Click(object sender, RoutedEventArgs e)
+        {
+            WindowAdd windowAdd = new WindowAdd("laboratorio");
             windowAdd.Show();
             this.Close();
         }
