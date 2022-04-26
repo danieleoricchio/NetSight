@@ -16,6 +16,7 @@ namespace Master
         public string email;
         public string password;
         public bool valid { get; private set; }
+        public bool admin;
         private Utente(bool result)
         {
             valid = result;
@@ -23,6 +24,7 @@ namespace Master
             {
                 this.email = null;
                 this.password = null;
+                admin = false;
                 return;
             }
         }
@@ -31,6 +33,7 @@ namespace Master
             valid = false;
             this.email = null;
             this.password = null;
+            this.admin = false;
         }
 
         public static Utente GetUserObject(string email, string password)
@@ -39,11 +42,11 @@ namespace Master
             JsonMessage message = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_confirmLogin, values);
             if (message != null)
             {
-                return new Utente(message.result) { email = email, password = password };
+                return new Utente(message.result) { email = email, password = password, admin = message.number_code==202 };
             }
             else
             {
-                return new Utente(false) { email = email, password = password };
+                return new Utente(false) { email = email, password = password, admin = false };
             }
         }
     }

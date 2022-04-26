@@ -185,7 +185,6 @@ namespace Master
             new UdpClient().Send(data, data.Length, lab.listaPc[0].ip, port);
         }
 
-
         public class myRectangle
         {
             public int Width { get; set; }

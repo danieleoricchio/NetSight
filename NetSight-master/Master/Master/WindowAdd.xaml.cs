@@ -36,7 +36,14 @@ namespace Master
                     break;
             }
         }
-
+        public WindowAdd(Edificio edificio, Utente user)
+        {
+            this.user = user;
+            this.edificio = edificio;
+            InitializeComponent();
+            type = "laboratorio";
+            setXamlLaboratorio();
+        }
         private void setXamlEdificio()
         {
             lblAdd.Content = "Aggiungi edificio";
@@ -55,12 +62,11 @@ namespace Master
             lblAdd.Content = "Aggiungi laboratorio";
             lblAdd.FontFamily = new FontFamily("Arial");
             lblAdd.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            lbl2.Content = "Inserisci codice edificio";
-            lbl2.FontFamily = new FontFamily("Arial");
-            lbl2.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             lbl1.Content = "Inserisci nome laboratorio";
             lbl1.FontFamily = new FontFamily("Arial");
             lbl1.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            txt2.Visibility = Visibility.Hidden;
+            lbl2.Visibility = Visibility.Hidden;
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -87,18 +93,18 @@ namespace Master
                 case "laboratorio":
                     Dictionary<string, string> valuesLab = new Dictionary<string, string>()
                     {
-                        { "Nome", txt1.Text },
-                        { "CodEdificio", txt2.Text },
+                        { "nome", txt1.Text },
+                        { "codedificio", edificio.cod.ToString() },
                         { "type", "laboratorio" }
                     };
                     JsonMessage? messageLab = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_add, valuesLab);
                     if (messageLab == null || !messageLab.result)
                     {
-                        MessageBox.Show("Laboratorio non aggiunto", "Errore nell'aggiunta");
+                        MessageBox.Show("laboratorio non aggiunto", "Errore nell'aggiunta");
                     }
                     else
                     {
-                        MessageBox.Show("Laboratorio aggiunto");
+                        MessageBox.Show("laboratorio aggiunto");
                     }
                     break;
                 case "pc":

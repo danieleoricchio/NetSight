@@ -109,6 +109,7 @@ namespace Master
 
         private void btnAggiungiEdificio_Click(object sender, RoutedEventArgs e)
         {
+            
             WindowAdd windowAdd = new WindowAdd("edificio", user);
             windowAdd.Show();
             this.Close();
@@ -116,7 +117,7 @@ namespace Master
 
         private void btnAggiungiLaboratorio_Click(object sender, RoutedEventArgs e)
         {
-            WindowAdd windowAdd = new WindowAdd("laboratorio", user);
+            WindowAdd windowAdd = new WindowAdd(edificio, user);
             windowAdd.Show();
             this.Close();
         }
