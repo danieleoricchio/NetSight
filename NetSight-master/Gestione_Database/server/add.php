@@ -78,8 +78,38 @@ switch ($type) {
         }
         break;
     case 'pc':
+        if (!isset($_POST['nome']) || empty($_POST['nome'])){
+            die(json_encode(new JsonMessage(400, "Campo Nome non inserito", false)));
+        }
+        if (!isset($_POST['ip']) || empty($_POST['ip'])){
+            die(json_encode(new JsonMessage(400, "Campo ip non inserito", false)));
+        }
+        if (!isset($_POST['codLab']) || empty($_POST['codLab'])){
+            die(json_encode(new JsonMessage(400, "Campo cod non inserito", false)));
+        }
+        
+        $Nome = $_POST['nome'];
+        $ip = $_POST['ip']; 
+        $codLab = $_POST['codLab'];
+        
+        $sql= "INSERT INTO `pc`(`Nome`, `IndirizzoIp`, `Stato`, `CodLaboratorio`) VALUES ('$Nome', '$ip', '0', '$codLab')";
+        
+        try {
+            if($result = mysqli_query($link, $sql)){
+                $message = new JsonMessage(200, "Pc non aggiunto", true);
+                echo json_encode($message);
+                die();
+            } else {
+                $message = new JsonMessage(406, "Impossibile aggiungere il pc", true);
+                echo json_encode($message);
+                die();
+            }
+        } catch (Throwable $th) {
+                $message = new JsonMessage(500, mysqli_error($link), false);
+                echo json_encode($message);
+                die();
+        }
         break;
-    
     default:
         break;
 }
