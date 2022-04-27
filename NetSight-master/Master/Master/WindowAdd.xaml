@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Master"
         mc:Ignorable="d"
-        Title="WindowAdd" Height="327" Width="366">
+        Title="WindowAdd" Height="327" Width="366" ResizeMode="CanMinimize">
     <Window.Background>
         <ImageBrush ImageSource="/download.jpg"/>
     </Window.Background>

@@ -73,7 +73,7 @@ namespace Master
                     row++;
                     marginRight = 0;
                 }
-                marginRight += (i % rectsInRow == 0 ? 20 : rects[i].Width + 20);
+                marginRight += i % rectsInRow == 0 ? 20 : rects[i].Width + 20;
                 double marginTop = 40 + (row == 1 ? 0 : (40 + rects[i].Height) * (row - 1));
                 Rectangle r = new Rectangle() {
                     Width = rects[i].Width,
@@ -105,7 +105,7 @@ namespace Master
                     Width = rects[i].Width,
                     Height = 30,
                     Foreground = Brushes.White,
-                    Content = (rects[i].Pc.nome).ToUpper(),
+                    Content = rects[i].Pc.nome.ToUpper(),
                     FontFamily = new FontFamily("Arial"),
                     Margin = new Thickness(marginRight, marginTop - 25, 0, 0)
                 };
@@ -131,12 +131,6 @@ namespace Master
                         case "alive":
                             Pc pc = lab.GetPc(ip);
                             pc.AggiornaStato(true);
-                            break;
-                        case "connected":
-                            Pc pc1 = new Pc(true);
-                            //pc.ip = txtIpPc.Text.ToString();
-                            //pc.nome = txtNomePc.Text.ToString();
-                            //labs.Add(pc);
                             break;
                         default:
                             break;
@@ -199,8 +193,8 @@ namespace Master
 
         private void addPc_Click(object sender, RoutedEventArgs e)
         {
-            WindowAddPc windowAddPc = new WindowAddPc(lab, user);
-            windowAddPc.Show();
+            WindowAddPc windowAddPc = new WindowAddPc(ref lab, user);
+            windowAddPc.ShowDialog();
             this.Hide();
         }
 

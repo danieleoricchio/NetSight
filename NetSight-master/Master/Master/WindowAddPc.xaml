@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Master"
         mc:Ignorable="d"
-        Title="WindowAddPc" Height="330" Width="388">
+        Title="WindowAddPc" Height="273" Width="388" ResizeMode="CanMinimize">
     <Window.Background>
         <ImageBrush ImageSource="/download.jpg"/>
     </Window.Background>
@@ -13,20 +13,18 @@
         <Label x:Name="lblAdd" HorizontalAlignment="Left" Margin="132,33,0,0" VerticalAlignment="Top" Width="267" Content="AGGIUNGI PC" FontFamily="Arial" Foreground="White"/>
         <TextBox x:Name="txt1" HorizontalAlignment="Left" Margin="170,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="txt2" HorizontalAlignment="Left" Margin="170,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="txt3" HorizontalAlignment="Left" Margin="170,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="txt4" HorizontalAlignment="Left" Margin="170,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="lbl1" Content="" HorizontalAlignment="Left" Margin="15,84,0,0" VerticalAlignment="Top" Width="145" FontFamily="Arial"/>
         <Label x:Name="lbl2" Content="" HorizontalAlignment="Left" Margin="15,120,0,0" VerticalAlignment="Top" Width="155" FontFamily="Arial"/>
         <Label x:Name="lbl3" Content="" HorizontalAlignment="Left" Margin="14,153,0,0" VerticalAlignment="Top" Width="144" FontFamily="Arial"/>
         <Label x:Name="lbl4" Content="" HorizontalAlignment="Left" Margin="14,191,0,0" VerticalAlignment="Top" Width="156" FontFamily="Arial"/>
-        <Button x:Name="btnAdd" Content="INSERISCI" HorizontalAlignment="Left" Margin="143,243,0,0" VerticalAlignment="Top" Width="87">
+        <Button x:Name="btnAdd" Content="INSERISCI" HorizontalAlignment="Left" Margin="144,176,0,0" VerticalAlignment="Top" Width="87" Click="btnAdd_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="8"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name="btnIndietroAddPc" Content="Indietro" HorizontalAlignment="Left" Margin="10,273,0,0" VerticalAlignment="Top" Width="87" Click="btnIndietroAddPc_Click">
+        <Button x:Name="btnIndietroAddPc" Content="Indietro" HorizontalAlignment="Left" Margin="10,223,0,0" VerticalAlignment="Top" Width="87" Click="btnIndietroAddPc_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="8"/>

@@ -71,6 +71,7 @@ namespace Master
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            if (txt1.Text == string.Empty && txt2.Text == string.Empty ) { MessageBox.Show("Inserire i dati correttamente"); return; }
             switch (type)
             {
                 case "edificio":
@@ -106,8 +107,6 @@ namespace Master
                     {
                         MessageBox.Show("laboratorio aggiunto");
                     }
-                    break;
-                case "pc":
                     break;
                 default:
                     break;

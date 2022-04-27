@@ -20,15 +20,14 @@ namespace Master
         public string nome {get;set; }
         private readonly object Locked = new object();
         private System.Timers.Timer timer;
-        public Pc(bool stato)
+        public Pc(bool stato, string nome, string ip)
         {
             this.stato = stato;
             timer = new System.Timers.Timer(5000);
-            timer.Elapsed += (object sender, ElapsedEventArgs e) =>
+            timer.Elapsed += (object? sender, ElapsedEventArgs e) =>
             {
                 timer.Stop();
                 AggiornaStato(false);
-                //MessageBox.Show($"{ip} è diventato false. Timer.Enabled è {timer.Enabled}");
             };
         }
 

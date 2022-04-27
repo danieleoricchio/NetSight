@@ -1,16 +1,10 @@
-﻿using System;
+﻿using Master.Classi;
 using System.Collections.Generic;
-using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Master
 {
@@ -21,15 +15,15 @@ namespace Master
     {
         Laboratorio laboratorio;
         Utente utente;
-        public WindowAddPc(Laboratorio lab, Utente user)
+        public WindowAddPc(ref Laboratorio lab, Utente user)
         {
             InitializeComponent();
             this.laboratorio = lab;
             this.utente = user;
-            Setup();
+            SetupXaml();
         }
 
-        private void Setup()
+        private void SetupXaml()
         {
             lbl1.Content = "Inserisci Nome del pc";
             lbl1.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
@@ -37,8 +31,6 @@ namespace Master
             lbl2.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             lbl3.Content = "Inserisci lo stato del pc";
             lbl3.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            lbl4.Content = "Inserisci il codice del lab";
-            lbl4.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
         }
 
         private void btnIndietroAddPc_Click(object sender, RoutedEventArgs e)
@@ -46,6 +38,46 @@ namespace Master
             WindowLaboratorio windowLaboratorio = new WindowLaboratorio(laboratorio, utente);
             windowLaboratorio.Show();
             this.Close();
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (txt1.Text == string.Empty && txt2.Text == string.Empty) { MessageBox.Show("Inserire i dati correttamente"); return; }
+
+            sendData("apertura", 24690, txt2.Text.Trim());
+            UdpClient udpClient = new UdpClient(24690);
+            do
+            {
+                IPEndPoint riceiveEP = new IPEndPoint(IPAddress.Any, 0);
+                byte[] dataReceived = udpClient.Receive(ref riceiveEP);
+                string messaggio = Encoding.ASCII.GetString(dataReceived);
+                if(messaggio.Equals("apertura-confermata") && riceiveEP.Address.ToString().Equals(txt2.Text.Trim()))
+                {
+                    break;
+                }
+            } while (true);
+
+            Dictionary<string, string> valuesLab = new Dictionary<string, string>()
+            {
+                  { "nome", txt1.Text.Trim() },
+                  { "ip", txt2.Text.Trim() },
+                  { "codLab", laboratorio.cod.ToString() },
+                  { "type", "pc" }
+            };
+            JsonMessage? messagePC = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_add, valuesLab);
+            if (messagePC == null || !messagePC.result)
+            {
+                MessageBox.Show("PC non aggiunto", "Errore nell'aggiunta");
+                return;
+            }
+            laboratorio.addPc(new Pc(true, txt1.Text.Trim(), txt2.Text.Trim()));
+            MessageBox.Show("PC aggiunto");
+        }
+
+        private void sendData(string dataIn, int port, string ip)
+        {
+            byte[] data = Encoding.ASCII.GetBytes(dataIn);
+            new UdpClient().Send(data, data.Length, ip, port);
         }
     }
 }
