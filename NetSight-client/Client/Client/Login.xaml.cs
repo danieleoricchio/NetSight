@@ -1,6 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Client.Classi;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Input;
@@ -12,13 +11,10 @@ namespace Client
     /// </summary>
     public partial class Login : Window
     {
-        private static readonly HttpClient client = new HttpClient();
-        private JsonMessage? responseLogin;
         public Login()
         {
             InitializeComponent();
             this.WindowState = WindowState.Maximized;
-            responseLogin = new JsonMessage();
         }
 
         private void lbl_link_MouseEnter(object sender, MouseEventArgs e)
@@ -54,27 +50,16 @@ namespace Client
         {
             string mail = txt_mail.Text;
             string password = txt_password.Text;
-            if (mail != "" && password != "")
-            {
-                var values = new Dictionary<string, string> { { "email", mail }, { "password", password } };
-                var content = new FormUrlEncodedContent(values);
-                var response = await client.PostAsync("http://housetesting.ddns.net:9050/server/gestioneprogetto/server/confirmLogin.php", content);
-                var responseString = await response.Content.ReadAsStringAsync();
-                responseLogin = JsonConvert.DeserializeObject<JsonMessage>(responseString);
-                if (responseLogin.result)
-                {
-                    MessageBox.Show("Login effettuato");
-                    MainApp app = new MainApp(24690);
-                    this.Close();
-                } else
-                {
-                    MessageBox.Show("Login non effettuato");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Inserire tutti i dati");
-            }
+            if (mail == "" && password == "") { MessageBox.Show("Inserire tutti i dati"); return; }
+
+            var values = new Dictionary<string, string> { { "email", mail }, { "password", password } };
+            JsonMessage? message = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_confirmLogin, values);
+
+            if (!message.result) { MessageBox.Show("Login non effettuato"); return; }
+
+            MessageBox.Show("Login effettuato");
+            MainApp app = new MainApp(24690);
+            this.Close();
         }
     }
 }
