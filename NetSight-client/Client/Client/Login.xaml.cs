@@ -50,7 +50,7 @@ namespace Client
         {
             string mail = txt_mail.Text;
             string password = txt_password.Text;
-            if (mail == "" && password == "") { MessageBox.Show("Inserire tutti i dati"); return; }
+            if (mail == "" || password == "") { MessageBox.Show("Inserire tutti i dati"); return; }
 
             var values = new Dictionary<string, string> { { "email", mail }, { "password", password } };
             JsonMessage? message = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_confirmLogin, values);
