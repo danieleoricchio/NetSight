@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="NetSight" Height="350" Width="450" ResizeMode="CanMinimize">
     <Window.Background>
-        <ImageBrush ImageSource="/download.jpg"/>
+        <ImageBrush ImageSource="images/background.jpg"/>
     </Window.Background>
     <Grid>
         <Label x:Name="lblbentornato" Content="" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="215" FontSize="20" Height="35" HorizontalContentAlignment="Center" Foreground="White" FontFamily="Arial"/>
