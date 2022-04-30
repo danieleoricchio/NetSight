@@ -12,14 +12,14 @@
     <Grid  >
         <Label x:Name="lblLab" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="220" Foreground="White" FontFamily="Arial"/>
         <Grid HorizontalAlignment="Center" Height="276" VerticalAlignment="Center" Width="632" x:Name="myGrid"/>
-        <Button x:Name="btnIndietroPage2" Content="Indietro" HorizontalAlignment="Left" Margin="10,387,0,0" VerticalAlignment="Top" Width="86" >
+        <Button x:Name="addPc" Content="Aggiungi pc" HorizontalAlignment="Left" Margin="10,387,0,0" VerticalAlignment="Top" Width="86" Click="addPc_Click" >
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="8"/>
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name="addPc" Content="Aggiungi pc" HorizontalAlignment="Left" Margin="144,387,0,0" VerticalAlignment="Top" Width="86" Click="addPc_Click" >
+        <Button x:Name="aggiornaPc" Content="Aggiorna" HorizontalAlignment="Left" Margin="111,387,0,0" VerticalAlignment="Top" Width="86">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="8"/>

@@ -32,6 +32,7 @@ namespace Master
             threadReceive = new Thread(receivePackets);
             threadReceive.Start();
             new Thread(checkPcColor).Start();
+            aggiornaPc.Click += (object sender, RoutedEventArgs e) => { setPcs(); };
         }
 
         private void checkPcColor()
@@ -55,6 +56,8 @@ namespace Master
 
         private void setPcs()
         {
+            myGrid.Children.Clear();
+            rects.Clear();
             int row = 1;
             double marginRight = 0;
             int rectsInRow = 6;
@@ -194,15 +197,18 @@ namespace Master
         private void addPc_Click(object sender, RoutedEventArgs e)
         {
             WindowAddPc windowAddPc = new WindowAddPc(ref lab, user);
-            windowAddPc.ShowDialog();
-            this.Hide();
+            if(windowAddPc.ShowDialog() == true)
+            {
+                setPcs();
+            }
         }
 
-        //private void btnIndietroPage2_Click(object sender, RoutedEventArgs e)
-        //{
-        //    SceltaLaboratorio sceltaLaboratorio = new SceltaLaboratorio(user);
-        //    sceltaLaboratorio.Show();
-        //    this.Close();
-        //}
+        private void btnIndietroPage2_Click(object sender, RoutedEventArgs e)
+        {
+            SceltaLaboratorio sceltaLaboratorio = new SceltaLaboratorio(user);
+            sceltaLaboratorio.Show();
+            Closing += null;
+            this.Close();
+        }
     }
 }

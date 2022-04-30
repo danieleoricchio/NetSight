@@ -30,8 +30,10 @@ namespace Master
                 AggiornaStato(false);
             };
         }
+        public Pc()
+        {
 
-
+        }
         public void Controllo()
         {
             new Thread(() => {
