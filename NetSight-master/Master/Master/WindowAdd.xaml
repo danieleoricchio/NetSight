@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="WindowAdd" Height="327" Width="366" ResizeMode="CanMinimize">
     <Window.Background>
-        <ImageBrush ImageSource="/download.jpg"/>
+        <ImageBrush ImageSource="images/background.jpg"/>
     </Window.Background>
     <Grid>
         <Label x:Name="lblAdd" Content="" HorizontalAlignment="Left" Margin="53,35,0,0" VerticalAlignment="Top" Width="267"/>

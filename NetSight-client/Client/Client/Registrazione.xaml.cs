@@ -26,7 +26,7 @@ namespace Client
             string password = txt_password.Text;
             string conferma = txt_conferma.Text;
 
-            if (nome == "" && cognome == "" && mail == "" && data == "" && password == "" && conferma == "") { MessageBox.Show("Inserire tutti i dati"); return; }
+            if (nome == "" || cognome == "" || mail == "" || data == "" || password == "" || conferma == "") { MessageBox.Show("Inserire tutti i dati"); return; }
 
             if (password != conferma) { MessageBox.Show("Inserire due password uguali"); return; }
 

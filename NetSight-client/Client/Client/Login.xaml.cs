@@ -49,13 +49,13 @@ namespace Client
         private async void btn_login_Click(object sender, RoutedEventArgs e)
         {
             string mail = txt_mail.Text;
-            string password = txt_password.Text;
-            if (mail == "" && password == "") { MessageBox.Show("Inserire tutti i dati"); return; }
+            string password = txt_password.Password.ToString();
+            if (mail == "" || password == "") { MessageBox.Show("Inserire tutti i dati"); return; }
 
             var values = new Dictionary<string, string> { { "email", mail }, { "password", password } };
             JsonMessage? message = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_confirmLogin, values);
 
-            if (!message.result) { MessageBox.Show("Login non effettuato"); return; }
+            if (!message.result) { MessageBox.Show("Login non effettuato"); txt_mail.Text = "";txt_password.Password = ""; return; }
 
             MessageBox.Show("Login effettuato");
             MainApp app = new MainApp(24690);
