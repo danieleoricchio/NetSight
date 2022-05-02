@@ -59,6 +59,8 @@ namespace Client
 
             MessageBox.Show("Login effettuato");
             MainApp app = new MainApp(24690);
+            GestioneFinestra gestioneFinestra = new GestioneFinestra(app);
+            gestioneFinestra.Show();
             this.Close();
         }
     }

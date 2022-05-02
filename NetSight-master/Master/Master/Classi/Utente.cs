@@ -15,6 +15,7 @@ namespace Master
     {
         public string email;
         public string password;
+        public int cod;
         public bool valid { get; private set; }
         public bool admin;
         private Utente(bool result)
@@ -38,7 +39,7 @@ namespace Master
 
         public static Utente GetUserObject(string email, string password)
         {
-            var values = new Dictionary<string, string>{{ "email", email },{ "password", password }};
+            var values = new Dictionary<string, string>{{ "email", email },{ "password", password },{ "account_type", "admin" } };
             JsonMessage message = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_confirmLogin, values);
             if (message != null)
             {

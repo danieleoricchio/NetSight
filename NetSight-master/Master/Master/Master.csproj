@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <StartupObject></StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

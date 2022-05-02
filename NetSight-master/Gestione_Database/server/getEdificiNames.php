@@ -7,11 +7,9 @@
     }
     $nomi = array();
     if ($_SERVER['REQUEST_METHOD']!="GET") die(json_encode(new JsonMessage(400, "Utilizzare metodo GET", false)));
-    if (!isset($_GET['codedificio']) || empty($_GET['codedificio'])) die(json_encode(new JsonMessage(400, "Parametro 'codedificio' non inserito", false)));
     if (!isset($_GET['codadmin']) || empty($_GET['codadmin'])) die(json_encode(new JsonMessage(400, "Parametro 'codadmin' non inserito", false)));
-    $codEdificio = $_GET['codedificio'];
     $codadmin = $_GET['codadmin'];
-    $sql = "SELECT laboratori.Nome FROM laboratori JOIN edifici ON edifici.Cod = laboratori.CodEdificio JOIN gestione_laboratori ON gestione_laboratori.codLab = laboratori.Cod WHERE gestione_laboratori.codAdmin = $codadmin AND laboratori.CodEdificio = $codEdificio;";
+    $sql = "SELECT DISTINCT edifici.Nome FROM edifici JOIN laboratori ON laboratori.CodEdificio = edifici.Cod JOIN gestione_laboratori ON laboratori.Cod = gestione_laboratori.codLab WHERE gestione_laboratori.codAdmin = $codadmin;";
     if($result= mysqli_query($link,$sql)){
         $all= mysqli_fetch_all($result);
         foreach ($all as $value) {

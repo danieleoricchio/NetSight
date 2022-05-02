@@ -34,7 +34,8 @@ namespace Master.Classi
             try
             {
                 var response = client.PostAsync(url, new FormUrlEncodedContent(postValues)).Result;
-                return JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
+                string ris = response.Content.ReadAsStringAsync().Result;
+                return JsonConvert.DeserializeObject<T>(ris);
             }
             catch (Exception)
             {

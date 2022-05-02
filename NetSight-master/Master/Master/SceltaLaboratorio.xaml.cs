@@ -89,7 +89,7 @@ namespace Master
                 btnSceltaEdificio.Visibility = Visibility.Collapsed;
                 btnAggiungiEdificio.Visibility = Visibility.Collapsed;
                 cmbLab.Items.Clear();
-                foreach (string item in PhpLinkManager.GetMethod<List<string>>(PhpLinkManager.URL_getLabsNames+edificio.cod))
+                foreach (string item in PhpLinkManager.GetMethod<List<string>>($"{PhpLinkManager.URL_getLabsNames+edificio.cod}&codadmin={user.}"))
                 {
                     cmbLab.Items.Add(item);
                 }

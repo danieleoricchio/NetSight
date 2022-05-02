@@ -15,9 +15,11 @@ namespace Client
     {
         private const int DefaultPort = 24690;
         private const string PATH_HOSTNAME = "hostname";
-        private string Hostname /*= "79.41.117.203"*/;
-        private string thisIp/* = Dns.GetHostEntry(Dns.GetHostName()).AddressList[3].ToString()*/;
+        private string hostname;
+        public string labIp;
+        public string thisIp;
         private UdpClient server;
+        public bool connesso = false;
         public MainApp(int port)
         {
             #region get local ip
@@ -42,57 +44,76 @@ namespace Client
             {
                 File.Create(PATH_HOSTNAME);
             }
-            Hostname = File.ReadAllText(PATH_HOSTNAME).Trim();
+            hostname = File.ReadAllText(PATH_HOSTNAME).Trim();
             #endregion
             #region inizio thread
             new Thread(new ThreadStart(Ricevi)).Start();
-            new Thread(new ThreadStart(() => { while (true) { Invia("alive;"+thisIp, 25000); Thread.Sleep(10000); } })).Start();
+            new Thread(new ThreadStart(() => { while (true) { if (connesso) Invia("alive;" + thisIp, 25000); Thread.Sleep(10000); } })).Start();
             #endregion
         }
+
+        private volatile bool flagChiusura = false;
+        public bool ChiediDisconnessione()
+        {
+            bool timerScaduto = false;
+            System.Timers.Timer timer = new System.Timers.Timer(10000);
+            timer.Elapsed += (object? sender, System.Timers.ElapsedEventArgs e) => { timerScaduto = true; };
+            Invia("chiedi-chiusura", 25000);
+            timer.Start();
+            while (!flagChiusura && !timerScaduto)
+            {
+                new Object();
+            }
+            timer.Stop();
+            if (timerScaduto) return false;
+            return true;
+        }
+
         private void Ricevi()
         {
             while (true)
             {
-                IPEndPoint riceveEP = new IPEndPoint(IPAddress.Any, 0);
-                byte[] dataReceived = server.Receive(ref riceveEP);
+                IPEndPoint receiveEP = new IPEndPoint(IPAddress.Any, 0);
+                byte[] dataReceived = server.Receive(ref receiveEP);
                 string messaggio = Encoding.ASCII.GetString(dataReceived);
-                new Thread(GestioneMessaggio).Start(new object[] { messaggio, riceveEP });
+                new Thread(() =>
+                {
+                    switch (messaggio)
+                    {
+                        case "apertura":
+                            if (hostname.Trim() == "" || labIp == "")
+                            {
+                                hostname = receiveEP.Address.ToString();
+                                labIp = hostname;
+                                connesso = true;
+                                File.WriteAllText(PATH_HOSTNAME, hostname);
+                                Invia("apertura-confermata", 24690);
+                            }
+                            return;
+                        case "chiusura":
+                            connesso = false;
+                            labIp = "";
+                            flagChiusura = true;
+                            return;
+                        case "condivisione-schermo":
+                            if (Process.Start("ScreenSharing.exe", $"hostname={hostname} port=5900 width=1280 height=720") != null)
+                            {
+                                MessageBox.Show("Partito");
+                            }
+                            return;
+                        default:
+                            break;
+                    }
+                }).Start();
             }
         }
         private void Invia(string messaggio, int port)
         {
-            if (Hostname == "") return;
+            if (labIp == "") return;
             UdpClient client = new UdpClient();
             byte[] data = Encoding.ASCII.GetBytes(messaggio);
-            client.Send(data, data.Length, Hostname, port);
+            client.Send(data, data.Length, hostname, port);
             client.Close();
-        }
-        private void GestioneMessaggio(object args)
-        {
-            object[] array = (object[])args;
-            string messaggio = (string)array.GetValue(0);
-            IPEndPoint pacchetto = (IPEndPoint)array.GetValue(1);
-            //char richiesta = messaggio[0];
-            //MessageBox.Show(messaggio);
-            switch (messaggio) 
-            {
-                case "apertura":
-                    if (Hostname.Trim() == "")
-                    {
-                        Hostname = pacchetto.Address.ToString();
-                        File.WriteAllText(PATH_HOSTNAME, Hostname);
-                        Invia("apertura-confermata",24690);
-                    }
-                    return;
-                case "condivisione-schermo":
-
-                    if (Process.Start("ScreenSharing.exe", $"hostname={Hostname} port=5900 width=1280 height=720") != null){
-                        MessageBox.Show("Partito");
-                    }
-                    return;
-                default:
-                    break;
-            }
         }
     }
 }

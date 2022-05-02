@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="600" ResizeMode="CanMinimize">
     <Window.Background>
-        <ImageBrush ImageSource="images/background.jpg"/>
+        <ImageBrush ImageSource="/background.jpg"/>
     </Window.Background>
     <Grid>
         <TextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="24" Margin="271,174,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="148" Text="admin@gmail.com"/>
