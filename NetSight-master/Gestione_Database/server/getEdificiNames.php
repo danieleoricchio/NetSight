@@ -6,16 +6,15 @@
         die();
     }
     $nomi = array();
-    if ($_SERVER['REQUEST_METHOD']!="GET") die(json_encode(new JsonMessage(400, "Utilizzare metodo GET", false)));
-    if (!isset($_GET['codadmin']) || empty($_GET['codadmin'])) die(json_encode(new JsonMessage(400, "Parametro 'codadmin' non inserito", false)));
-    $codadmin = $_GET['codadmin'];
-    $sql = "SELECT DISTINCT edifici.Nome FROM edifici JOIN laboratori ON laboratori.CodEdificio = edifici.Cod JOIN gestione_laboratori ON laboratori.Cod = gestione_laboratori.codLab WHERE gestione_laboratori.codAdmin = $codadmin;";
+    if ($_SERVER['REQUEST_METHOD']!="GET") die(json_encode(new JsonMessage(400, "Utilizzare metodo GET", false,  null)));
+    $sql = "SELECT edifici.Nome, edifici.Cod FROM edifici ORDER BY Cod;";
     if($result= mysqli_query($link,$sql)){
         $all= mysqli_fetch_all($result);
         foreach ($all as $value) {
-            array_push($nomi,$value[0]);
+            $pair = array("nome"=>$value[0], "cod"=>$value[1]);
+            array_push($nomi,$pair);
         }
-        echo json_encode($nomi);
+        echo json_encode(new JsonMessage(200, "Richiesta accettata", true, $nomi));
     }
     mysqli_close($link);
     die();

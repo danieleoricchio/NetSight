@@ -1,6 +1,5 @@
 ﻿using Client.Classi;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Windows;
 using System.Windows.Input;
 
@@ -55,7 +54,20 @@ namespace Client
             var values = new Dictionary<string, string> { { "email", mail }, { "password", password } };
             JsonMessage? message = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_confirmLogin, values);
 
-            if (!message.result) { MessageBox.Show("Login non effettuato"); txt_mail.Text = "";txt_password.Password = ""; return; }
+            if (message == null)
+            {
+                MessageBox.Show("Login non effettuato.", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                txt_mail.Text = "";
+                txt_password.Password = "";
+                return;
+            }
+            if (!message.status)
+            {
+                MessageBox.Show("Login non effettuato. "+message.message, "Errore", MessageBoxButton.OK, MessageBoxImage.Hand); 
+                txt_mail.Text = ""; 
+                txt_password.Password = ""; 
+                return;
+            }
 
             MessageBox.Show("Login effettuato");
             MainApp app = new MainApp(24690);

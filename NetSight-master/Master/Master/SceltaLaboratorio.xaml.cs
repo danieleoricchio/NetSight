@@ -27,6 +27,7 @@ namespace Master
         //private readonly HttpClient client = new HttpClient();
         private Utente user;
         private Edificio edificio;
+        private List<Dictionary<string, string>> edifici;
         public SceltaLaboratorio(Utente user)
         {
             InitializeComponent();
@@ -37,12 +38,13 @@ namespace Master
         private void Setup()
         {
             cmbEdifici.Items.Clear();
-            foreach (Edificio item in PhpLinkManager.GetMethod<List<Edificio>>(PhpLinkManager.URL_getEdifici))
+            JsonMessage message = PhpLinkManager.GetMethod<JsonMessage>(PhpLinkManager.URL_getEdificiNames);
+            edifici = message.GetResultArray<Dictionary<string, string>>();
+            foreach (var item in edifici)
             {
-                cmbEdifici.Items.Add(item.nome);
+                cmbEdifici.Items.Add(item["nome"]);
             }
-            string nome = user.email.Split("@")[0];
-            lblbentornato.Content = "Bentornato " + user.email.Split("@")[0];
+            lblbentornato.Content = "Bentornato " + user.nome;
             lblLabDisp.Visibility = Visibility.Collapsed;
             cmbLab.Visibility = Visibility.Collapsed;
             btnSceltaLab.Visibility = Visibility.Collapsed;
@@ -73,13 +75,13 @@ namespace Master
         {
             if(cmbEdifici.SelectedItem != null)
             {
-                List<Edificio> edificios = PhpLinkManager.GetMethod<List<Edificio>>(PhpLinkManager.URL_getEdifici);
-                if (edificios == null)
+                JsonMessage message = PhpLinkManager.GetMethod<JsonMessage>(PhpLinkManager.URL_getEdificio + $"codedificio={edifici[cmbEdifici.SelectedIndex]["cod"]}");
+                edificio = message.GetResultObject<Edificio>();
+                if (edificio == null)
                 {
                     MessageBox.Show("Errore");
                     return;
                 }
-                edificio = edificios[cmbEdifici.SelectedIndex];
                 lblLabDisp.Visibility = Visibility.Visible;
                 cmbLab.Visibility = Visibility.Visible;
                 btnSceltaLab.Visibility = Visibility.Visible;
@@ -89,7 +91,7 @@ namespace Master
                 btnSceltaEdificio.Visibility = Visibility.Collapsed;
                 btnAggiungiEdificio.Visibility = Visibility.Collapsed;
                 cmbLab.Items.Clear();
-                foreach (string item in PhpLinkManager.GetMethod<List<string>>($"{PhpLinkManager.URL_getLabsNames+edificio.cod}&codadmin={user.}"))
+                foreach (string item in PhpLinkManager.GetMethod<JsonMessage>($"{PhpLinkManager.URL_getLabsNames+edificio.cod}&codadmin={user.cod}").GetResultArray<string>())
                 {
                     cmbLab.Items.Add(item);
                 }

@@ -29,15 +29,10 @@ namespace Master
         private void btnAccesso_Click(object sender, RoutedEventArgs e)
         {
             utente = Utente.GetUserObject(txtEmail.Text, psw.Password.ToString());
-            if (utente.valid && utente.admin)
-            {
+            if (utente != null)            {
                 SceltaLaboratorio visualizzaLaboratorio = new SceltaLaboratorio(utente);
                 visualizzaLaboratorio.Show();
                 this.Close();
-            }
-            else if (!utente.admin)
-            {
-                MessageBox.Show("Non puoi accedere perche non sei un admin", "Errore");
             }
             else
                 MessageBox.Show("Email e/o password sbagliati. Altrimenti possibile timeout nella richiesta", "Errore");

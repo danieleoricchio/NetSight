@@ -77,35 +77,45 @@ namespace Master
                 case "edificio":
                     Dictionary<string, string> valuesEd = new Dictionary<string, string>()
                     {
-                        { "nome", txt1.Text },
-                        { "indirizzo", txt2.Text },
+                        { "nome", txt1.Text.Trim() },
+                        { "indirizzo", txt2.Text.Trim() },
                         { "type", "edificio" }
                     };
                     JsonMessage? messageEd = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_add, valuesEd);
-                    if (messageEd == null || !messageEd.result)
+                    if (messageEd == null)
                     {
-                        MessageBox.Show("Edificio non aggiunto", "Errore nell'aggiunta");
+                        MessageBox.Show("Edificio non aggiunto", "Errore nell'aggiunta", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else if (!messageEd.status)
+                    {
+                        MessageBox.Show("Edificio non aggiunto. " + messageEd.message, "Errore nell'aggiunta", MessageBoxButton.OK, MessageBoxImage.Hand);
                     }
                     else
                     {
-                        MessageBox.Show("Edificio aggiunto");
+                        MessageBox.Show("Edificio aggiunto", "Operazione completata", MessageBoxButton.OK, MessageBoxImage.Information);
+                        btnIndietroPagAdd_Click(null, null);
                     }
                     break;
                 case "laboratorio":
                     Dictionary<string, string> valuesLab = new Dictionary<string, string>()
                     {
-                        { "nome", txt1.Text },
+                        { "nome", txt1.Text.Trim() },
                         { "codedificio", edificio.cod.ToString() },
-                        { "type", "laboratorio" }
+                        { "type", "laboratorio" },
+                        { "codadmin", user.cod.ToString() }
                     };
                     JsonMessage? messageLab = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_add, valuesLab);
-                    if (messageLab == null || !messageLab.result)
+                    if (messageLab == null)
                     {
-                        MessageBox.Show("laboratorio non aggiunto", "Errore nell'aggiunta");
+                        MessageBox.Show("Laboratorio non aggiunto", "Errore nell'aggiunta",MessageBoxButton.OK, MessageBoxImage.Error);
+                    } else if (!messageLab.status)
+                    {
+                        MessageBox.Show("Laboratorio non aggiunto. "+messageLab.message, "Errore nell'aggiunta",MessageBoxButton.OK, MessageBoxImage.Hand);
                     }
                     else
                     {
-                        MessageBox.Show("laboratorio aggiunto");
+                        MessageBox.Show("Laboratorio aggiunto","Operazione completata",MessageBoxButton.OK, MessageBoxImage.Information);
+                        btnIndietroPagAdd_Click(null, null);
                     }
                     break;
                 default:

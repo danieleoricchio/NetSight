@@ -22,34 +22,41 @@ namespace Client
         public bool connesso = false;
         public MainApp(int port)
         {
-            #region get local ip
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            var ipaddress = NetworkInterface.GetAllNetworkInterfaces()
-                .First(x => x.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || x.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
-                .GetIPProperties().UnicastAddresses.First(ip => ip.Address.AddressFamily == AddressFamily.InterNetwork).Address;
-            thisIp = ipaddress.ToString();
-            #endregion
-            #region setup udp server
             try
             {
-                server = new UdpClient(DefaultPort);
+                #region get local ip
+                var host = Dns.GetHostEntry(Dns.GetHostName());
+                var ipaddress = NetworkInterface.GetAllNetworkInterfaces()
+                    .First(x => x.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || x.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                    .GetIPProperties().UnicastAddresses.First(ip => ip.Address.AddressFamily == AddressFamily.InterNetwork).Address;
+                thisIp = ipaddress.ToString();
+                #endregion
+                #region setup udp server
+                try
+                {
+                    server = new UdpClient(DefaultPort);
+                }
+                catch (Exception)
+                {
+                    ;
+                }
+                #endregion
+                #region parte hostname
+                if (!File.Exists(PATH_HOSTNAME))
+                {
+                    File.Create(PATH_HOSTNAME);
+                }
+                hostname = File.ReadAllText(PATH_HOSTNAME).Trim();
+                #endregion
+                #region inizio thread
+                new Thread(new ThreadStart(Ricevi)).Start();
+                new Thread(new ThreadStart(() => { while (true) { if (connesso) Invia("alive;" + thisIp, 25000); Thread.Sleep(10000); } })).Start();
+                #endregion
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ;
+                MessageBox.Show(ex.Message, "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            #endregion
-            #region parte hostname
-            if (!File.Exists(PATH_HOSTNAME))
-            {
-                File.Create(PATH_HOSTNAME);
-            }
-            hostname = File.ReadAllText(PATH_HOSTNAME).Trim();
-            #endregion
-            #region inizio thread
-            new Thread(new ThreadStart(Ricevi)).Start();
-            new Thread(new ThreadStart(() => { while (true) { if (connesso) Invia("alive;" + thisIp, 25000); Thread.Sleep(10000); } })).Start();
-            #endregion
         }
 
         private volatile bool flagChiusura = false;

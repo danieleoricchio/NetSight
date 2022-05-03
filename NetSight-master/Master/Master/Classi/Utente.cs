@@ -13,41 +13,23 @@ namespace Master
 {
     public class Utente
     {
-        public string email;
-        public string password;
+        public string email, password, nome, cognome;
         public int cod;
         public bool valid { get; private set; }
         public bool admin;
-        private Utente(bool result)
-        {
-            valid = result;
-            if (!result)
-            {
-                this.email = null;
-                this.password = null;
-                admin = false;
-                return;
-            }
-        }
-        public Utente(string email, string password)
-        {
-            valid = false;
-            this.email = null;
-            this.password = null;
-            this.admin = false;
-        }
-
-        public static Utente GetUserObject(string email, string password)
+        public Utente(){}
+        public static Utente? GetUserObject(string email, string password)
         {
             var values = new Dictionary<string, string>{{ "email", email },{ "password", password },{ "account_type", "admin" } };
             JsonMessage message = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_confirmLogin, values);
-            if (message != null)
+            Utente utente = message.GetResultObject<Utente>();
+            if (utente != null)
             {
-                return new Utente(message.result) { email = email, password = password, admin = message.number_code==202 };
+                return utente;
             }
             else
             {
-                return new Utente(false) { email = email, password = password, admin = false };
+                return null;
             }
         }
     }

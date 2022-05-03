@@ -10,21 +10,21 @@ if ($link === false) {
     die();
 }
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-    die(json_encode(new JsonMessage(405, "Method Not Allowed. Utilizzare metodo POST", false)));
+    die(json_encode(new JsonMessage(405, "Method Not Allowed. Utilizzare metodo POST", false, null)));
 }
 
 if (!isset($_POST['type']) || empty($_POST['type'])){
-    die(json_encode(new JsonMessage(400, "Tipo di aggiunta non specificato", false)));
+    die(json_encode(new JsonMessage(400, "Tipo di aggiunta non specificato", false, null)));
 }
 
 $type = $_POST['type'];
 switch ($type) {
     case 'edificio':
         if (!isset($_POST['nome']) || empty($_POST['nome'])){
-            die(json_encode(new JsonMessage(400, "Campo nome non inserito", false)));
+            die(json_encode(new JsonMessage(400, "Campo nome non inserito", false, null)));
         }
         if (!isset($_POST['indirizzo']) || empty($_POST['indirizzo'])){
-            die(json_encode(new JsonMessage(400, "Campo indirizzo non inserito", false)));
+            die(json_encode(new JsonMessage(400, "Campo indirizzo non inserito", false, null)));
         }
         
         $nome = $_POST['nome'];
@@ -34,78 +34,98 @@ switch ($type) {
         
         try {
             if($result = mysqli_query($link, $sql)){
-                $message = new JsonMessage(200, "Edificio aggiunto", true);
+                $message = new JsonMessage(200, "Edificio aggiunto", true, null);
                 echo json_encode($message);
                 die();
             } else {
-                $message = new JsonMessage(406, "Impossibile aggiungere l'edificio", true);
+                $message = new JsonMessage(406, "Impossibile aggiungere l'edificio", true, null);
                 echo json_encode($message);
                 die();
             }
         } catch (Throwable $th) {
-                $message = new JsonMessage(500, mysqli_error($link), false);
+                $message = new JsonMessage(500, mysqli_error($link), false, null);
                 echo json_encode($message);
                 die();
         }
         break;
     case 'laboratorio':
-        if (!isset($_POST['Nome']) || empty($_POST['Nome'])){
-            die(json_encode(new JsonMessage(400, "Campo Nome non inserito", false)));
+        if (!isset($_POST['nome']) || empty($_POST['nome'])){
+            die(json_encode(new JsonMessage(400, "Campo 'nome' non inserito", false, null)));
         }
-        if (!isset($_POST['CodEdificio']) || empty($_POST['CodEdificio'])){
-            die(json_encode(new JsonMessage(400, "Campo CodEdificio non inserito", false)));
+        if (!isset($_POST['codedificio']) || empty($_POST['codedificio'])){
+            die(json_encode(new JsonMessage(400, "Campo 'codedificio' non inserito", false, null)));
+        }
+        if (!isset($_POST['codadmin']) || empty($_POST['codadmin'])){
+            die(json_encode(new JsonMessage(400, "Campo 'codadmin' non inserito", false, null)));
         }
         
-        $Nome = $_POST['Nome'];
-        $CodEdificio = $_POST['CodEdificio'];
+        $nome = $_POST['nome'];
+        $codedificio = $_POST['codedificio'];
+        $codadmin = $_POST['codadmin'];
         
-        $sql= "INSERT INTO `laboratori`(`Nome`, `CodEdificio`) VALUES ('$Nome', '$CodEdificio')";
+        $sql= "INSERT INTO `laboratori`(`Nome`, `CodEdificio`) VALUES ('$nome', '$codedificio')";
+        $sql_select_codlab = "SELECT Cod FROM laboratori WHERE Nome = '$nome' AND CodEdificio = $codedificio";
         
         try {
-            if($result = mysqli_query($link, $sql)){
-                $message = new JsonMessage(200, "Laboratorio non aggiunto", true);
-                echo json_encode($message);
-                die();
+            if(mysqli_query($link, $sql)){
+                if ($result = mysqli_query($link, $sql_select_codlab)){
+                    $codlab = mysqli_fetch_all($result)[0][0];
+                    $sql_associazione = "INSERT INTO `gestione_laboratori`(`codLab`, `codAdmin`) VALUES ('$codlab','$codadmin')";
+                    if ($result = mysqli_query($link, $sql_associazione)){
+                        $message = new JsonMessage(200, "Laboratorio aggiunto", true, null);
+                        echo json_encode($message);
+                        die();
+                    } else {
+                        $message = new JsonMessage(406, "Impossibile aggiungere il collegamento tra l'admin e il laboratorio", false, null);
+                        echo json_encode($message);
+                        die();
+                    }
+                }
+                else {
+                    $message = new JsonMessage(406, "Impossibile selezionare il codice del laboratorio", false, null);
+                    echo json_encode($message);
+                    die();
+                }
             } else {
-                $message = new JsonMessage(406, "Impossibile aggiungere il laboratorio", true);
+                $message = new JsonMessage(406, "Impossibile aggiungere il laboratorio", false, null);
                 echo json_encode($message);
                 die();
             }
         } catch (Throwable $th) {
-                $message = new JsonMessage(500, mysqli_error($link), false);
+                $message = new JsonMessage(500, mysqli_error($link), false, null);
                 echo json_encode($message);
                 die();
         }
         break;
     case 'pc':
         if (!isset($_POST['nome']) || empty($_POST['nome'])){
-            die(json_encode(new JsonMessage(400, "Campo Nome non inserito", false)));
+            die(json_encode(new JsonMessage(400, "Campo 'nome' non inserito", false, null)));
         }
         if (!isset($_POST['ip']) || empty($_POST['ip'])){
-            die(json_encode(new JsonMessage(400, "Campo ip non inserito", false)));
+            die(json_encode(new JsonMessage(400, "Campo 'ip' non inserito", false, null)));
         }
-        if (!isset($_POST['codLab']) || empty($_POST['codLab'])){
-            die(json_encode(new JsonMessage(400, "Campo cod non inserito", false)));
+        if (!isset($_POST['codlab']) || empty($_POST['codlab'])){
+            die(json_encode(new JsonMessage(400, "Campo 'codlab' non inserito", false, null)));
         }
         
         $Nome = $_POST['nome'];
         $ip = $_POST['ip']; 
-        $codLab = $_POST['codLab'];
+        $codlab = $_POST['codlab'];
         
-        $sql= "INSERT INTO `pc`(`Nome`, `IndirizzoIp`, `Stato`, `CodLaboratorio`) VALUES ('$Nome', '$ip', '0', '$codLab')";
+        $sql= "INSERT INTO `pc`(`Nome`, `IndirizzoIp`, `Stato`, `CodLaboratorio`) VALUES ('$Nome', '$ip', '0', '$codlab')";
         
         try {
             if($result = mysqli_query($link, $sql)){
-                $message = new JsonMessage(200, "Pc non aggiunto", true);
+                $message = new JsonMessage(200, "Pc aggiunto", true, null);
                 echo json_encode($message);
                 die();
             } else {
-                $message = new JsonMessage(406, "Impossibile aggiungere il pc", true);
+                $message = new JsonMessage(406, "Impossibile aggiungere il pc", false, null);
                 echo json_encode($message);
                 die();
             }
         } catch (Throwable $th) {
-                $message = new JsonMessage(500, mysqli_error($link), false);
+                $message = new JsonMessage(500, mysqli_error($link), false, null);
                 echo json_encode($message);
                 die();
         }

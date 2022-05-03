@@ -1,6 +1,5 @@
 ﻿using Client.Classi;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Windows;
 using System.Windows.Input;
 
@@ -33,8 +32,16 @@ namespace Client
             var values = new Dictionary<string, string> { { "nome", nome }, { "cognome", cognome }, { "mail", mail }, { "data", data }, { "password", password } };
 
             JsonMessage? registerResponse = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_confirmLogin, values);
-            if (registerResponse == null || !registerResponse.result) { MessageBox.Show("Registrazione non effettuata"); return; }
-
+            if (registerResponse == null)
+            {
+                MessageBox.Show("Registrazione non effettuata", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            else if (!registerResponse.status)
+            {
+                MessageBox.Show("Registrazione non effettuata. "+registerResponse.message, "Errore", MessageBoxButton.OK, MessageBoxImage.Hand);
+                return;
+            }
             MessageBox.Show("Registrazione effettuata");
             MainApp app = new MainApp(24690);
             this.Close();

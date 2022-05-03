@@ -61,13 +61,17 @@ namespace Master
             {
                   { "nome", txt1.Text.Trim() },
                   { "ip", txt2.Text.Trim() },
-                  { "codLab", laboratorio.cod.ToString() },
+                  { "codlab", laboratorio.cod.ToString() },
                   { "type", "pc" }
             };
             JsonMessage? messagePC = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_add, valuesLab);
-            if (messagePC == null || !messagePC.result)
+            if (messagePC == null)
             {
-                MessageBox.Show("PC non aggiunto", "Errore nell'aggiunta");
+                MessageBox.Show("PC non aggiunto", "Errore nell'aggiunta",MessageBoxButton.OK,MessageBoxImage.Error);
+                return;
+            } else if (!messagePC.status)
+            {
+                MessageBox.Show("PC non aggiunto. "+messagePC.message, "Errore nell'aggiunta", MessageBoxButton.OK, MessageBoxImage.Hand);
                 return;
             }
             laboratorio.addPc(new Pc(true, txt1.Text.Trim(), txt2.Text.Trim()));

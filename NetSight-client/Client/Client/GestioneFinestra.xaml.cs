@@ -23,10 +23,14 @@ namespace Client
             {
                 while (true)
                 {
-                    Application.Current.Dispatcher.Invoke(new Action(() => { labelLabIp.Content = app.labIp; }));
-                    Application.Current.Dispatcher.Invoke(new Action(() => { rectangleConnesso.Fill = app.connesso ? Brushes.Green : Brushes.Red; }));
-                    Application.Current.Dispatcher.Invoke(new Action(() => { buttonDisconnetti.IsEnabled = app.connesso; }));
-                    Thread.Sleep(1000);
+                    try
+                    {
+                        Application.Current.Dispatcher.Invoke(new Action(() => { labelLabIp.Content = app.labIp; }));
+                        Application.Current.Dispatcher.Invoke(new Action(() => { rectangleConnesso.Fill = app.connesso ? Brushes.Green : Brushes.Red; }));
+                        Application.Current.Dispatcher.Invoke(new Action(() => { buttonDisconnetti.IsEnabled = app.connesso; }));
+                        Thread.Sleep(1000);
+                    }
+                    catch (Exception){}
                 }
             }).Start();
         }
