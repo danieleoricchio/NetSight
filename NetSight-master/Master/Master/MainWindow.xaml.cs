@@ -25,9 +25,19 @@ namespace Master
         public MainWindow()
         {
             InitializeComponent();
+            txtEmail.Text = Properties.Settings.Default.email;
+            psw.Password = Properties.Settings.Default.password;
+            checkBox_remember.IsChecked = true;
         }
         private void btnAccesso_Click(object sender, RoutedEventArgs e)
         {
+            if (checkBox_remember.IsChecked == true)
+            {
+                Properties.Settings.Default.email = txtEmail.Text;
+                Properties.Settings.Default.password = psw.Password;
+                Properties.Settings.Default.Save();
+            }
+
             utente = Utente.GetUserObject(txtEmail.Text, psw.Password.ToString());
             if (utente != null)            {
                 SceltaLaboratorio visualizzaLaboratorio = new SceltaLaboratorio(utente);
