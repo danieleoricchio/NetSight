@@ -13,40 +13,19 @@ namespace Client
         public Login()
         {
             InitializeComponent();
-            this.WindowState = WindowState.Maximized;
+            txt_mail.Text = Properties.Settings.Default.email;
+            txt_password.Password = Properties.Settings.Default.password;
+            checkBox_remember.IsChecked = true;
         }
-
-        private void lbl_link_MouseEnter(object sender, MouseEventArgs e)
+        private void btn_login_Click(object sender, RoutedEventArgs e)
         {
-            lbl_link.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 0, 0, 0));
-        }
+            if(checkBox_remember.IsChecked == true)
+            {
+                Properties.Settings.Default.email = txt_mail.Text;
+                Properties.Settings.Default.password = txt_password.Password;
+                Properties.Settings.Default.Save();
+            }
 
-        private void lbl_link_MouseLeave(object sender, MouseEventArgs e)
-        {
-            lbl_link.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 255, 255, 255));
-        }
-
-        private void lbl_link_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            Registrazione r = new Registrazione();
-            r.Show();
-            this.Close();
-        }
-
-        private void btn_login_MouseEnter(object sender, MouseEventArgs e)
-        {
-            btn_login.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 255, 255, 255));
-            btn_login.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 0, 0, 0));
-        }
-
-        private void btn_login_MouseLeave(object sender, MouseEventArgs e)
-        {
-            btn_login.Background = null;
-            btn_login.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 255, 255, 255));
-        }
-
-        private async void btn_login_Click(object sender, RoutedEventArgs e)
-        {
             string mail = txt_mail.Text;
             string password = txt_password.Password.ToString();
             if (mail == "" || password == "") { MessageBox.Show("Inserire tutti i dati"); return; }
@@ -73,6 +52,13 @@ namespace Client
             MainApp app = new MainApp(24690);
             GestioneFinestra gestioneFinestra = new GestioneFinestra(app);
             gestioneFinestra.Show();
+            this.Close();
+        }
+
+        private void btn_register_Click(object sender, RoutedEventArgs e)
+        {
+            Registrazione r = new Registrazione();
+            r.Show();
             this.Close();
         }
     }

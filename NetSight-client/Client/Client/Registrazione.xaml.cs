@@ -1,7 +1,7 @@
 ﻿using Client.Classi;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Client
 {
@@ -13,15 +13,14 @@ namespace Client
         public Registrazione()
         {
             InitializeComponent();
-            this.WindowState = WindowState.Maximized;
         }
 
-        private async void btn_registra_Click(object sender, RoutedEventArgs e)
+        private void btn_registra_Click(object sender, RoutedEventArgs e)
         {
             string nome = txt_nome.Text;
             string cognome = txt_cognome.Text;
             string mail = txt_mail.Text;
-            string data = date.Text;
+            string data = txt_data.Text;
             string password = txt_password.Text;
             string conferma = txt_conferma.Text;
 
@@ -39,41 +38,33 @@ namespace Client
             }
             else if (!registerResponse.status)
             {
-                MessageBox.Show("Registrazione non effettuata. "+registerResponse.message, "Errore", MessageBoxButton.OK, MessageBoxImage.Hand);
+                MessageBox.Show("Registrazione non effettuata. " + registerResponse.message, "Errore", MessageBoxButton.OK, MessageBoxImage.Hand);
                 return;
             }
             MessageBox.Show("Registrazione effettuata");
             MainApp app = new MainApp(24690);
             this.Close();
         }
-
-        private void btn_registra_MouseEnter(object sender, MouseEventArgs e)
-        {
-            btn_registra.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 255, 255, 255));
-            btn_registra.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 0, 0, 0));
-        }
-
-        private void btn_registra_MouseLeave(object sender, MouseEventArgs e)
-        {
-            btn_registra.Background = null;
-            btn_registra.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 255, 255, 255));
-        }
-
-        private void lbl_indietro_MouseEnter(object sender, MouseEventArgs e)
-        {
-            lbl_indietro.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 0, 0, 0));
-        }
-
-        private void lbl_indietro_MouseLeave(object sender, MouseEventArgs e)
-        {
-            lbl_indietro.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(200, 255, 255, 255));
-        }
-
-        private void lbl_indietro_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void btn_indietro_Click(object sender, RoutedEventArgs e)
         {
             Login w = new Login();
             w.Show();
             this.Close();
+        }
+
+        private void btn_clear_Click(object sender, RoutedEventArgs e)
+        {
+            txt_nome.Text = "";
+            txt_cognome.Text = "";
+            txt_mail.Text = "";
+            txt_data.Text = "";
+            txt_password.Text = "";
+            txt_conferma.Text = "";
+        }
+
+        private void btn_indietro_GotFocus(object sender, RoutedEventArgs e)
+        {
+            btn_indietro.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 125, 125));
         }
     }
 }

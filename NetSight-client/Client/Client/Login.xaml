@@ -5,34 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="Login" Height="450" Width="800">
-	<Grid>
-		<Grid.Background>
-			<ImageBrush ImageSource="/download.jpg"/>
-		</Grid.Background>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition/>
-			<ColumnDefinition/>
-			<ColumnDefinition/>
-			<ColumnDefinition/>
-			<ColumnDefinition/>
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition/>
-			<RowDefinition/>
-			<RowDefinition/>
-			<RowDefinition/>
-			<RowDefinition/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
-        <Label Grid.ColumnSpan="5" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20" FontSize="40" FontWeight="Bold" Foreground="White" Content="LOGIN NETSIGHT" FontStyle="Italic"/>
-        <Label Grid.Column="0" Grid.Row="2" Width="1in" HorizontalAlignment="Right" Background="Transparent" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="19" Foreground="White">E-Mail:</Label>
-		<TextBox  x:Name="txt_mail" Grid.Column="1" Grid.Row="2" Width="2in" Height="0.4in" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" Foreground="White" FontWeight="Bold"/>
-        <Label Grid.Column="2" Grid.Row="2" Width="1in" HorizontalAlignment="Right" Background="Transparent" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="19" Foreground="White">Password:</Label>
-		<PasswordBox  x:Name="txt_password" Grid.Column="3" Grid.Row="2" Width="2in" Height="0.4in" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" Foreground="White"></PasswordBox>
-		<Button x:Name="btn_login" Grid.ColumnSpan="5" Grid.Row="4" Content="LOGIN" HorizontalAlignment="Center" Height="1in" VerticalAlignment="Top" Width="3in" Background="{x:Null}" BorderBrush="White" BorderThickness="2" Foreground="White" FontSize="19" MouseEnter="btn_login_MouseEnter" MouseLeave="btn_login_MouseLeave" Click="btn_login_Click"/>
-		<Label x:Name="lbl_errore" Grid.Column="2" Grid.Row="3" Width="2in" HorizontalAlignment="Center" Background="Transparent" HorizontalContentAlignment="Center" VerticalContentAlignment="center" FontSize="12" Foreground="White"></Label>
-		<Label x:Name="lbl_link" Grid.Column="2" Grid.Row="5" Height="0.27in" Width="2in" VerticalAlignment="Top" HorizontalAlignment="Center" Background="Transparent" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" FontSize="12" Foreground="White" MouseEnter="lbl_link_MouseEnter" MouseLeave="lbl_link_MouseLeave" MouseLeftButtonUp="lbl_link_MouseLeftButtonUp">Non hai un account? Registrati</Label>
-        <PasswordBox Grid.Column="4" HorizontalAlignment="Left" Height="0" Margin="101,72,0,0" Grid.Row="3" VerticalAlignment="Top" Width="120"/>
+        Title="Login" Height="372" Width="427" ResizeMode="CanMinimize">
+    <Window.Background>
+        <ImageBrush ImageSource="/download.jpg"/>
+    </Window.Background>
+    <Grid>
+        <Label Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="47,36,0,0" FontSize="40" FontWeight="Bold" Foreground="White" Content="LOGIN NETSIGHT" FontStyle="Italic"/>
+        <Button x:Name="btn_login" IsDefault="True" Content="Login" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="140" Background="{x:Null}" BorderBrush="Black" Foreground="White" FontSize="19" Click="btn_login_Click" Margin="62,244,0,0">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Label HorizontalAlignment="Left" Margin="73,127,0,0" VerticalAlignment="Top" Width="117" Content="E-mail" Foreground="White"/>
+        <Label HorizontalAlignment="Left" Margin="73,167,0,0" VerticalAlignment="Top" Width="117" Content="Password" Foreground="White"/>
+        <TextBox x:Name="txt_mail" Foreground="White" HorizontalAlignment="Left" Margin="238,127,0,0" TextWrapping="Wrap" Background="{x:Null}" BorderBrush="White" VerticalAlignment="Top" Width="164" Height="26"/>
+        <PasswordBox x:Name="txt_password" Foreground="White" HorizontalAlignment="Left" Margin="238,167,0,0" Background="{x:Null}"  BorderBrush="White" VerticalAlignment="Top" Width="164" Height="26"/>
+        <Button x:Name="btn_register" IsDefault="True" Content="Register" HorizontalAlignment="Left" Height="43" VerticalAlignment="Top" Width="136" Background="{x:Null}" BorderBrush="Black" Foreground="White" FontSize="19" Margin="230,245,0,0" Click="btn_register_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <CheckBox x:Name="checkBox_remember" Content="Ricordami" HorizontalAlignment="Left" Margin="166,212,0,0" VerticalAlignment="Top" Width="101" Foreground="White"/>
     </Grid>
 </Window>

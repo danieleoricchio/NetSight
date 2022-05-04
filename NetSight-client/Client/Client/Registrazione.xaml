@@ -5,40 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="Registrazione" Height="450" Width="800">
+        Title="Registrazione" Height="600" Width="800" ResizeMode="CanMinimize">
+    <Window.Background>
+        <ImageBrush ImageSource="/download.jpg"/>
+    </Window.Background>
     <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="background.png"/>
-        </Grid.Background>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Label Grid.ColumnSpan="5" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="20" FontSize="40" FontWeight="Bold" Foreground="White">Registrazione Netsight</Label>
-        <Label Grid.Column="0" Grid.Row="1" Width="1in" HorizontalAlignment="Right" Background="Transparent"  HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="19" Foreground="White">Nome:</Label>
-        <Label Grid.Column="0" Grid.Row="2" Width="1in" HorizontalAlignment="Right" Background="Transparent" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="19" Foreground="White">Cognome:</Label>
-        <Label Grid.Column="0" Grid.Row="3" Width="1in" HorizontalAlignment="Right" Background="Transparent"  HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="19" Foreground="White">Data:</Label>
-        <Label Grid.Column="2" Grid.Row="1" Width="1in" HorizontalAlignment="Right" Background="Transparent" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="19" Foreground="White">E-Mail:</Label>
-        <Label Grid.Column="2" Grid.Row="2" Width="1in" HorizontalAlignment="Right" Background="Transparent" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="19" Foreground="White">Password:</Label>
-        <Label Grid.Column="2" Grid.Row="3" Width="1in" HorizontalAlignment="Right" Background="Transparent" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="19" Foreground="White">Conferma:</Label>
-        <TextBox  x:Name="txt_nome" Grid.Column="1" Grid.Row="1" Width="2in" Height="0.4in" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" Foreground="White"></TextBox>
-        <TextBox  x:Name="txt_cognome" Grid.Column="1" Grid.Row="2" Width="2in" Height="0.4in" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" Foreground="White"></TextBox>
-        <TextBox  x:Name="txt_mail" Grid.Column="3" Grid.Row="1" Width="2in" Height="0.4in" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" Foreground="White"></TextBox>
-        <DatePicker x:Name="date" Grid.Column="1" Grid.Row="3" Width="2in" Height="0.4in" HorizontalAlignment="Center" VerticalAlignment="Top" BorderBrush="White" BorderThickness="2"/>
-        <TextBox  x:Name="txt_password" Grid.Column="3" Grid.Row="2" Width="2in" Height="0.4in" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" Foreground="White"></TextBox>
-        <TextBox  x:Name="txt_conferma" Grid.Column="3" Grid.Row="3" Width="2in" Height="0.4in" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" Foreground="White"></TextBox>
-        <Button x:Name="btn_registra" Grid.ColumnSpan="5" Grid.Row="4" Content="REGISTRATI" HorizontalAlignment="Center" Height="1in" VerticalAlignment="Top" Width="3in" Click="btn_registra_Click" Background="{x:Null}" BorderBrush="White" BorderThickness="2" Foreground="White" FontSize="19" MouseEnter="btn_registra_MouseEnter" MouseLeave="btn_registra_MouseLeave"/>
-        <Label x:Name="lbl_indietro" Grid.Column="0" Grid.Row="0" Height="1in" Width="1in" VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="12" Foreground="White" MouseEnter="lbl_indietro_MouseEnter" MouseLeave="lbl_indietro_MouseLeave" MouseLeftButtonUp="lbl_indietro_MouseLeftButtonUp">Indietro</Label>
+        <Label HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="45" FontWeight="Bold" Foreground="White" Height="68" Width="502" Content="Registrazione Netsight" Margin="159,10,0,0"></Label>
+        <Label HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Foreground="White" Height="44" Width="429" Content="Compila tutti i campi per registrarti a netsight" Margin="190,83,0,0"></Label>
+        <Label  VerticalAlignment="Top" Content="Inserisci nome:" Background="Transparent" FontSize="19" Foreground="White" Margin="64,135,349,0"></Label>
+        <Label  VerticalAlignment="Top" Content="Inserisci cognome: " Background="Transparent" FontSize="19" Foreground="White" Margin="64,193,349,0"></Label>
+        <Label  VerticalAlignment="Top" Content="Inserisci e-mail: " Background="Transparent" FontSize="19" Foreground="White" Margin="64,254,349,0"></Label>
+        <Label  VerticalAlignment="Top" Content="Inserisci data di nascita (formato Y-M-D):" Background="Transparent" FontSize="19" Foreground="White" Margin="64,318,349,0"></Label>
+        <Label  VerticalAlignment="Top" Content="Inserisci password:" Background="Transparent" FontSize="19" Foreground="White" Margin="64,375,349,0" ></Label>
+        <Label  VerticalAlignment="Top" Content="Inserisci di nuovo la password:" Background="Transparent" FontSize="19" Foreground="White" Margin="64,428,349,0"></Label>
+        <TextBox  x:Name="txt_nome" Height="38" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" Foreground="White" Margin="469,132,75,0"/>
+        <TextBox  x:Name="txt_cognome" Height="38" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" Foreground="White" Margin="469,193,76,0"/>
+        <TextBox  x:Name="txt_mail" Height="38" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" Foreground="White" Margin="469,254,76,0"/>
+        <TextBox  x:Name="txt_data" Height="38" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" Foreground="White" Margin="469,315,76,0"/>
+        <TextBox  x:Name="txt_password" Height="38" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" Foreground="White" Margin="469,372,76,0"/>
+        <TextBox  x:Name="txt_conferma" Height="38" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="White" BorderThickness="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" Foreground="White" Margin="469,428,76,0"/>
+        <Button x:Name="btn_registra" IsDefault="True" Content="REGISTRATI" HorizontalAlignment="Center" Height="63" VerticalAlignment="Top" Width="252" Click="btn_registra_Click" Background="{x:Null}" BorderBrush="White" BorderThickness="2" Foreground="White" Margin="0,493,0,0">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btn_indietro" IsDefault="True" Content="Indietro" HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Width="142" Background="{x:Null}" BorderBrush="White" BorderThickness="2" Foreground="White" Margin="10,493,0,0" Click="btn_indietro_Click" GotFocus="btn_indietro_GotFocus">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btn_clear" IsDefault="True" Content="Svuota campi" HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Width="142" Background="{x:Null}" BorderBrush="White" BorderThickness="2" Foreground="White" Margin="629,493,0,0" Click="btn_clear_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
 
     </Grid>
 </Window>
