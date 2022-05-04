@@ -47,11 +47,10 @@ namespace Client
                     File.Create(PATH_HOSTNAME);
                 }
                 hostname = File.ReadAllText(PATH_HOSTNAME).Trim();
-                labIp = hostname;
                 #endregion
                 #region inizio thread
                 new Thread(new ThreadStart(Ricevi)).Start();
-                new Thread(new ThreadStart(() => { while (true) { if (connesso) Invia("alive;" + thisIp, 25000); Thread.Sleep(10000); } })).Start();
+                new Thread(new ThreadStart(() => { while (true) { if (connesso) Invia("alive", 25000); Thread.Sleep(10000); } })).Start();
                 #endregion
             }
             catch (Exception ex)
@@ -84,40 +83,50 @@ namespace Client
                 IPEndPoint receiveEP = new IPEndPoint(IPAddress.Any, 0);
                 byte[] dataReceived = server.Receive(ref receiveEP);
                 string messaggio = Encoding.ASCII.GetString(dataReceived);
+                MessageBox.Show($"'{messaggio}' from {receiveEP.Address.ToString()}", "Messaggio", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"hostname.Trim() = {hostname.Trim()}, labIp = {labIp}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 new Thread(() =>
                 {
-                    switch (messaggio)
+                    try
                     {
-                        case "apertura":
-                            if (hostname.Trim() == "" || labIp == "")
-                            {
-                                hostname = receiveEP.Address.ToString();
-                                labIp = hostname;
-                                connesso = true;
-                                File.WriteAllText(PATH_HOSTNAME, hostname);
-                                Invia("apertura-confermata", 25000);
-                            }
-                            return;
-                        case "chiusura":
-                            connesso = false;
-                            labIp = "";
-                            flagChiusura = true;
-                            return;
-                        case "condivisione-schermo":
-                            if (Process.Start("ScreenSharing.exe", $"hostname={hostname} port=5900 width=1280 height=720") != null)
-                            {
-                                MessageBox.Show("Partito");
-                            }
-                            return;
-                        case "riapertura":
-                            if(labIp == receiveEP.Address.ToString())
-                            {
-                                connesso = true;
-                                Invia("riapertura-confermata;" + thisIp, 25000);
-                            }
-                            return;
-                        default:
-                            break;
+                        switch (messaggio)
+                        {
+                            case "apertura":
+                                if (hostname.Trim() == "" || labIp == "")
+                                {
+                                    hostname = receiveEP.Address.ToString();
+                                    labIp = hostname;
+                                    connesso = true;
+                                    File.WriteAllText(PATH_HOSTNAME, hostname);
+                                    Invia("apertura-confermata", 25000);
+                                    MessageBox.Show($"apertura-confermata inviata", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                                }
+                                return;
+                            case "chiusura":
+                                connesso = false;
+                                labIp = "";
+                                flagChiusura = true;
+                                return;
+                            case "condivisione-schermo":
+                                if (Process.Start("ScreenSharing.exe", $"hostname={hostname} port=5900 width=1280 height=720") != null)
+                                {
+                                    MessageBox.Show("Partito");
+                                }
+                                return;
+                            case "riapertura":
+                                if (labIp == receiveEP.Address.ToString())
+                                {
+                                    connesso = true;
+                                    Invia("riapertura-confermata", 25000);
+                                }
+                                return;
+                            default:
+                                break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }).Start();
             }

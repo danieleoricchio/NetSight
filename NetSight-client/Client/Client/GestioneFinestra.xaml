@@ -14,6 +14,5 @@
         <Label Content="Connesso" HorizontalAlignment="Left" Height="30" Margin="10,91,0,0" VerticalAlignment="Top" Width="79" VerticalContentAlignment="Center" FontSize="16"/>
         <Rectangle x:Name="rectangleConnesso" HorizontalAlignment="Left" Height="20" Margin="290,96,0,0" Stroke="Black" VerticalAlignment="Top" Width="20" Fill="#FF37FF00"/>
         <Button x:Name="buttonDisconnetti" Content="Disconnetti da laboratorio" HorizontalAlignment="Center" Height="31" Margin="0,136,0,0" VerticalAlignment="Top" Width="194" FontSize="16" Click="Button_Click"/>
-
     </Grid>
 </Window>

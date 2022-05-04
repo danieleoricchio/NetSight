@@ -14,6 +14,7 @@ namespace Client
         public GestioneFinestra(MainApp app)
         {
             InitializeComponent();
+            Closing += GestioneFinestra_Closing;
             this.app = app;
             labelThisIp.Content = app.thisIp;
             labelLabIp.Content = app.labIp;
@@ -34,6 +35,22 @@ namespace Client
                 }
             }).Start();
         }
+
+        private void GestioneFinestra_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!app.connesso) Environment.Exit(0);
+            if (app.ChiediDisconnessione())
+            {
+                MessageBox.Show("Disconnessione da laboratorio accettata.", "Ok", MessageBoxButton.OK, MessageBoxImage.Information);
+                Environment.Exit(0);
+            }
+            else
+            {
+                MessageBox.Show("Disconnessione da laboratorio rifutata.", "Richiesta rifiutata", MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Cancel = true;
+            }
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (app.ChiediDisconnessione())
@@ -44,7 +61,6 @@ namespace Client
             {
                 MessageBox.Show("Disconnessione da laboratorio rifutata.", "Richiesta rifiutata", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
         }
     }
 }

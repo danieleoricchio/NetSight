@@ -42,21 +42,30 @@ namespace Master
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            bool timerScaduto = false;
+            System.Timers.Timer timer = new System.Timers.Timer(100000);
+            timer.Elapsed += (object? sender, System.Timers.ElapsedEventArgs e) => { timerScaduto = true; };
             if (txt1.Text == string.Empty && txt2.Text == string.Empty) { MessageBox.Show("Inserire i dati correttamente"); return; }
 
             sendData("apertura", 24690, txt2.Text.Trim());
             UdpClient udpClient = new UdpClient(24690);
+            timer.Start();
             do
             {
                 IPEndPoint riceiveEP = new IPEndPoint(IPAddress.Any, 0);
                 byte[] dataReceived = udpClient.Receive(ref riceiveEP);
                 string messaggio = Encoding.ASCII.GetString(dataReceived);
-                if(messaggio.Equals("apertura-confermata") && riceiveEP.Address.ToString().Equals(txt2.Text.Trim()))
+                if (messaggio.Equals("apertura-confermata") && riceiveEP.Address.ToString().Equals(txt2.Text.Trim()))
                 {
                     break;
                 }
-            } while (true);
-
+            } while (!timerScaduto);
+            timer.Stop();
+            if (timerScaduto)
+            {
+                MessageBox.Show($"Il pc ({txt2.Text.Trim()}) non risponde. \nMagari l'indirizzo ip è sbagliato?", "Impossibile contattare " + txt2.Text.Trim(), MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             Dictionary<string, string> valuesLab = new Dictionary<string, string>()
             {
                   { "nome", txt1.Text.Trim() },
@@ -67,11 +76,12 @@ namespace Master
             JsonMessage? messagePC = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_add, valuesLab);
             if (messagePC == null)
             {
-                MessageBox.Show("PC non aggiunto", "Errore nell'aggiunta",MessageBoxButton.OK,MessageBoxImage.Error);
+                MessageBox.Show("PC non aggiunto", "Errore nell'aggiunta", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
-            } else if (!messagePC.status)
+            }
+            else if (!messagePC.status)
             {
-                MessageBox.Show("PC non aggiunto. "+messagePC.message, "Errore nell'aggiunta", MessageBoxButton.OK, MessageBoxImage.Hand);
+                MessageBox.Show("PC non aggiunto. " + messagePC.message, "Errore nell'aggiunta", MessageBoxButton.OK, MessageBoxImage.Hand);
                 return;
             }
             laboratorio.addPc(new Pc(true, txt1.Text.Trim(), txt2.Text.Trim()));

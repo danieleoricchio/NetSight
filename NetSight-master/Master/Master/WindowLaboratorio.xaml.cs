@@ -25,12 +25,17 @@ namespace Master
         public WindowLaboratorio(Laboratorio lab, Utente u)
         {
             InitializeComponent();
-            Closing += (object? sender, System.ComponentModel.CancelEventArgs e) => { Environment.Exit(0); };
+            Closing += (object? sender, System.ComponentModel.CancelEventArgs e) => {
+                foreach (Pc item in lab.listaPc)
+                {
+                    sendData("chiusura", item.ip, 24690);
+                }
+                Environment.Exit(0); 
+            };
             this.lab = lab;
             this.user = u;
             Setup();
             threadReceive = new Thread(receivePackets);
-            threadReceive.Start();
             new Thread(checkPcColor).Start();
             aggiornaPc.Click += (object sender, RoutedEventArgs e) => { setPcs(); };
             new Thread(() =>
@@ -49,6 +54,7 @@ namespace Master
                     Thread.Sleep(2000);
                 }
             }).Start();
+            threadReceive.Start();
         }
 
         private void checkPcColor()
@@ -144,6 +150,7 @@ namespace Master
             while (true)
             {
                 IPEndPoint receiveEP = new IPEndPoint(IPAddress.Any, 0);
+
                 byte[] dataReceived = udpServer.Receive(ref receiveEP);
                 string messaggio = Encoding.ASCII.GetString(dataReceived);
                 string info = messaggio.Split(";")[0], ip = receiveEP.Address.ToString();
@@ -153,6 +160,7 @@ namespace Master
                     {
                         case "alive":
                             Pc pc = lab.GetPc(ip);
+                            if (pc == null) return;
                             pc.AggiornaStato(true);
                             break;
                         case "riapertura-confermata":
