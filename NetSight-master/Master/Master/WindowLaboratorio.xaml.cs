@@ -33,6 +33,22 @@ namespace Master
             threadReceive.Start();
             new Thread(checkPcColor).Start();
             aggiornaPc.Click += (object sender, RoutedEventArgs e) => { setPcs(); };
+            new Thread(() =>
+            {
+                while (true)
+                {
+                    foreach (Pc item in lab.listaPc)
+                    {
+                        try
+                        {
+                           if (!item.stato)
+                           sendData("riapertura",item.ip, 24690);
+                        }
+                        catch (Exception) { }
+                    }
+                    Thread.Sleep(2000);
+                }
+            }).Start();
         }
 
         private void checkPcColor()
@@ -41,7 +57,11 @@ namespace Master
             {
                 foreach (Pc item in lab.listaPc)
                 {
-                    Application.Current.Dispatcher.Invoke(new Action(() => { rects[lab.getPos(item)].Rectangle.Fill = item.stato ? green : red; }));
+                    try
+                    {
+                        Application.Current.Dispatcher.Invoke(new Action(() => { rects[lab.getPos(item)].Rectangle.Fill = item.stato ? green : red; }));
+                    }
+                    catch (Exception){}
                 }
                 Thread.Sleep(500);
             }
@@ -67,7 +87,7 @@ namespace Master
                 rectangle.Pc = item;
                 rectangle.Color = !item.stato ? green : red;
                 rects.Add(rectangle);
-                item.Controllo();
+                if (item.stato) item.Controllo();
             }
             for (int i = 0; i < rects.Count; i++)
             {
@@ -123,10 +143,10 @@ namespace Master
             UdpClient udpServer = new UdpClient(25000);
             while (true)
             {
-                IPEndPoint riceiveEP = new IPEndPoint(IPAddress.Any, 0);
-                byte[] dataReceived = udpServer.Receive(ref riceiveEP);
+                IPEndPoint receiveEP = new IPEndPoint(IPAddress.Any, 0);
+                byte[] dataReceived = udpServer.Receive(ref receiveEP);
                 string messaggio = Encoding.ASCII.GetString(dataReceived);
-                string info = messaggio.Split(";")[0], ip = messaggio.Split(";")[1];
+                string info = messaggio.Split(";")[0], ip = receiveEP.Address.ToString();
                 new Thread(() =>
                 {
                     switch (info)
@@ -134,6 +154,12 @@ namespace Master
                         case "alive":
                             Pc pc = lab.GetPc(ip);
                             pc.AggiornaStato(true);
+                            break;
+                        case "riapertura-confermata":
+                            lab.GetPc(ip).AggiornaStato(true);
+                            break;
+                        case "chiedi-chiusura":
+                            MessageBox.Show($"{lab.GetPc(ip).nome} ha chiesto la disconnessione");
                             break;
                         default:
                             break;
@@ -163,23 +189,23 @@ namespace Master
         private void menuItem_screenSharing(object sender, RoutedEventArgs e)
         {
             Process.Start("ViewScreen.exe");
-            sendData("condivisione-schermo", 24690);
+            //sendData("condivisione-schermo", 24690);
         }
 
         private void menuItem_powerOn(object sender, RoutedEventArgs e)
         {
-            sendData("apertura", 24690);
+            //sendData("on", 24690);
         }
 
         private void menuItem_powerOff(object sender, RoutedEventArgs e)
         {
-            sendData("off", 24690);
+            //sendData("off", 24690);
         }
 
-        private void sendData(string dataIn, int port)
+        private void sendData(string dataIn, string ip, int port)
         {
             byte[] data = Encoding.ASCII.GetBytes(dataIn);
-            new UdpClient().Send(data, data.Length, lab.listaPc[0].ip, port);
+            new UdpClient().Send(data, data.Length, ip, port);
         }
 
         public class myRectangle

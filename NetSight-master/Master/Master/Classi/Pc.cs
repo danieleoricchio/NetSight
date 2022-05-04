@@ -36,6 +36,12 @@ namespace Master
         }
         public void Controllo()
         {
+            timer = new System.Timers.Timer(5000);
+            timer.Elapsed += (object? sender, ElapsedEventArgs e) =>
+            {
+                timer.Stop();
+                AggiornaStato(false);
+            };
             new Thread(() => {
                 while (true)
                 {
