@@ -47,6 +47,7 @@ namespace Client
                     File.Create(PATH_HOSTNAME);
                 }
                 hostname = File.ReadAllText(PATH_HOSTNAME).Trim();
+                labIp = hostname;
                 #endregion
                 #region inizio thread
                 new Thread(new ThreadStart(Ricevi)).Start();
@@ -94,7 +95,7 @@ namespace Client
                                 labIp = hostname;
                                 connesso = true;
                                 File.WriteAllText(PATH_HOSTNAME, hostname);
-                                Invia("apertura-confermata", 24690);
+                                Invia("apertura-confermata", 25000);
                             }
                             return;
                         case "chiusura":
@@ -106,6 +107,13 @@ namespace Client
                             if (Process.Start("ScreenSharing.exe", $"hostname={hostname} port=5900 width=1280 height=720") != null)
                             {
                                 MessageBox.Show("Partito");
+                            }
+                            return;
+                        case "riapertura":
+                            if(labIp == receiveEP.Address.ToString())
+                            {
+                                connesso = true;
+                                Invia("riapertura-confermata;" + thisIp, 25000);
                             }
                             return;
                         default:
