@@ -25,12 +25,13 @@ namespace Master
         public WindowLaboratorio(Laboratorio lab, Utente u)
         {
             InitializeComponent();
-            Closing += (object? sender, System.ComponentModel.CancelEventArgs e) => {
-                foreach (Pc item in lab.listaPc)
+            Closing += (object? sender, System.ComponentModel.CancelEventArgs e) =>
+            {
+                foreach (var item in /*lab.listaPc*/rects)
                 {
-                    sendData("chiusura", item.ip, 24690);
+                    sendData("chiusura", item.Pc.ip, 24690);
                 }
-                Environment.Exit(0); 
+                Environment.Exit(0);
             };
             this.lab = lab;
             this.user = u;
@@ -42,12 +43,12 @@ namespace Master
             {
                 while (true)
                 {
-                    foreach (Pc item in lab.listaPc)
+                    foreach (var item in /*lab.listaPc*/rects)
                     {
                         try
                         {
-                           if (!item.stato)
-                           sendData("riapertura",item.ip, 24690);
+                            if (!item.Pc.stato)
+                                sendData("riapertura", item.Pc.ip, 24690);
                         }
                         catch (Exception) { }
                     }
@@ -67,7 +68,7 @@ namespace Master
                     {
                         Application.Current.Dispatcher.Invoke(new Action(() => { rects[lab.getPos(item)].Rectangle.Fill = item.stato ? green : red; }));
                     }
-                    catch (Exception){}
+                    catch (Exception) { }
                 }
                 Thread.Sleep(500);
             }
@@ -89,7 +90,7 @@ namespace Master
             int rectsInRow = 6;
             foreach (Pc item in lab.listaPc)
             {
-                myRectangle rectangle = new myRectangle() { Width = 150, Height = 150};
+                myRectangle rectangle = new myRectangle() { Width = 150, Height = 150 };
                 rectangle.Pc = item;
                 rectangle.Color = !item.stato ? green : red;
                 rects.Add(rectangle);
@@ -104,7 +105,8 @@ namespace Master
                 }
                 marginRight += i % rectsInRow == 0 ? 20 : rects[i].Width + 20;
                 double marginTop = 40 + (row == 1 ? 0 : (40 + rects[i].Height) * (row - 1));
-                Rectangle r = new Rectangle() {
+                Rectangle r = new Rectangle()
+                {
                     Width = rects[i].Width,
                     Height = rects[i].Height,
                     Fill = rects[i].Color,
@@ -115,7 +117,8 @@ namespace Master
                     RadiusY = 20,
                 };
                 r.MouseRightButtonUp += rectangle_MouseRightButtonUp;
-                Label labelip = new Label() {
+                Label labelip = new Label()
+                {
                     HorizontalAlignment = HorizontalAlignment.Left,
                     VerticalAlignment = VerticalAlignment.Top,
                     HorizontalContentAlignment = HorizontalAlignment.Center,
@@ -124,7 +127,7 @@ namespace Master
                     Foreground = Brushes.White,
                     Content = rects[i].Pc.ip,
                     FontFamily = new FontFamily("Arial"),
-                    Margin = new Thickness(marginRight, marginTop + rects[i].Height - 30, 0, 0) 
+                    Margin = new Thickness(marginRight, marginTop + rects[i].Height - 30, 0, 0)
                 };
                 Label labelnome = new Label()
                 {
@@ -165,9 +168,15 @@ namespace Master
                             break;
                         case "riapertura-confermata":
                             lab.GetPc(ip).AggiornaStato(true);
+                            rects[lab.getPos(lab.GetPc(ip))].Pc = lab.GetPc(ip);
                             break;
                         case "chiedi-chiusura":
-                            MessageBox.Show($"{lab.GetPc(ip).nome} ha chiesto la disconnessione");
+                            MessageBoxResult result = MessageBox.Show($"{lab.GetPc(ip).nome} ha chiesto la disconnessione.\nAccettare?", "Disconnessione richiesta", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                            if (result == MessageBoxResult.Yes)
+                            {
+                                sendData("chiusura", ip, 24690);
+                                lab.GetPc(ip).AggiornaStato(false);
+                            }
                             break;
                         default:
                             break;
@@ -175,8 +184,17 @@ namespace Master
                 }).Start();
             }
         }
+        private int posRectCliccato = -1;
         private void rectangle_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
+            Rectangle rectangleCliccato = (Rectangle)sender;
+            for (int i = 0; i < rects.Count; i++)
+            {
+                if (rectangleCliccato == rects[i].Rectangle)
+                {
+                    posRectCliccato = i;
+                }
+            }
             ContextMenu contextMenu = new ContextMenu();
             MenuItem item1 = new MenuItem();
             MenuItem item2 = new MenuItem();
@@ -196,8 +214,9 @@ namespace Master
 
         private void menuItem_screenSharing(object sender, RoutedEventArgs e)
         {
+            if (posRectCliccato <= -1) return;
             Process.Start("ViewScreen.exe");
-            //sendData("condivisione-schermo", 24690);
+            sendData("condivisione-schermo", rects[posRectCliccato].Pc.ip, 24690);
         }
 
         private void menuItem_powerOn(object sender, RoutedEventArgs e)
@@ -231,7 +250,7 @@ namespace Master
         private void addPc_Click(object sender, RoutedEventArgs e)
         {
             WindowAddPc windowAddPc = new WindowAddPc(ref lab, user);
-            if(windowAddPc.ShowDialog() == true)
+            if (windowAddPc.ShowDialog() == true)
             {
                 setPcs();
             }

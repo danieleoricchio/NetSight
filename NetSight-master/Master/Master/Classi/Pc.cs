@@ -23,7 +23,7 @@ namespace Master
         public Pc(bool stato, string nome, string ip)
         {
             this.stato = stato;
-            timer = new System.Timers.Timer(5000);
+            timer = new System.Timers.Timer(10000);
             timer.Elapsed += (object? sender, ElapsedEventArgs e) =>
             {
                 timer.Stop();

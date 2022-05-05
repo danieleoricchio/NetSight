@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Master
 {
@@ -11,6 +7,7 @@ namespace Master
         public List<Pc> listaPc;
         public int cod, codEdificio;
         public string nome;
+        private object lockingObject = new object();
 
         public Laboratorio()
         {
@@ -19,7 +16,10 @@ namespace Master
 
         public void addPc(Pc p)
         {
-            listaPc.Add(p);
+            lock (lockingObject)
+            {
+                listaPc.Add(p);
+            }
         }
         public List<Pc> GetPcs()
         {
@@ -28,7 +28,7 @@ namespace Master
 
         public Pc GetPc(string nomeOrIP)
         {
-            return listaPc.Find(pc => pc.nome==nomeOrIP || pc.ip == nomeOrIP);
+            return listaPc.Find(pc => pc.nome == nomeOrIP || pc.ip == nomeOrIP);
         }
 
         public int getPos(Pc pc)
