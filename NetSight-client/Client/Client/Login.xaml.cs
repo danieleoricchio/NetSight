@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Client
 {
@@ -47,8 +48,6 @@ namespace Client
                 txt_password.Password = ""; 
                 return;
             }
-
-            MessageBox.Show("Login effettuato","",MessageBoxButton.OK,MessageBoxImage.Information);
             MainApp app = new MainApp(24690);
             GestioneFinestra gestioneFinestra = new GestioneFinestra(app);
             gestioneFinestra.Show();

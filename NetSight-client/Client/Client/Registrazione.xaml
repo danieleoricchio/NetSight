@@ -31,7 +31,7 @@
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name="btn_indietro" IsDefault="True" Content="Indietro" HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Width="142" Background="{x:Null}" BorderBrush="White" BorderThickness="2" Foreground="White" Margin="10,493,0,0" Click="btn_indietro_Click" GotFocus="btn_indietro_GotFocus">
+        <Button x:Name="btn_indietro" IsDefault="True" Content="Indietro" HorizontalAlignment="Left" Height="63" VerticalAlignment="Top" Width="142" Background="{x:Null}" BorderBrush="White" BorderThickness="2" Foreground="White" Margin="10,493,0,0" Click="btn_indietro_Click">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="8"/>
