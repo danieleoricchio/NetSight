@@ -41,7 +41,6 @@ namespace Client
                 MessageBox.Show("Registrazione non effettuata. " + registerResponse.message, "Errore", MessageBoxButton.OK, MessageBoxImage.Hand);
                 return;
             }
-            MessageBox.Show("Registrazione effettuata");
             MainApp app = new MainApp(24690);
             this.Close();
         }
@@ -60,11 +59,6 @@ namespace Client
             txt_data.Text = "";
             txt_password.Text = "";
             txt_conferma.Text = "";
-        }
-
-        private void btn_indietro_GotFocus(object sender, RoutedEventArgs e)
-        {
-            btn_indietro.BorderBrush = new SolidColorBrush(Color.FromRgb(255, 125, 125));
         }
     }
 }

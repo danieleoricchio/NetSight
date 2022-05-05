@@ -50,7 +50,7 @@ namespace Client
                 #endregion
                 #region inizio thread
                 new Thread(new ThreadStart(Ricevi)).Start();
-                new Thread(new ThreadStart(() => { while (true) { if (connesso) Invia("alive", 25000); Thread.Sleep(10000); } })).Start();
+                new Thread(new ThreadStart(() => { while (true) { if (connesso) Invia("alive", 25000); Thread.Sleep(5000); } })).Start();
                 #endregion
             }
             catch (Exception ex)
@@ -83,8 +83,8 @@ namespace Client
                 IPEndPoint receiveEP = new IPEndPoint(IPAddress.Any, 0);
                 byte[] dataReceived = server.Receive(ref receiveEP);
                 string messaggio = Encoding.ASCII.GetString(dataReceived);
-                MessageBox.Show($"'{messaggio}' from {receiveEP.Address.ToString()}", "Messaggio", MessageBoxButton.OK, MessageBoxImage.Information);
-                MessageBox.Show($"hostname.Trim() = {hostname.Trim()}, labIp = {labIp}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show($"'{messaggio}' from {receiveEP.Address.ToString()}", "Messaggio", MessageBoxButton.OK, MessageBoxImage.Information);
+                //MessageBox.Show($"hostname.Trim() = {hostname.Trim()}, labIp = {labIp}", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 new Thread(() =>
                 {
                     try
@@ -98,25 +98,31 @@ namespace Client
                                     labIp = hostname;
                                     connesso = true;
                                     File.WriteAllText(PATH_HOSTNAME, hostname);
-                                    Invia("apertura-confermata", 25000);
+                                    Invia("apertura-confermata", 24690);
                                     MessageBox.Show($"apertura-confermata inviata", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                                 }
                                 return;
                             case "chiusura":
                                 connesso = false;
                                 labIp = "";
+                                hostname = "";
                                 flagChiusura = true;
                                 return;
                             case "condivisione-schermo":
-                                if (Process.Start("ScreenSharing.exe", $"hostname={hostname} port=5900 width=1280 height=720") != null)
+                                try
                                 {
-                                    MessageBox.Show("Partito");
+                                    Process.Start("ScreenSharing.exe", $"hostname={hostname} port=5900 width=1280 height=720");
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message, "Errore di condivisione", MessageBoxButton.OK, MessageBoxImage.Error);
                                 }
                                 return;
                             case "riapertura":
-                                if (labIp == receiveEP.Address.ToString())
+                                if (hostname == receiveEP.Address.ToString())
                                 {
                                     connesso = true;
+                                    labIp = hostname;
                                     Invia("riapertura-confermata", 25000);
                                 }
                                 return;
