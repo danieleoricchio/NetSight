@@ -29,8 +29,6 @@ namespace Master
             lbl1.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             lbl2.Content = "Inserisci ip del pc";
             lbl2.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            lbl3.Content = "Inserisci lo stato del pc";
-            lbl3.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
         }
 
         private void btnIndietroAddPc_Click(object sender, RoutedEventArgs e)

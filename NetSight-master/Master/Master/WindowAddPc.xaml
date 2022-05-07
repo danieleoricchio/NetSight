@@ -15,8 +15,6 @@
         <TextBox x:Name="txt2" HorizontalAlignment="Left" Margin="170,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label x:Name="lbl1" Content="" HorizontalAlignment="Left" Margin="15,84,0,0" VerticalAlignment="Top" Width="145" FontFamily="Arial"/>
         <Label x:Name="lbl2" Content="" HorizontalAlignment="Left" Margin="15,120,0,0" VerticalAlignment="Top" Width="155" FontFamily="Arial"/>
-        <Label x:Name="lbl3" Content="" HorizontalAlignment="Left" Margin="14,153,0,0" VerticalAlignment="Top" Width="144" FontFamily="Arial"/>
-        <Label x:Name="lbl4" Content="" HorizontalAlignment="Left" Margin="14,191,0,0" VerticalAlignment="Top" Width="156" FontFamily="Arial"/>
         <Button x:Name="btnAdd" Content="INSERISCI" HorizontalAlignment="Left" Margin="144,176,0,0" VerticalAlignment="Top" Width="87" Click="btnAdd_Click">
             <Button.Resources>
                 <Style TargetType="Border">
@@ -24,7 +22,7 @@
                 </Style>
             </Button.Resources>
         </Button>
-        <Button x:Name="btnIndietroAddPc" Content="Indietro" HorizontalAlignment="Left" Margin="10,223,0,0" VerticalAlignment="Top" Width="87" Click="btnIndietroAddPc_Click">
+        <Button x:Name="btnIndietroAddPc" Content="Indietro" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" Width="87" Click="btnIndietroAddPc_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="8"/>
