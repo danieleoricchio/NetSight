@@ -101,7 +101,7 @@ namespace Client
                                     connesso = true;
                                     File.WriteAllText(PATH_HOSTNAME, hostname);
                                     Invia("apertura-confermata", 24690);
-                                    MessageBox.Show($"apertura-confermata inviata", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                                    //MessageBox.Show($"apertura-confermata inviata", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                                 }
                                 return;
                             case "chiusura":
@@ -113,7 +113,8 @@ namespace Client
                             case "condivisione-schermo":
                                 try
                                 {
-                                    ScreenSharing screenSharing = new ScreenSharing($"hostname={labIp} port=5900 width=1280 height=720");
+                                    //ScreenSharing screenSharing = new ScreenSharing();
+                                    Process.Start("ScreenSharing.exe", $"hostname={labIp} port=5900 width=1280 height=720");
                                 }
                                 catch (Exception ex)
                                 {

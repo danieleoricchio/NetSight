@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="GestioneFinestra" Height="228" Width="345" ResizeMode="CanMinimize">
+        Title="NetSight" Height="228" Width="345" ResizeMode="CanMinimize">
     <Grid>
         <Label HorizontalAlignment="Left" Height="30" Margin="10,21,0,0" VerticalAlignment="Top" Width="66" Content="Tuo IP:" VerticalContentAlignment="Center" FontSize="16"/>
         <Label HorizontalAlignment="Left" Height="30" Margin="10,56,0,0" VerticalAlignment="Top" Width="111" Content="IP Laboratorio:" VerticalContentAlignment="Center" FontSize="16"/>
