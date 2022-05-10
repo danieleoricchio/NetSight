@@ -19,26 +19,22 @@ if (!isset($_GET['type']) || empty($_GET['type'])){
 
 $type = $_GET['type'];
 switch ($type) {
-    case 'edificio':
-        if (!isset($_GET['nome']) || empty($_GET['nome'])){
-            die(json_encode(new JsonMessage(400, "Campo nome non inserito", false, null)));
-        }
-        if (!isset($_GET['indirizzo']) || empty($_GET['indirizzo'])){
-            die(json_encode(new JsonMessage(400, "Campo indirizzo non inserito", false, null)));
+    case 'laboratorio':
+        if (!isset($_GET['cod']) || empty($_GET['cod'])){
+            die(json_encode(new JsonMessage(400, "Campo 'cod' non inserito", false, null)));
         }
         
-        $nome = $_GET['nome'];
-        $indirizzo = $_GET['indirizzo'];
+        $cod = $_GET['cod'];
         
-        $sql= "INSERT INTO `edifici`(`Nome`, `Indirizzo`) VALUES ('$nome', '$indirizzo')";
+        $sql= "DELETE FROM `laboratori` WHERE Cod = $cod;";
         
         try {
-            if($result = mysqli_query($link, $sql)){
-                $message = new JsonMessage(200, "Edificio aggiunto", true, null);
+            if(mysqli_query($link, $sql)){
+                $message = new JsonMessage(200, "Laboratorio eliminato", true, null);
                 echo json_encode($message);
                 die();
             } else {
-                $message = new JsonMessage(406, "Impossibile aggiungere l'edificio", true, null);
+                $message = new JsonMessage(406, "Impossibile eliminare il laboratorio", false, null);
                 echo json_encode($message);
                 die();
             }
@@ -48,55 +44,27 @@ switch ($type) {
                 die();
         }
         break;
-    case 'laboratorio':
-        if (!isset($_GET['nome']) || empty($_GET['nome'])){
-            die(json_encode(new JsonMessage(400, "Campo 'nome' non inserito", false, null)));
-        }
-        if (!isset($_GET['codedificio']) || empty($_GET['codedificio'])){
-            die(json_encode(new JsonMessage(400, "Campo 'codedificio' non inserito", false, null)));
+    case 'collegamento-lab':
+        if (!isset($_GET['codlab']) || empty($_GET['codlab'])){
+            die(json_encode(new JsonMessage(400, "Campo 'codlab' non inserito", false, null)));
         }
         if (!isset($_GET['codadmin']) || empty($_GET['codadmin'])){
             die(json_encode(new JsonMessage(400, "Campo 'codadmin' non inserito", false, null)));
         }
-        
-        $nome = $_GET['nome'];
-        $codedificio = $_GET['codedificio'];
+        $codlab = $_GET['codlab'];
         $codadmin = $_GET['codadmin'];
-        
-        $sql= "INSERT INTO `laboratori`(`Nome`, `CodEdificio`) VALUES ('$nome', '$codedificio')";
-        $sql= "DELETE FROM `laboratori` WHERE ";
-        $sql_select_codlab = "SELECT Cod FROM laboratori WHERE Nome = '$nome' AND CodEdificio = $codedificio";
-        
+        $sql = "DELETE FROM gestione_laboratori WHERE codLab = $codlab AND codAdmin = $codadmin;";
+
         try {
-            if(mysqli_query($link, $sql)){
-                if ($result = mysqli_query($link, $sql_select_codlab)){
-                    $codlab = mysqli_fetch_all($result)[0][0];
-                    $sql_associazione = "INSERT INTO `gestione_laboratori`(`codLab`, `codAdmin`) VALUES ('$codlab','$codadmin')";
-                    if ($result = mysqli_query($link, $sql_associazione)){
-                        $message = new JsonMessage(200, "Laboratorio aggiunto", true, null);
-                        echo json_encode($message);
-                        die();
-                    } else {
-                        $message = new JsonMessage(406, "Impossibile aggiungere il collegamento tra l'admin e il laboratorio", false, null);
-                        echo json_encode($message);
-                        die();
-                    }
-                }
-                else {
-                    $message = new JsonMessage(406, "Impossibile selezionare il codice del laboratorio", false, null);
-                    echo json_encode($message);
-                    die();
-                }
+            if (mysqli_query($link, $sql)){
+                die(json_encode(new JsonMessage(200, "Hai lasciato il laboratorio", true, null)));
             } else {
-                $message = new JsonMessage(406, "Impossibile aggiungere il laboratorio", false, null);
-                echo json_encode($message);
-                die();
+                die(json_encode(new JsonMessage(406, "Impossibile lasciare il laboratorio", true, null)));
             }
-        } catch (Throwable $th) {
-                $message = new JsonMessage(500, mysqli_error($link), false, null);
-                echo json_encode($message);
-                die();
+        } catch (\Throwable $th) {
+            die(json_encode(new JsonMessage(500, mysqli_error($link), false, null)));
         }
+        mysqli_close($link);
         break;
     case 'pc':
         if (!isset($_GET['nome']) || empty($_GET['nome'])){
@@ -113,7 +81,7 @@ switch ($type) {
         $ip = $_GET['ip']; 
         $codlab = $_GET['codlab'];
         
-        $sql= "DELETE FROM `pc` WHERE Nome = $nome AND IndirizzoIp = $ip AND CodLaboratorio = $codlab";
+        $sql= "DELETE FROM `pc` WHERE Nome = '$nome' AND IndirizzoIp = '$ip' AND CodLaboratorio = $codlab";
         
         try {
             if($result = mysqli_query($link, $sql)){

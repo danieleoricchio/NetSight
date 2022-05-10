@@ -63,11 +63,15 @@ namespace Master
         {
             while (true)
             {
-                for (int i = 0; i < lab.listaPc.Count; i++)
+                var pcs = lab.GetPcs();
+                for (int i = 0; i < pcs.Count; i++)
                 {
                     try
                     {
-                        Application.Current.Dispatcher.Invoke(new Action(() => { rects[i].Rectangle.Fill = lab.listaPc[i].stato ? green : red; }));
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            try { rects[i].Rectangle.Fill = pcs[i].stato ? green : red; } catch (Exception) { }
+                        }));
                     }
                     catch (Exception) { }
                 }
@@ -93,7 +97,7 @@ namespace Master
             {
                 myRectangle rectangle = new myRectangle() { Width = 150, Height = 150 };
                 rectangle.Pc = item;
-                rectangle.Color = !item.stato ? green : red;
+                rectangle.Color = item.stato ? green : red;
                 rects.Add(rectangle);
                 if (item.stato) item.Controllo();
             }
@@ -228,7 +232,11 @@ namespace Master
         private void menuItem_deleteComputer(object sender, RoutedEventArgs e)
         {
             if (posRectCliccato <= -1) return;
-            lab.eliminaPc(posRectCliccato);
+            sendData("chiusura", rects[posRectCliccato].Pc.ip, 24690);
+            if (!lab.eliminaPc(posRectCliccato))
+            {
+                MessageBox.Show("Impossibile eliminare il pc", "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             setPcs();
         }
 
@@ -253,10 +261,9 @@ namespace Master
         private void addPc_Click(object sender, RoutedEventArgs e)
         {
             WindowAddPc windowAddPc = new WindowAddPc(ref lab, user);
-            if (windowAddPc.ShowDialog() == true)
-            {
-                setPcs();
-            }
+            windowAddPc.ShowDialog();
+            setPcs();
+            
         }
 
         private void eliminaLab_Click(object sender, RoutedEventArgs e)
@@ -264,7 +271,28 @@ namespace Master
             MessageBoxResult result = MessageBox.Show("Sicuro di eliminare questo laboratorio?", "Conferma", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                JsonMessage? message = PhpLinkManager.GetMethod<JsonMessage>(PhpLinkManager.URL_delete, new Dictionary<string, string>() { { "type", "laboratorio" }, { });
+                JsonMessage? message = PhpLinkManager.GetMethod<JsonMessage>(PhpLinkManager.URL_delete, new Dictionary<string, string>() { { "type", "laboratorio" }, { "cod", lab.cod.ToString() } });
+                if (message == null) { MessageBox.Show("Errore"); return; }
+                if (!message.status) { MessageBox.Show("Status false"); return; }
+                MessageBox.Show("Laboratorio eliminato", "Operazione completata", MessageBoxButton.OK, MessageBoxImage.Information);
+                SceltaLaboratorio scelta = new SceltaLaboratorio(user);
+                scelta.Show();
+                this.Hide();
+            }
+        }
+
+        private void lasciaLab_click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Sicuro di lasicare questo laboratorio?\nDovrai essere reinvitato per entrare a fare parte di questo laboratorio", "Conferma", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                JsonMessage? message = PhpLinkManager.GetMethod<JsonMessage>(PhpLinkManager.URL_delete, new Dictionary<string, string>() { { "type", "collegamento-lab" }, { "codlab", lab.cod.ToString() }, { "codadmin", user.cod.ToString() } });
+                if (message == null) { MessageBox.Show("Errore"); return; }
+                if (!message.status) { MessageBox.Show("Status false"); return; }
+                MessageBox.Show("Lasciato questo laboratorio", "Operazione completata", MessageBoxButton.OK, MessageBoxImage.Information);
+                SceltaLaboratorio scelta = new SceltaLaboratorio(user);
+                scelta.Show();
+                this.Hide();
             }
         }
 

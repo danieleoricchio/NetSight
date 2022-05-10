@@ -83,7 +83,7 @@ namespace Master
                 return;
             }
             laboratorio.addPc(new Pc(true, txt1.Text.Trim(), txt2.Text.Trim()));
-            MessageBox.Show("PC aggiunto");
+            MessageBox.Show("PC aggiunto","Operazione completata",MessageBoxButton.OK,MessageBoxImage.Information);
         }
 
         private void sendData(string dataIn, int port, string ip)

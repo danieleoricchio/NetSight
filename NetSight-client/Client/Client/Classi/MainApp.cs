@@ -25,11 +25,22 @@ namespace Client
             try
             {
                 #region get local ip
-                var host = Dns.GetHostEntry(Dns.GetHostName());
-                var ipaddress = NetworkInterface.GetAllNetworkInterfaces()
-                    .First(x => x.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 || x.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
-                    .GetIPProperties().UnicastAddresses.First(ip => ip.Address.AddressFamily == AddressFamily.InterNetwork).Address;
-                thisIp = ipaddress.ToString();
+                string ipaddress = "";
+                try
+                {
+                    using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+                    {
+                        socket.Connect("8.8.8.8", 65530);
+                        IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                        ipaddress = endPoint.Address.ToString();
+                    }
+                    thisIp = ipaddress;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Errore", MessageBoxButton.OK, MessageBoxImage.Error); 
+                }
+                
                 #endregion
                 #region setup udp server
                 try
@@ -51,7 +62,7 @@ namespace Client
                 #endregion
                 #region inizio thread
                 new Thread(new ThreadStart(Ricevi)).Start();
-                new Thread(new ThreadStart(() => { while (true) { if (connesso) Invia("alive", 25000); Thread.Sleep(5000); } })).Start();
+                new Thread(new ThreadStart(() => { while (true) { if (connesso) Invia("alive", 25000); Thread.Sleep(2500); } })).Start();
                 #endregion
             }
             catch (Exception ex)

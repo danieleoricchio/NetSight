@@ -22,6 +22,8 @@ namespace Master
         private System.Timers.Timer timer;
         public Pc(bool stato, string nome, string ip)
         {
+            this.nome = nome;
+            this.ip = ip;
             this.stato = stato;
             timer = new System.Timers.Timer(10000);
             timer.Elapsed += (object? sender, ElapsedEventArgs e) =>
@@ -60,30 +62,6 @@ namespace Master
             {
                 this.stato = stato;
             }
-        }
-
-        public bool IniziaCondivisioneSchermo()
-        {
-            try
-            {
-                Process.Start("ViewScreen.exe");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return false;
-            }
-            string mess = "condivisione-schermo";
-            try
-            {
-                new UdpClient().Send(Encoding.ASCII.GetBytes(mess), Encoding.ASCII.GetBytes(mess).Length, ip, 24690);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return false;
-            }
-            return true;
         }
     }
 }
