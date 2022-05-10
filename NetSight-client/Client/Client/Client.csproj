@@ -18,6 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="ScreenCapture">
+      <HintPath>..\..\ScreenSharing\ScreenSharing\ScreenCapture.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="download.jpg" />
   </ItemGroup>
 

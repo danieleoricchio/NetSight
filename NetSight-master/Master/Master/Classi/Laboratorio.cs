@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Master.Classi;
+using System;
+using System.Collections.Generic;
 
 namespace Master
 {
@@ -34,6 +36,24 @@ namespace Master
         public int getPos(Pc pc)
         {
             return listaPc.IndexOf(pc);
+        }
+
+        public bool eliminaPc(int pos)
+        {
+            try
+            {
+                Dictionary<string, string> dic = new Dictionary<string, string>() { { "type","pc" },{ "nome",listaPc[pos].nome }, { "ip",listaPc[pos].ip }, { "codlab",cod.ToString() } };
+                JsonMessage message = PhpLinkManager.GetMethod<JsonMessage>(PhpLinkManager.URL_delete, dic);
+                if (message == null) return false;
+                if (!message.status) return false;
+                listaPc.RemoveAt(pos);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
         }
     }
 }

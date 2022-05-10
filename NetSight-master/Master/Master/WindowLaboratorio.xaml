@@ -26,5 +26,27 @@
                 </Style>
             </Button.Resources>
         </Button>
+        <Button x:Name="eliminaLab" Content="Elimina laboratorio" HorizontalAlignment="Left" Margin="271,12,0,0" VerticalAlignment="Top" Width="124" Click="eliminaLab_Click">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btnLasciaLab" Content="Lascia laboratorio" HorizontalAlignment="Left" Margin="400,12,0,0" VerticalAlignment="Top" Width="116" Click="eliminaLab_Click">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <Button x:Name="btnInvitaAdmin" Content="Invita admin" HorizontalAlignment="Left" Margin="705,12,0,0" VerticalAlignment="Top" Width="85" Click="eliminaLab_Click">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <TextBox x:Name="textboxAdmin" HorizontalAlignment="Left" Height="20" Margin="558,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142"/>
     </Grid>
 </Window>

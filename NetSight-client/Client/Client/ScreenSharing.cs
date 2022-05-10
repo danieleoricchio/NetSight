@@ -8,19 +8,17 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows;
 
-namespace ScreenSharing
+namespace Client
 {
-    internal class Program
+    public class ScreenSharing
     {
-        static TcpClient client;
-        static NetworkStream stream;
-        static BinaryFormatter binaryFormatter;
-        static ScreenCapture.ScreenCapture screenCapture;
-        static public string hostname = "localhost";
-        static public int port = 5900, width = 1280, height = 720, screen_number = 0;
-
-
-        static void Main(string[] args)
+        TcpClient client;
+        NetworkStream stream;
+        BinaryFormatter binaryFormatter;
+        ScreenCapture.ScreenCapture screenCapture;
+        public string hostname = "localhost";
+        public int port = 5900, width = 1280, height = 720, screen_number = 0;
+        public ScreenSharing(string args)
         {
             GestioneArgs(args);
             try
@@ -29,7 +27,7 @@ namespace ScreenSharing
             }
             catch (Exception ex)
             {
-                //MessageBox.Show($"Errore: {ex.Message}");
+                MessageBox.Show($"Errore: {ex.Message}");
                 Thread.CurrentThread.Interrupt();
             }
             stream = client.GetStream();
@@ -41,15 +39,9 @@ namespace ScreenSharing
             //new Task(() => { Start(rds); }).Start();
         }
 
-        private static void GestioneArgs(string[] args)
+        private void GestioneArgs(string arg)
         {
-            #region Gestione processi
-            Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location));
-            for (int i = 0; i < processes.Length - 1; i++)
-            {
-                processes[i].Kill();
-            }
-            #endregion
+            string[] args = arg.Split(' ');
             foreach (var item in args)
             {
                 if (item.Contains("?"))
@@ -58,14 +50,14 @@ namespace ScreenSharing
                     Thread.CurrentThread.Interrupt();
                 }
                 object nomevar = item.Split('=')[0], value = item.Split('=')[1];
-                Type type = typeof(Program).GetField(nomevar.ToString()).FieldType;
-                typeof(Program).GetField(nomevar.ToString()).SetValue(null, type == typeof(int) ? Convert.ToInt32(value) : value);
+                Type type = typeof(ScreenSharing).GetField(nomevar.ToString()).FieldType;
+                typeof(ScreenSharing).GetField(nomevar.ToString()).SetValue(null, type == typeof(int) ? Convert.ToInt32(value) : value);
                 //typeof(Program).GetProperty(nomevar).GetValue(null);
             }
         }
 
 
-        private static void Start(object thisThread)
+        private void Start(object thisThread)
         {
             while (true)
             {
@@ -79,7 +71,7 @@ namespace ScreenSharing
                 }
                 catch (Exception ex)
                 {
-                    //MessageBox.Show($"{ex.Message}\nMi sto chiudendo.");
+                    MessageBox.Show($"{ex.Message}\nMi sto chiudendo.");
                     ((Thread)thisThread).Interrupt();
                 }
                 Thread.Sleep(1000 / 30);

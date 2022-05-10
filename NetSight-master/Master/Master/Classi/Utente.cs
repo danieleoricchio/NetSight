@@ -22,6 +22,8 @@ namespace Master
         {
             var values = new Dictionary<string, string>{{ "email", email },{ "password", password },{ "account_type", "admin" } };
             JsonMessage message = PhpLinkManager.PostMethod<JsonMessage>(PhpLinkManager.URL_confirmLogin, values);
+            if (message == null) return null;
+            if (!message.status) return null;
             Utente utente = message.GetResultObject<Utente>();
             if (utente != null)
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Master.Classi;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
@@ -43,7 +44,7 @@ namespace Master
             {
                 while (true)
                 {
-                    foreach (var item in /*lab.listaPc*/rects)
+                    foreach (var item in rects)
                     {
                         try
                         {
@@ -62,11 +63,11 @@ namespace Master
         {
             while (true)
             {
-                foreach (Pc item in lab.listaPc)
+                for (int i = 0; i < lab.listaPc.Count; i++)
                 {
                     try
                     {
-                        Application.Current.Dispatcher.Invoke(new Action(() => { rects[lab.getPos(item)].Rectangle.Fill = item.stato ? green : red; }));
+                        Application.Current.Dispatcher.Invoke(new Action(() => { rects[i].Rectangle.Fill = lab.listaPc[i].stato ? green : red; }));
                     }
                     catch (Exception) { }
                 }
@@ -87,7 +88,7 @@ namespace Master
             rects.Clear();
             int row = 1;
             double marginRight = 0;
-            int rectsInRow = 6;
+            int rectsInRow = 3;
             foreach (Pc item in lab.listaPc)
             {
                 myRectangle rectangle = new myRectangle() { Width = 150, Height = 150 };
@@ -200,11 +201,11 @@ namespace Master
             MenuItem item2 = new MenuItem();
             MenuItem item3 = new MenuItem();
             item1.Header = "Condivisione Schermo";
-            item2.Header = "Accendi computer";
-            item3.Header = "Spegni computer";
+            item2.Header = "Spegni computer";
+            item3.Header = "Elimina computer";
             item1.Click += new RoutedEventHandler(menuItem_screenSharing);
-            item2.Click += new RoutedEventHandler(menuItem_powerOn);
-            item3.Click += new RoutedEventHandler(menuItem_powerOff);
+            item2.Click += new RoutedEventHandler(menuItem_powerOff);
+            item3.Click += new RoutedEventHandler(menuItem_deleteComputer);
             contextMenu.Items.Add(item1);
             contextMenu.Items.Add(item2);
             contextMenu.Items.Add(item3);
@@ -219,14 +220,16 @@ namespace Master
             sendData("condivisione-schermo", rects[posRectCliccato].Pc.ip, 24690);
         }
 
-        private void menuItem_powerOn(object sender, RoutedEventArgs e)
-        {
-            //sendData("on", 24690);
-        }
-
         private void menuItem_powerOff(object sender, RoutedEventArgs e)
         {
             //sendData("off", 24690);
+        }
+
+        private void menuItem_deleteComputer(object sender, RoutedEventArgs e)
+        {
+            if (posRectCliccato <= -1) return;
+            lab.eliminaPc(posRectCliccato);
+            setPcs();
         }
 
         private void sendData(string dataIn, string ip, int port)
@@ -253,6 +256,15 @@ namespace Master
             if (windowAddPc.ShowDialog() == true)
             {
                 setPcs();
+            }
+        }
+
+        private void eliminaLab_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Sicuro di eliminare questo laboratorio?", "Conferma", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                JsonMessage? message = PhpLinkManager.GetMethod<JsonMessage>(PhpLinkManager.URL_delete, new Dictionary<string, string>() { { "type", "laboratorio" }, { });
             }
         }
 

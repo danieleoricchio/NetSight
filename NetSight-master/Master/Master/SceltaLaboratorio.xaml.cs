@@ -38,7 +38,7 @@ namespace Master
         private void Setup()
         {
             cmbEdifici.Items.Clear();
-            JsonMessage message = PhpLinkManager.GetMethod<JsonMessage>(PhpLinkManager.URL_getEdificiNames);
+            JsonMessage message = PhpLinkManager.GetMethod<JsonMessage>(PhpLinkManager.URL_getEdificiNames,null);
             edifici = message.GetResultArray<Dictionary<string, string>>();
             foreach (var item in edifici)
             {
@@ -55,7 +55,7 @@ namespace Master
         {
             if(cmbLab.SelectedItem != null)
             {
-                Laboratorio laboratorio = PhpLinkManager.GetMethod<Laboratorio>(PhpLinkManager.URL_getLab + cmbLab.SelectedItem.ToString());
+                Laboratorio laboratorio = PhpLinkManager.GetMethod<Laboratorio>(PhpLinkManager.URL_getLab, new Dictionary<string, string>() { { "name", cmbLab.SelectedItem.ToString() } });
                 if (laboratorio == null)
                 {
                     MessageBox.Show("Errore");
@@ -75,7 +75,7 @@ namespace Master
         {
             if(cmbEdifici.SelectedItem != null)
             {
-                JsonMessage message = PhpLinkManager.GetMethod<JsonMessage>(PhpLinkManager.URL_getEdificio + $"codedificio={edifici[cmbEdifici.SelectedIndex]["cod"]}");
+                JsonMessage message = PhpLinkManager.GetMethod<JsonMessage>(PhpLinkManager.URL_getEdificio, new Dictionary<string, string>() { { "codedificio", edifici[cmbEdifici.SelectedIndex]["cod"] } });
                 edificio = message.GetResultObject<Edificio>();
                 if (edificio == null)
                 {
@@ -91,7 +91,7 @@ namespace Master
                 btnSceltaEdificio.Visibility = Visibility.Collapsed;
                 btnAggiungiEdificio.Visibility = Visibility.Collapsed;
                 cmbLab.Items.Clear();
-                foreach (string item in PhpLinkManager.GetMethod<JsonMessage>($"{PhpLinkManager.URL_getLabsNames+edificio.cod}&codadmin={user.cod}").GetResultArray<string>())
+                foreach (string item in PhpLinkManager.GetMethod<JsonMessage>(PhpLinkManager.URL_getLabsNames, new Dictionary<string, string>() { { "codedificio", edificio.cod.ToString() }, { "codadmin", user.cod.ToString()} }).GetResultArray<string>())
                 {
                     cmbLab.Items.Add(item);
                 }

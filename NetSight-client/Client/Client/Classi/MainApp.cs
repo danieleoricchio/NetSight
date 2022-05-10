@@ -47,6 +47,7 @@ namespace Client
                     File.Create(PATH_HOSTNAME);
                 }
                 hostname = File.ReadAllText(PATH_HOSTNAME).Trim();
+                labIp = "";
                 #endregion
                 #region inizio thread
                 new Thread(new ThreadStart(Ricevi)).Start();
@@ -69,7 +70,8 @@ namespace Client
             timer.Start();
             while (!flagChiusura && !timerScaduto)
             {
-                new Object();
+                Console.Write(string.Empty);
+                Thread.Sleep(100);
             }
             timer.Stop();
             if (timerScaduto) return false;
@@ -111,7 +113,7 @@ namespace Client
                             case "condivisione-schermo":
                                 try
                                 {
-                                    Process.Start("ScreenSharing.exe", $"hostname={hostname} port=5900 width=1280 height=720");
+                                    ScreenSharing screenSharing = new ScreenSharing($"hostname={labIp} port=5900 width=1280 height=720");
                                 }
                                 catch (Exception ex)
                                 {
