@@ -23,6 +23,7 @@ namespace Master
         private List<myRectangle> rects;
         private Thread threadReceive;
         Utente user;
+        private string serverIp;
         public WindowLaboratorio(Laboratorio lab, Utente u)
         {
             InitializeComponent();
@@ -57,6 +58,7 @@ namespace Master
                 }
             }).Start();
             threadReceive.Start();
+            getServerIp();
         }
 
         private void checkPcColor()
@@ -76,6 +78,25 @@ namespace Master
                     catch (Exception) { }
                 }
                 Thread.Sleep(500);
+            }
+        }
+
+        private void getServerIp()
+        {
+            string ipaddress = "";
+            try
+            {
+                using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+                {
+                    socket.Connect("8.8.8.8", 65530);
+                    IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                    ipaddress = endPoint.Address.ToString();
+                }
+                serverIp = ipaddress;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -204,17 +225,27 @@ namespace Master
             MenuItem item1 = new MenuItem();
             MenuItem item2 = new MenuItem();
             MenuItem item3 = new MenuItem();
+            MenuItem item4 = new MenuItem();
             item1.Header = "Condivisione Schermo";
             item2.Header = "Spegni computer";
             item3.Header = "Elimina computer";
+            item4.Header = "Apri chat";
             item1.Click += new RoutedEventHandler(menuItem_screenSharing);
             item2.Click += new RoutedEventHandler(menuItem_powerOff);
             item3.Click += new RoutedEventHandler(menuItem_deleteComputer);
+            item4.Click += new RoutedEventHandler(menuItem_chat);
             contextMenu.Items.Add(item1);
             contextMenu.Items.Add(item2);
             contextMenu.Items.Add(item3);
+            contextMenu.Items.Add(item4);
             this.ContextMenu = contextMenu;
             ContextMenu.Closed += (object sender, RoutedEventArgs e) => { this.ContextMenu = null; };
+        }
+
+        private void menuItem_chat(object sender, RoutedEventArgs e)
+        {
+            WindowChat wc = new WindowChat(rects[posRectCliccato].Pc, serverIp);
+            wc.Show();
         }
 
         private void menuItem_screenSharing(object sender, RoutedEventArgs e)
@@ -294,14 +325,6 @@ namespace Master
                 scelta.Show();
                 this.Hide();
             }
-        }
-
-        private void btnIndietroPage2_Click(object sender, RoutedEventArgs e)
-        {
-            SceltaLaboratorio sceltaLaboratorio = new SceltaLaboratorio(user);
-            sceltaLaboratorio.Show();
-            Closing += null;
-            this.Close();
         }
     }
 }

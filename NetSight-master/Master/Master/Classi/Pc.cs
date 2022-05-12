@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Master.Classi;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -20,11 +21,13 @@ namespace Master
         public string nome {get;set; }
         private readonly object Locked = new object();
         private System.Timers.Timer timer;
+        private Chat chat;
         public Pc(bool stato, string nome, string ip)
         {
             this.nome = nome;
             this.ip = ip;
             this.stato = stato;
+            chat = new Chat();
             timer = new System.Timers.Timer(10000);
             timer.Elapsed += (object? sender, ElapsedEventArgs e) =>
             {
