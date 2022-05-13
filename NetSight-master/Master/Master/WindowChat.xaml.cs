@@ -2,7 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,6 +31,8 @@ namespace Master
             this.selectedPC = pc;
             this.serverIp = serverIp;
             lblClient.Content = "Chat con: " + selectedPC.nome;
+            sendData("apertura-chat", selectedPC.ip, 24690);
+            receivePackets();
         }
 
         private void btnSend_Click(object sender, RoutedEventArgs e)
@@ -37,7 +42,42 @@ namespace Master
             Messaggio msg = new Messaggio(serverIp, selectedPC.ip, txtMsg.Text);
             Chat chat = new Chat();
             chat.addMsg(msg);
-            myChat.Text = "Server >> " + msg.contenuto;
+            myChat.Text += DateTime.Now.ToString("HH:mm") + ", Me >> " + msg.contenuto + "\n";
+            sendData("messaggio;" + msg.contenuto, selectedPC.ip, 25000);
+        }
+
+        private void sendData(string dataIn, string ip, int port)
+        {
+            byte[] data = Encoding.ASCII.GetBytes(dataIn);
+            new UdpClient().Send(data, data.Length, ip, port);
+        }
+
+        private void receivePackets()
+        {
+            UdpClient udpServer = new UdpClient(24690);
+            while (true)
+            {
+                IPEndPoint receiveEP = new IPEndPoint(IPAddress.Any, 0);
+
+                byte[] dataReceived = udpServer.Receive(ref receiveEP);
+                string messaggio = Encoding.ASCII.GetString(dataReceived);
+                string info = messaggio.Split(";")[0];
+                string msg_received = messaggio.Split(";")[1];
+                new Thread(() =>
+                {
+                    switch (info)
+                    {
+                        case "messaggio":
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                myChat.Text += DateTime.Now.ToString("HH:mm") + ", Client >> " + msg_received + "\n";
+                            });
+                            break;
+                        default:
+                            break;
+                    }
+                }).Start();
+            }
         }
     }
 }

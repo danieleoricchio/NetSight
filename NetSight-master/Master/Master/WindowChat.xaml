@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Master"
         mc:Ignorable="d"
-        Title="WindowChat" Height="390" Width="331">
+        Title="Chat" Height="390" Width="331">
     <Grid>
         <Label x:Name="lblClient" HorizontalAlignment="Left" Margin="16,10,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
         <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="3.2" VerticalAlignment="Top" Height="271" Margin="24,45,31,0">

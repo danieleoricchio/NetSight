@@ -10,11 +10,9 @@ namespace Master.Classi
     {
         public string mittente;
         public string destinatario;
-        public DateTime date;
         public string contenuto;
         public Messaggio(string mittente, string destinatario, string contenuto)
         {
-            date = DateTime.Now;
             this.contenuto = contenuto;
             this.mittente = mittente;
             this.destinatario = destinatario;
