@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -38,9 +36,9 @@ namespace Client
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Errore", MessageBoxButton.OK, MessageBoxImage.Error); 
+                    MessageBox.Show(ex.Message, "Errore", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                
+
                 #endregion
                 #region setup udp server
                 try
@@ -139,6 +137,10 @@ namespace Client
                                     labIp = hostname;
                                     Invia("riapertura-confermata", 25000);
                                 }
+                                return;
+                            case "apertura-chat":
+                                WindowChat windowChat = new WindowChat(labIp, thisIp);
+                                windowChat.Show();
                                 return;
                             default:
                                 break;
