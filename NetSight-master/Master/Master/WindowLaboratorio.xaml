@@ -11,7 +11,9 @@
     </Window.Background>
     <Grid  >
         <Label x:Name="lblLab" Content="" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="220" Foreground="White" FontFamily="Arial"/>
-        <Grid HorizontalAlignment="Center" Height="276" VerticalAlignment="Center" Width="632" x:Name="myGrid"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Height="276" HorizontalScrollBarVisibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center" Width="631" >
+            <Grid HorizontalAlignment="Center" Height="276" VerticalAlignment="Center" Width="632" x:Name="myGrid" />
+        </ScrollViewer>
         <Button x:Name="addPc" Content="Aggiungi pc" HorizontalAlignment="Left" Margin="10,387,0,0" VerticalAlignment="Top" Width="86" Click="addPc_Click" >
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">

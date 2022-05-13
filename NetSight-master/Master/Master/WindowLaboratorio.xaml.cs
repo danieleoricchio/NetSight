@@ -113,10 +113,13 @@ namespace Master
             rects.Clear();
             int row = 1;
             double marginRight = 0;
-            int rectsInRow = 3;
+            int rectsInRow = 4;
+            int lunghezzaLatoRect = 125;
+            int larghezzaVertTraRect = 40;
+            int larghezzaOrizzTraRect = 20;
             foreach (Pc item in lab.listaPc)
             {
-                myRectangle rectangle = new myRectangle() { Width = 150, Height = 150 };
+                myRectangle rectangle = new myRectangle() { Width = lunghezzaLatoRect, Height = lunghezzaLatoRect };
                 rectangle.Pc = item;
                 rectangle.Color = item.stato ? green : red;
                 rects.Add(rectangle);
@@ -129,8 +132,8 @@ namespace Master
                     row++;
                     marginRight = 0;
                 }
-                marginRight += i % rectsInRow == 0 ? 20 : rects[i].Width + 20;
-                double marginTop = 40 + (row == 1 ? 0 : (40 + rects[i].Height) * (row - 1));
+                marginRight += i % rectsInRow == 0 ? larghezzaOrizzTraRect : rects[i].Width + larghezzaOrizzTraRect;
+                double marginTop = larghezzaVertTraRect + (row == 1 ? 0 : (larghezzaVertTraRect + rects[i].Height) * (row - 1));
                 Rectangle r = new Rectangle()
                 {
                     Width = rects[i].Width,
@@ -172,6 +175,8 @@ namespace Master
                 myGrid.Children.Add(labelip);
                 myGrid.Children.Add(labelnome);
             }
+            myGrid.Height = (lunghezzaLatoRect * row) + (larghezzaVertTraRect * row);
+            MessageBox.Show(myGrid.Height.ToString());
         }
         private void receivePackets()
         {
