@@ -32,7 +32,7 @@ namespace Master
             this.serverIp = serverIp;
             lblClient.Content = "Chat con: " + selectedPC.nome;
             sendData("apertura-chat", selectedPC.ip, 24690);
-            receivePackets();
+            new Thread(receivePackets).Start();
         }
 
         private void btnSend_Click(object sender, RoutedEventArgs e)
@@ -42,7 +42,7 @@ namespace Master
             Messaggio msg = new Messaggio(serverIp, selectedPC.ip, txtMsg.Text);
             Chat chat = new Chat();
             chat.addMsg(msg);
-            myChat.Text += DateTime.Now.ToString("HH:mm") + ", Me >> " + msg.contenuto + "\n";
+            myChat.Text += DateTime.Now.ToString("HH:mm") + ": Me >> " + msg.contenuto + "\n";
             sendData("messaggio;" + msg.contenuto, selectedPC.ip, 25000);
         }
 

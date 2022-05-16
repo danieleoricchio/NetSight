@@ -9,7 +9,7 @@
     <Grid>
         <Label x:Name="lblServer" HorizontalAlignment="Left" Margin="16,10,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
         <TextBox x:Name="txtMsg" HorizontalAlignment="Left" Margin="24,321,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="126" Height="27"/>
-        <Button x:Name="btnSend" Content="Invia" HorizontalAlignment="Left" Margin="166,321,0,0" VerticalAlignment="Top" Height="27" Width="53"/>
+        <Button x:Name="btnSend" Content="Invia" HorizontalAlignment="Left" Margin="166,321,0,0" VerticalAlignment="Top" Height="27" Width="53" Click="btnSend_Click"/>
         <Border BorderBrush="LightGray" BorderThickness="2" CornerRadius="3.2" VerticalAlignment="Top" Height="271" Margin="24,45,25,0">
             <TextBlock x:Name="myChat" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Height="251" Width="256" RenderTransformOrigin="0.5,0.5" FontFamily="Arial"/>
         </Border>

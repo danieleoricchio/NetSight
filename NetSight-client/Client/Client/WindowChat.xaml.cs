@@ -31,7 +31,7 @@ namespace Client
             this.serverIp = ipServer;
             this.clientIp = thisIp;
             lblServer.Content = serverIp;
-            receivePackets();
+            new Thread(receivePackets).Start();
         }
 
         private void btnSend_Click(object sender, RoutedEventArgs e)
@@ -63,7 +63,7 @@ namespace Client
                         case "messaggio":
                             Application.Current.Dispatcher.Invoke(() =>
                             {
-                                myChat.Text += DateTime.Now.ToString("HH:mm") + ", Server >> " + msg_received + "\n";
+                                myChat.Text += DateTime.Now.ToString("HH:mm") + ": Server >> " + msg_received + "\n";
                             });
                             break;
                         default:
