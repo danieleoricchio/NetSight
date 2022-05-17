@@ -24,6 +24,7 @@ namespace Master
     public partial class WindowChat : Window
     {
         Pc selectedPC;
+        UdpClient udpServer;
         string serverIp;
         public WindowChat(Pc pc, string serverIp)
         {
@@ -33,6 +34,13 @@ namespace Master
             lblClient.Content = "Chat con: " + selectedPC.nome;
             sendData("apertura-chat", selectedPC.ip, 24690);
             new Thread(receivePackets).Start();
+            udpServer = new UdpClient(24690);
+            Closing += (object sender, System.ComponentModel.CancelEventArgs e) => 
+            {
+                udpServer.Dispose();
+                udpServer.Close();
+                sendData("chiusura;", selectedPC.ip, 25000);
+            };
         }
 
         private void btnSend_Click(object sender, RoutedEventArgs e)
@@ -54,7 +62,6 @@ namespace Master
 
         private void receivePackets()
         {
-            UdpClient udpServer = new UdpClient(24690);
             while (true)
             {
                 IPEndPoint receiveEP = new IPEndPoint(IPAddress.Any, 0);
@@ -70,7 +77,14 @@ namespace Master
                         case "messaggio":
                             Application.Current.Dispatcher.Invoke(() =>
                             {
-                                myChat.Text += DateTime.Now.ToString("HH:mm") + ", Client >> " + msg_received + "\n";
+                                myChat.Text += DateTime.Now.ToString("HH:mm") + ": Client >> " + msg_received + "\n";
+                                txtMsg.Text = "";
+                            });
+                            break;
+                        case "chiusura":
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                myChat.Text += DateTime.Now.ToString("HH:mm") + ": Il client si è disconnesso" + "\n";
                             });
                             break;
                         default:
