@@ -25,6 +25,7 @@ namespace Client
     {
         string serverIp;
         string clientIp;
+        UdpClient udpServer;
         public WindowChat(string ipServer, string thisIp)
         {
             InitializeComponent();
@@ -32,6 +33,12 @@ namespace Client
             this.clientIp = thisIp;
             lblServer.Content = serverIp;
             new Thread(receivePackets).Start();
+            udpServer = new UdpClient(25000);
+            Closing += (object sender, System.ComponentModel.CancelEventArgs e) => {
+                udpServer.Dispose();
+                udpServer.Close();
+                sendData("chiusura;", serverIp, 24690); 
+            };
         }
 
         private void btnSend_Click(object sender, RoutedEventArgs e)
@@ -41,13 +48,13 @@ namespace Client
             Messaggio msg = new Messaggio(serverIp, clientIp, txtMsg.Text);
             Chat chat = new Chat();
             chat.addMsg(msg);
-            myChat.Text += DateTime.Now.ToString("HH:mm") + ", Me >> " + msg.contenuto + DateTime.Now + "\n";
+            myChat.Text += DateTime.Now.ToString("HH:mm") + ": Me >> " + msg.contenuto + "\n";
             sendData("messaggio;" + msg.contenuto, serverIp, 24690);
         }
 
         private void receivePackets()
         {
-            UdpClient udpServer = new UdpClient(25000);
+            
             while (true)
             {
                 IPEndPoint receiveEP = new IPEndPoint(IPAddress.Any, 0);
@@ -64,6 +71,13 @@ namespace Client
                             Application.Current.Dispatcher.Invoke(() =>
                             {
                                 myChat.Text += DateTime.Now.ToString("HH:mm") + ": Server >> " + msg_received + "\n";
+                                txtMsg.Text = "";
+                            });
+                            break;
+                        case "chiusura":
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                myChat.Text += DateTime.Now.ToString("HH:mm") + ": Server si è disconnesso.\n";
                             });
                             break;
                         default:

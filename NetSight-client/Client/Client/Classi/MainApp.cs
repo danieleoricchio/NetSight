@@ -139,8 +139,11 @@ namespace Client
                                 }
                                 return;
                             case "apertura-chat":
-                                WindowChat windowChat = new WindowChat(labIp, thisIp);
-                                windowChat.Show();
+                                Application.Current.Dispatcher.Invoke(new Action(() =>
+                                {
+                                    WindowChat windowChat = new WindowChat(labIp, thisIp);
+                                    windowChat.Show();
+                                }));
                                 return;
                             default:
                                 break;
