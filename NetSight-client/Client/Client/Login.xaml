@@ -30,5 +30,12 @@
             </Button.Resources>
         </Button>
         <CheckBox x:Name="checkBox_remember" Content="Ricordami" HorizontalAlignment="Left" Margin="166,212,0,0" VerticalAlignment="Top" Width="101" Foreground="White"/>
+        <Button x:Name="btn_recupera_password" IsDefault="True" Content="Recupera Password" HorizontalAlignment="Center" Height="26" VerticalAlignment="Top" Width="108" Background="{x:Null}" BorderBrush="Black" Foreground="White" FontSize="11" Margin="0,306,0,0" Click="btn_recupera_password_Click">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Button.Resources>
+        </Button>
     </Grid>
 </Window>

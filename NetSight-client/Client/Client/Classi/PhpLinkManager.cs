@@ -16,6 +16,7 @@ namespace Client.Classi
         public static string URL_confirmLogin { get { return "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/confirmLogin.php"; } }
         public static string URL_confirmRegistration { get { return "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/confirmRegistration.php"; } }
         public static string URL_add { get { return "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/add.php"; } }
+        public static string URL_getMail { get { return "http://housetesting.ddns.net:9050/server/gestioneprogetto/server/getMail.php"; } }
 
         private static HttpClient client = new HttpClient() { Timeout = TimeSpan.FromSeconds(5) };
         public static T? GetMethod<T>(string url)

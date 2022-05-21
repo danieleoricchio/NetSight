@@ -1,5 +1,6 @@
 ﻿using Client.Classi;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -59,6 +60,36 @@ namespace Client
             Registrazione r = new Registrazione();
             r.Show();
             this.Close();
+        }
+
+        private void btn_recupera_password_Click(object sender, RoutedEventArgs e)
+        {
+            if(txt_mail.Text == "")
+            {
+                MessageBox.Show("Inserisci la mail");
+            }
+            else
+            {
+                System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
+                client.Port = 587;
+                client.Host = "smtp.gmail.com";
+                client.EnableSsl = true;
+                client.Timeout = 10000;
+                client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new System.Net.NetworkCredential("netsight.master@gmail.com", "dcoptr2003");
+                JsonMessage ?jm = PhpLinkManager.GetMethod<JsonMessage>(PhpLinkManager.URL_getMail + "?email=" + txt_mail.Text);
+                if (!jm.status)
+                {
+                    MessageBox.Show("Mail non trovata");
+                    return;
+                }
+                System.Net.Mail.MailMessage mm = new System.Net.Mail.MailMessage("netsight.master@gmail.com", txt_mail.Text, "Recupero password NetSight", "La tua password è: '" + (string)jm.result + "'");
+                mm.BodyEncoding = UTF8Encoding.UTF8;
+                mm.DeliveryNotificationOptions = System.Net.Mail.DeliveryNotificationOptions.OnFailure;
+                client.Send(mm);
+                MessageBox.Show("Password inviata alla mail: " + txt_mail.Text);
+            }
         }
     }
 }
